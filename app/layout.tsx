@@ -3,6 +3,7 @@ import { Noto_Serif_JP, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FloatingWidgets from "@/components/FloatingWidgets";
 
 const serifJP = Noto_Serif_JP({
   weight: ["400", "600", "700", "900"],
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
     "NOVATYNCは、生成AI、Webシステム、クラウド、そして最先端技術を融合し、企業のDXを加速させるITパートナーです。",
   keywords: ["AI開発", "フルスタック", "クラウド", "DX", "Next.js", "React", "NOVATYNC"],
   icons: {
-    icon: "/favicon.png",
+    icon: [{ url: "/favicon.png", type: "image/png" }],
     shortcut: "/favicon.png",
     apple: "/favicon.png",
   },
@@ -49,6 +50,7 @@ export default function RootLayout({
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
+          <FloatingWidgets />
         </div>
       </body>
     </html>

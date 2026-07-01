@@ -124,22 +124,37 @@ body {
 
 /* ========= NAV FLIP LABEL ========= */
 .nav-label {
-  position: relative;
-  overflow: hidden;
-  height: 1rem;
-  display: flex;
-  align-items: center;
+  display: inline-grid;
+  grid-template: 1fr / 1fr;
+  place-items: center;
+  line-height: 1.5;
 }
+
 .nav-label-en,
 .nav-label-ja {
-  display: block;
-  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
+  grid-area: 1 / 1;
   white-space: nowrap;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+  line-height: 1.5;
 }
+
+.nav-label-en {
+  opacity: 1;
+  visibility: visible;
+}
+
 .nav-label-ja {
-  position: absolute;
-  top: 100%;
-  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  letter-spacing: normal;
 }
-.nav-link:hover .nav-label-en { transform: translateY(-100%); opacity: 0; }
-.nav-link:hover .nav-label-ja { transform: translateY(-100%); opacity: 1; }
+
+.nav-link:hover .nav-label-en {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.nav-link:hover .nav-label-ja {
+  opacity: 1;
+  visibility: visible;
+}

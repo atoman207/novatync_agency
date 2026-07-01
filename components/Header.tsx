@@ -54,11 +54,11 @@ export default function Header() {
                 href={item.href}
                 className="nav-link group relative"
               >
-                <span className={`nav-label text-[11px] font-medium tracking-widest transition-colors duration-200 ${
+                <span className={`nav-label text-sm font-medium transition-colors duration-200 ${
                   isActive(item.href) ? "text-sky-600" : "text-slate-500 group-hover:text-sky-600"
                 }`}>
-                  <span className="nav-label-en">{item.label}</span>
-                  <span className="nav-label-ja text-sky-500">{item.ja}</span>
+                  <span className="nav-label-en tracking-widest">{item.label}</span>
+                  <span className="nav-label-ja text-sky-500 font-medium">{item.ja}</span>
                 </span>
                 {isActive(item.href) && (
                   <span className="absolute -bottom-[1px] left-0 right-0 h-0.5 bg-sky-500/70 rounded-full" />

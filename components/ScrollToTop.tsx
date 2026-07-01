@@ -1,0 +1,53 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
+
+export default function ScrollToTop() {
+  const pathname = usePathname();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    setVisible(false);
+
+    const hero = document.querySelector("[data-hero-section]");
+    if (!hero) {
+      const handleScroll = () => setVisible(window.scrollY > 400);
+      handleScroll();
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.button
+          type="button"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 12 }}
+          transition={{ duration: 0.22 }}
+          onClick={scrollToTop}
+          aria-label="ページトップへ戻る"
+          className="fixed bottom-6 right-6 z-50 flex h-14 min-w-14 items-center justify-center rounded-full border border-sky-200 bg-white px-5 text-sm font-semibold tracking-wide text-sky-700 shadow-lg shadow-sky-100 transition hover:border-sky-300 hover:bg-sky-50"
+        >
+          Top
+        </motion.button>
+      )}
+    </AnimatePresence>
+  );
+}

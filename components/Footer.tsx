@@ -89,7 +89,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-white/20 text-xs">© 2026 NOVATYNC Inc. All rights reserved.</p>
+          <p className="text-white/20 text-xs">© 2023 NOVATYNC Inc. All rights reserved.</p>
           <div className="flex gap-6">
             {["Privacy Policy", "Terms"].map((item) => (
               <a key={item} href="#" className="text-xs text-white/20 hover:text-white/50 transition-colors">{item}</a>

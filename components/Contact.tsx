@@ -16,14 +16,32 @@ export default function Contact() {
   const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    await new Promise((r) => setTimeout(r, 1200));
-    console.log(data);
-    setSubmitted(true);
-    reset();
+    setSubmitError("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        setSubmitError(result.error ?? "送信に失敗しました。しばらくしてから再度お試しください。");
+        return;
+      }
+
+      setSubmitted(true);
+      reset();
+    } catch {
+      setSubmitError("送信に失敗しました。しばらくしてから再度お試しください。");
+    }
   };
 
   return (
@@ -54,7 +72,7 @@ export default function Contact() {
               <div className="w-16 h-16 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center mx-auto mb-4 text-3xl text-sky-500">✓</div>
               <h3 className="text-slate-900 font-bold text-xl mb-2">送信完了しました</h3>
               <p className="text-slate-500 text-sm">お問い合わせいただきありがとうございます。<br />担当者より3営業日以内にご連絡いたします。</p>
-              <button onClick={() => setSubmitted(false)} className="mt-6 text-sky-600 text-sm hover:text-sky-700 transition-colors">別のお問い合わせをする →</button>
+              <button onClick={() => { setSubmitted(false); setSubmitError(""); }} className="mt-6 text-sky-600 text-sm hover:text-sky-700 transition-colors">別のお問い合わせをする →</button>
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -95,6 +113,12 @@ export default function Contact() {
                 />
                 {errors.message && <p className="mt-1 text-xs text-rose-500">{errors.message.message}</p>}
               </div>
+
+              {submitError && (
+                <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                  {submitError}
+                </p>
+              )}
 
               <button
                 type="submit"

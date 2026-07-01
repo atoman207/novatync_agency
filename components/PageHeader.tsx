@@ -11,7 +11,7 @@ interface Props {
 
 export default function PageHeader({ en, ja, desc }: Props) {
   return (
-    <section className="page-header relative pt-36 pb-14 overflow-hidden bg-white grid-bg">
+    <section className="page-header relative pt-36 pb-14 overflow-hidden bg-white grid-bg" data-hero-section>
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-sky-100/60 rounded-full blur-[140px]" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />

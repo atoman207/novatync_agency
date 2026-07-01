@@ -1,82 +1,48 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useMemo, useRef, useState } from "react";
+import SitePreviewImage from "@/components/SitePreviewImage";
+import type { PortfolioData } from "@/lib/portfolio/types";
+import { OTHER_FILTER } from "@/lib/portfolio/types";
+import {
+  getCategoriesForFilter,
+  getSiteName,
+  isOtherCategory,
+} from "@/lib/portfolio/utils";
 
-const works = [
-  {
-    id: 1,
-    title: "AI Customer Service Platform",
-    titleJa: "AI カスタマーサービス基盤",
-    category: "AI Development",
-    categoryJa: "AI開発",
-    tags: ["OpenAI", "RAG", "Next.js", "FastAPI", "PostgreSQL"],
-    description: "大手企業向けに生成AIを活用した自動応答システムを開発。問い合わせ対応コストを大幅削減し、24時間対応を実現。",
-    stat: { label: "対応コスト削減", value: "60%" },
-    year: "2025",
-    gradient: "from-sky-50 to-cyan-50",
-    accentColor: "text-sky-600",
-    borderColor: "border-sky-100",
-    badgeBg: "bg-sky-50",
-    statColor: "text-sky-500",
-    icon: "◎",
-  },
-  {
-    id: 2,
-    title: "Large-Scale E-Commerce Platform",
-    titleJa: "大規模 EC プラットフォーム",
-    category: "Web Development",
-    categoryJa: "Web開発",
-    tags: ["Next.js", "TypeScript", "AWS", "PostgreSQL", "Redis"],
-    description: "月間100万ユーザーを支えるECサイトのフルリニューアル。Core Web Vitalsをすべて90点以上に引き上げ、コンバージョン率が向上。",
-    stat: { label: "パフォーマンス向上", value: "3×" },
-    year: "2025",
-    gradient: "from-blue-50 to-sky-50",
-    accentColor: "text-blue-600",
-    borderColor: "border-blue-100",
-    badgeBg: "bg-blue-50",
-    statColor: "text-blue-500",
-    icon: "▲",
-  },
-  {
-    id: 3,
-    title: "Cloud Migration — AWS",
-    titleJa: "AWS クラウド移行プロジェクト",
-    category: "Cloud",
-    categoryJa: "クラウド",
-    tags: ["AWS", "Terraform", "Docker", "GitHub Actions", "Kubernetes"],
-    description: "オンプレミスから AWS へのフルマイグレーションを3ヶ月で完了。Terraform で IaC を徹底し、可用性 99.9% を達成。",
-    stat: { label: "インフラコスト削減", value: "40%" },
-    year: "2024",
-    gradient: "from-cyan-50 to-blue-50",
-    accentColor: "text-cyan-600",
-    borderColor: "border-cyan-100",
-    badgeBg: "bg-cyan-50",
-    statColor: "text-cyan-500",
-    icon: "☁",
-  },
-  {
-    id: 4,
-    title: "Internal DX Platform",
-    titleJa: "社内 DX プラットフォーム",
-    category: "Consulting / DX",
-    categoryJa: "コンサルティング",
-    tags: ["React", "Python", "FastAPI", "Azure", "Power BI"],
-    description: "製造業大手の社内業務全体をデジタル化。ペーパーレス化・自動化で月間800時間の手作業を削減し、データドリブンな意思決定を実現。",
-    stat: { label: "業務工数削減", value: "50%" },
-    year: "2024",
-    gradient: "from-indigo-50 to-sky-50",
-    accentColor: "text-indigo-600",
-    borderColor: "border-indigo-100",
-    badgeBg: "bg-indigo-50",
-    statColor: "text-indigo-500",
-    icon: "⬡",
-  },
-];
+const ALL_FILTER = "all";
 
-export default function Works() {
+function filterTabClass(isActive: boolean) {
+  return isActive
+    ? "border-yellow-500 bg-yellow-300 text-slate-900 shadow-md ring-2 ring-yellow-400/60"
+    : "border-yellow-300 bg-yellow-100 text-slate-800 hover:bg-yellow-200";
+}
+
+type Props = {
+  portfolio: PortfolioData;
+};
+
+export default function Works({ portfolio }: Props) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const [activeFilter, setActiveFilter] = useState(ALL_FILTER);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const { skillCategories, totalProjectCount, otherProjectCount } = portfolio;
+
+  const filteredCategories = useMemo(
+    () => getCategoriesForFilter(portfolio, activeFilter, searchQuery),
+    [portfolio, activeFilter, searchQuery]
+  );
+
+  const visibleProjectCount = useMemo(
+    () => filteredCategories.reduce((count, category) => count + category.sites.length, 0),
+    [filteredCategories]
+  );
+
+  const hasActiveFilters =
+    activeFilter !== ALL_FILTER || searchQuery.trim().length > 0;
 
   return (
     <section id="works" className="section-padding relative overflow-hidden bg-slate-50">
@@ -85,70 +51,199 @@ export default function Works() {
       </div>
 
       <div ref={ref} className="max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
-            <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-sky-500 mb-3 uppercase">Works</motion.p>
-            <motion.h2 initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.1 }} className="text-3xl md:text-5xl font-bold text-slate-900">
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              className="text-xs tracking-[0.3em] text-sky-500 mb-3 uppercase"
+            >
+              Works
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 28 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-3xl md:text-5xl font-bold text-slate-900"
+            >
               実績・事例
             </motion.h2>
           </div>
-          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.25 }} className="text-slate-400 text-sm max-w-xs text-right hidden md:block">
-            納品後も伴走し続けることが私たちのスタンスです。
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.25 }}
+            className="text-slate-400 text-sm max-w-xs text-right hidden md:block"
+          >
+            技術スタック別に整理した制作実績をご覧いただけます。
           </motion.p>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {works.map((work, i) => (
-            <motion.article
-              key={work.id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.65, delay: 0.15 + i * 0.1 }}
-              className={`group relative bg-white rounded-3xl overflow-hidden border ${work.borderColor} hover:shadow-xl transition-all duration-300 cursor-default`}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.45, delay: 0.15 }}
+          className="mb-10 rounded-3xl border border-yellow-300 bg-yellow-50 p-5 md:p-6 shadow-sm"
+        >
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div className="relative w-full lg:max-w-md">
+              <label htmlFor="portfolio-search" className="sr-only">
+                Search portfolio
+              </label>
+              <svg
+                viewBox="0 0 24 24"
+                className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20l-3.5-3.5" />
+              </svg>
+              <input
+                id="portfolio-search"
+                type="search"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="サイト名・URL・スタックで検索"
+                className="w-full rounded-2xl border border-yellow-300 bg-white py-3 pl-11 pr-4 text-sm text-slate-700 outline-none transition focus:border-yellow-500 focus:ring-4 focus:ring-yellow-200"
+              />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
+              <span className="rounded-full border border-yellow-300 bg-yellow-200 px-3 py-1.5 font-medium text-slate-800">
+                {visibleProjectCount} / {totalProjectCount} projects
+              </span>
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveFilter(ALL_FILTER);
+                    setSearchQuery("");
+                  }}
+                  className="rounded-full border border-yellow-400 bg-white px-3 py-1.5 text-slate-700 transition hover:bg-yellow-100"
+                >
+                  Clear filters
+                </button>
+              )}
+            </div>
+          </div>
+
+          <p className="mt-4 text-xs font-medium uppercase tracking-[0.2em] text-slate-600">
+            Skills / Stacks
+          </p>
+
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => setActiveFilter(ALL_FILTER)}
+              className={`rounded-full border px-4 py-2 text-sm font-medium transition ${filterTabClass(activeFilter === ALL_FILTER)}`}
             >
-              {/* Top visual */}
-              <div className={`relative h-44 bg-gradient-to-br ${work.gradient} flex items-center justify-center overflow-hidden`}>
-                <div className={`absolute w-40 h-40 rounded-full border ${work.borderColor} opacity-40`} />
-                <div className={`absolute w-64 h-64 rounded-full border ${work.borderColor} opacity-20`} />
+              All
+              <span className="ml-2 text-xs opacity-80">{totalProjectCount}</span>
+            </button>
 
-                {/* Stat badge */}
-                <div className={`absolute top-4 right-4 bg-white border ${work.borderColor} rounded-xl px-3 py-2 text-center shadow-sm`}>
-                  <div className={`text-xl font-black ${work.statColor}`}>{work.stat.value}</div>
-                  <div className="text-slate-400 text-[10px] mt-0.5">{work.stat.label}</div>
+            {skillCategories.map((category) => (
+              <button
+                key={category.id}
+                type="button"
+                onClick={() => setActiveFilter(category.id)}
+                className={`rounded-full border px-4 py-2 text-sm font-medium transition ${filterTabClass(activeFilter === category.id)}`}
+              >
+                {category.label}
+                <span className="ml-2 text-xs opacity-80">{category.sites.length}</span>
+              </button>
+            ))}
+
+            <button
+              type="button"
+              onClick={() => setActiveFilter(OTHER_FILTER)}
+              className={`rounded-full border px-4 py-2 text-sm font-medium transition ${filterTabClass(activeFilter === OTHER_FILTER)}`}
+            >
+              Other
+              <span className="ml-2 text-xs opacity-80">{otherProjectCount}</span>
+            </button>
+          </div>
+        </motion.div>
+
+        {filteredCategories.length === 0 ? (
+          <div className="rounded-3xl border border-dashed border-slate-200 bg-white px-6 py-16 text-center">
+            <p className="text-lg font-semibold text-slate-800">該当するプロジェクトが見つかりませんでした</p>
+            <p className="mt-2 text-sm text-slate-500">
+              検索キーワードやスタックフィルターを変更してお試しください。
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-12">
+            {filteredCategories.map((category, categoryIndex) => (
+              <motion.div
+                key={category.id}
+                initial={{ opacity: 0, y: 32 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.45, delay: 0.05 * categoryIndex }}
+              >
+                <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[0.24em] text-yellow-600">
+                      {isOtherCategory(category) ? "Other" : "Skill"}
+                    </p>
+                    <h3 className="text-xl md:text-2xl font-bold text-slate-900">{category.label}</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {category.stacks.map((stack) => (
+                      <span
+                        key={stack}
+                        className="rounded-full border border-yellow-300 bg-yellow-200 px-2.5 py-1 text-xs font-medium text-slate-800"
+                      >
+                        {stack}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
-                <span className={`text-5xl ${work.accentColor} opacity-30 group-hover:opacity-60 group-hover:scale-110 transition-all duration-500`}>
-                  {work.icon}
-                </span>
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+                  {category.sites.map((site) => (
+                    <a
+                      key={site.id}
+                      href={site.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-0.5 hover:border-yellow-400 hover:shadow-lg"
+                    >
+                      <SitePreviewImage
+                        url={site.url}
+                        imageUrl={site.image_url}
+                        categoryLabel={category.label}
+                      />
 
-                <div className="absolute bottom-4 left-4 text-slate-400 text-xs font-mono">{work.year}</div>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className={`text-xs px-2.5 py-1 rounded-full ${work.badgeBg} border ${work.borderColor} ${work.accentColor}`}>
-                    {work.categoryJa}
-                  </span>
-                </div>
-                <h3 className="text-slate-900 font-bold text-lg mb-1 leading-tight">{work.titleJa}</h3>
-                <p className="text-slate-400 text-xs mb-3 font-light tracking-wide">{work.title}</p>
-                <p className="text-slate-500 text-sm leading-relaxed mb-4">{work.description}</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {work.tags.map((tag) => (
-                    <span key={tag} className="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-500">{tag}</span>
+                      <div className="p-4">
+                        <div className="mb-2 flex items-start justify-between gap-3">
+                          <h4 className="text-sm font-semibold text-slate-900 break-all">
+                            {getSiteName(site.url)}
+                          </h4>
+                          <span className="shrink-0 rounded-full border border-yellow-300 bg-yellow-100 px-2 py-0.5 text-[10px] font-medium text-slate-700 transition group-hover:bg-yellow-200">
+                            Visit
+                          </span>
+                        </div>
+                        <p className="mb-3 break-all text-xs text-slate-500">{site.url}</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {category.stacks.map((stack) => (
+                            <span
+                              key={`${site.id}-${stack}`}
+                              className="rounded bg-yellow-100 px-2 py-0.5 text-[11px] text-slate-700"
+                            >
+                              {stack}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </a>
                   ))}
                 </div>
-              </div>
-            </motion.article>
-          ))}
-        </div>
-
-        <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.7 }} className="text-center text-slate-400 text-xs mt-10">
-          ※ 守秘義務により企業名・詳細情報は非公開としております
-        </motion.p>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

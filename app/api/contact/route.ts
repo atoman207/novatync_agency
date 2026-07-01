@@ -46,8 +46,19 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("Resend error:", error);
+      const resendMessage =
+        typeof error.message === "string" ? error.message : "Unknown Resend error";
+      const normalizedMessage = resendMessage.toLowerCase();
+
+      const userMessage =
+        normalizedMessage.includes("verify") ||
+        normalizedMessage.includes("domain") ||
+        normalizedMessage.includes("sender")
+          ? "送信元メールアドレスの設定が未完了です。Resendで`novatync.agency`のドメイン認証と`CONTACT_FROM_EMAIL`を確認してください。"
+          : `メール送信エラー: ${resendMessage}`;
+
       return NextResponse.json(
-        { error: "メールの送信に失敗しました。しばらくしてから再度お試しください。" },
+        { error: userMessage },
         { status: 502 }
       );
     }
@@ -55,8 +66,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, id: data?.id });
   } catch (error) {
     console.error("Contact API error:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      { error: "メールの送信に失敗しました。しばらくしてから再度お試しください。" },
+      { error: `メール送信エラー: ${message}` },
       { status: 500 }
     );
   }

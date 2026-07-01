@@ -123,7 +123,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 rounded-xl text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full py-4 rounded-xl text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 transition-colors shadow-sm disabled:cursor-not-allowed disabled:bg-sky-600 disabled:text-white disabled:opacity-100"
               >
                 <span className="flex items-center justify-center gap-2">
                   {isSubmitting ? (

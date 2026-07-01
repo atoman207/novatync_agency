@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #1e293b;
+  --accent: #0ea5e9;
+  --accent-2: #38bdf8;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ========= TYPOGRAPHY ========= */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif, "Noto Serif JP"), "Hiragino Mincho ProN", serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans, "Noto Sans JP"), -apple-system, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Section h2 titles — light blue */
+.section-padding h2 {
+  color: #0284c7;
+}
+
+/* PageHeader h1 override — keep slate */
+.page-header h1 {
+  color: #0f172a;
+}
+
+/* ========= SCROLLBAR ========= */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb {
+  background: rgba(14, 165, 233, 0.35);
+  border-radius: 2px;
+}
+
+/* ========= GLASS ========= */
+/* Light glass card — white sections */
+.glass {
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+/* Dark glass — hero/dark sections only */
+.glass-dark {
+  background: rgba(56, 189, 248, 0.06);
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* ========= GRADIENT ========= */
+.gradient-text {
+  background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 50%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-blue {
+  background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes gradient-border {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gradient-border {
+  background: linear-gradient(135deg, #0ea5e9, #22d3ee, #6366f1, #0ea5e9);
+  background-size: 300% 300%;
+  animation: gradient-border 4s ease infinite;
+}
+
+.glow-sky {
+  box-shadow: 0 0 40px rgba(56, 189, 248, 0.25), 0 0 80px rgba(56, 189, 248, 0.08);
+}
+
+/* ========= GRID BACKGROUNDS ========= */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.grid-bg-dark {
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* ========= SPACING ========= */
+.section-padding { padding: 120px 0; }
+
+.page-content > section.section-padding:first-child,
+.page-content > div:first-child > section.section-padding {
+  padding-top: 48px;
+}
+
+/* ========= UTILS ========= */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ========= NAV FLIP LABEL ========= */
+.nav-label {
+  position: relative;
+  overflow: hidden;
+  height: 1rem;
+  display: flex;
+  align-items: center;
+}
+.nav-label-en,
+.nav-label-ja {
+  display: block;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
+  white-space: nowrap;
+}
+.nav-label-ja {
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+.nav-link:hover .nav-label-en { transform: translateY(-100%); opacity: 0; }
+.nav-link:hover .nav-label-ja { transform: translateY(-100%); opacity: 1; }

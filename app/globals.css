@@ -40,6 +40,18 @@ textarea:-webkit-autofill:focus {
   transition: background-color 9999s ease-in-out 0s;
 }
 
+#contact form input,
+#contact form textarea,
+#contact .contact-submit-btn {
+  opacity: 1;
+}
+
+#contact .contact-submit-btn:disabled {
+  background-color: #0369a1;
+  color: #ffffff;
+  opacity: 1;
+}
+
 /* Section h2 titles — light blue */
 .section-padding h2 {
   color: #0284c7;

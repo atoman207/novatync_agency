@@ -62,11 +62,8 @@ export default function Career() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section id="career" className="section-padding relative overflow-hidden bg-white">
-      <div className="absolute inset-0 pointer-events-none grid-bg opacity-40" />
-      <div className="absolute top-0 left-1/3 w-[400px] h-[400px] bg-sky-50 rounded-full blur-[100px]" />
-
-      <div ref={ref} className="max-w-7xl mx-auto px-6">
+    <section id="career" className="section-padding relative bg-white">
+      <div ref={ref} className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="mb-16 text-center">
           <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-sky-500 mb-4 uppercase">Career</motion.p>
           <motion.h2 initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.1 }} className="text-3xl md:text-5xl font-bold mb-4">
@@ -109,7 +106,7 @@ export default function Career() {
         >
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 transition-colors shadow-sm"
+            className="inline-flex items-center gap-2 rounded-xl bg-sky-700 px-8 py-4 text-sm font-semibold text-white shadow-md transition-colors hover:bg-sky-800"
           >
             応募・お問い合わせ
             <span className="transition-transform group-hover:translate-x-1">→</span>

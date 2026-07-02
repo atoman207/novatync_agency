@@ -19,35 +19,40 @@ type HeroResponse = {
 };
 
 function isMostlyBlankImage(img: HTMLImageElement) {
-  const canvas = document.createElement("canvas");
-  const width = Math.min(img.naturalWidth, 120);
-  const height = Math.min(img.naturalHeight, 120);
+  try {
+    const canvas = document.createElement("canvas");
+    const width = Math.min(img.naturalWidth, 120);
+    const height = Math.min(img.naturalHeight, 120);
 
-  if (width === 0 || height === 0) return true;
+    if (width === 0 || height === 0) return true;
 
-  canvas.width = width;
-  canvas.height = height;
+    canvas.width = width;
+    canvas.height = height;
 
-  const context = canvas.getContext("2d");
-  if (!context) return false;
+    const context = canvas.getContext("2d");
+    if (!context) return false;
 
-  context.drawImage(img, 0, 0, width, height);
-  const pixels = context.getImageData(0, 0, width, height).data;
+    context.drawImage(img, 0, 0, width, height);
+    const pixels = context.getImageData(0, 0, width, height).data;
 
-  let lightPixels = 0;
-  let darkPixels = 0;
-  const total = width * height;
+    let lightPixels = 0;
+    let darkPixels = 0;
+    const total = width * height;
 
-  for (let index = 0; index < pixels.length; index += 4) {
-    const brightness = (pixels[index] + pixels[index + 1] + pixels[index + 2]) / 3;
-    if (brightness > 235) lightPixels += 1;
-    if (brightness < 60) darkPixels += 1;
+    for (let index = 0; index < pixels.length; index += 4) {
+      const brightness = (pixels[index] + pixels[index + 1] + pixels[index + 2]) / 3;
+      if (brightness > 235) lightPixels += 1;
+      if (brightness < 60) darkPixels += 1;
+    }
+
+    const lightRatio = lightPixels / total;
+    const darkRatio = darkPixels / total;
+
+    return lightRatio > 0.88 || (lightRatio > 0.75 && darkRatio > 0.04);
+  } catch {
+    // Cross-origin screenshots cannot be analyzed safely.
+    return false;
   }
-
-  const lightRatio = lightPixels / total;
-  const darkRatio = darkPixels / total;
-
-  return lightRatio > 0.88 || (lightRatio > 0.75 && darkRatio > 0.04);
 }
 
 export default function SitePreviewImage({ url, categoryLabel, imageUrl }: Props) {
@@ -177,6 +182,7 @@ export default function SitePreviewImage({ url, categoryLabel, imageUrl }: Props
             src={imageSrc}
             alt={`${siteName} site preview`}
             loading="lazy"
+            crossOrigin={imageSrc.startsWith("/api/site-image") ? "anonymous" : undefined}
             onLoad={handleLoad}
             onError={handleError}
             className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"

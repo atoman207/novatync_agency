@@ -47,7 +47,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-8 ml-auto">
             {navItems.map((item) => (
               <Link
                 key={item.label}
@@ -66,17 +66,6 @@ export default function Header() {
               </Link>
             ))}
           </nav>
-
-          {/* CTA */}
-          <div className="hidden lg:flex items-center">
-            <Link
-              href="/contact"
-              className="text-sm font-medium px-5 py-2 rounded-lg border border-sky-500 text-sky-600 hover:bg-sky-500 hover:text-white flex items-center gap-1.5 group transition-all duration-200"
-            >
-              お問い合わせ
-              <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
-            </Link>
-          </div>
 
           {/* Mobile hamburger */}
           <button

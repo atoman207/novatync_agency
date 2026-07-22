@@ -5,7 +5,8 @@ import CompanyInfo from "@/components/CompanyInfo";
 
 export const metadata: Metadata = {
   title: "会社概要",
-  description: "NOVATYNCの会社情報、チームメンバー、CEOメッセージ。AI・フルスタック・クラウドの少数精鋭チーム。",
+  description:
+    "フルスタックAIエンジニア・水藤飛来のプロフィール。要件定義から設計・開発・インフラ・運用まで一貫対応。AI業務効率化・Web/SaaS開発。",
 };
 
 export default function AboutPage() {
@@ -14,7 +15,7 @@ export default function AboutPage() {
       <PageHeader
         en="About"
         ja="会社について"
-        desc="NOVATYNCは、AI・Web・クラウド技術を軸に、企業の課題を解決する少数精鋭のITパートナーです。"
+        desc="フルスタックAIエンジニアとして、要件定義から運用まで一貫対応。業務改善と事業成長につながるソリューションをご提案します。"
       />
       <div className="page-content">
         <About />

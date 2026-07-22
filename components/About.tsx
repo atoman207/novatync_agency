@@ -1,20 +1,47 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
 import { useRef } from "react";
 
-const team = [
-  { name: "水藤 飛来", nameEn: "Hira Suido",  role: "Founder / CEO", skills: ["Full Stack", "AI Engineer", "Cloud Arch."], gradient: "from-shu-600 to-gold-600",  initials: "HS" },
-  { name: "エンジニア",  nameEn: "Engineer",    role: "Full Stack",    skills: ["React", "Next.js", "Node.js"],              gradient: "from-ai-600 to-ai-800",     initials: "FS" },
-  { name: "エンジニア",  nameEn: "Engineer",    role: "Backend / AI",  skills: ["Python", "FastAPI", "LLM"],                 gradient: "from-gold-600 to-ai-700",   initials: "BE" },
-  { name: "エンジニア",  nameEn: "Engineer",    role: "Frontend",      skills: ["Vue", "React", "UI/UX"],                    gradient: "from-shu-400 to-ai-600",    initials: "FE" },
+const specialties = [
+  "AI業務効率化システム",
+  "保守性・拡張性を重視したWebアプリ",
+  "MVP開発〜本番運用",
+  "アジャイル開発",
+  "新規サービス立ち上げ",
+  "既存システムの改善・リニューアル",
+];
+
+const works = [
+  "AI業務支援システム",
+  "AIチャットボット",
+  "RAG検索システム",
+  "OCR書類管理システム",
+  "企業向け管理システム",
+  "会員制Webサービス",
+  "SaaSプロダクト",
+  "予約管理システム",
+  "決済システム",
+  "寄付プラットフォーム",
+  "コーポレートサイト",
+  "メディアサイト",
+  "ランディングページ",
+];
+
+const commitments = [
+  "原則当日中の返信",
+  "定期的な進捗共有",
+  "納期厳守",
+  "保守・運用サポート対応",
 ];
 
 export default function About() {
-  const ref    = useRef(null);
+  const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
-  const ceoRef = useRef(null);
-  const ceoIn  = useInView(ceoRef, { once: true, margin: "-60px" });
+  const bioRef = useRef(null);
+  const bioIn = useInView(bioRef, { once: true, margin: "-60px" });
 
   return (
     <section id="about" className="section-padding relative overflow-hidden bg-washi">
@@ -23,107 +50,174 @@ export default function About() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6">
-        {/* Intro */}
-        <div ref={ref} className="grid lg:grid-cols-2 gap-16 items-center mb-24">
-          <div>
-            <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-shu-600 mb-4 uppercase">About</motion.p>
-            <motion.h2 initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.1 }} className="text-3xl md:text-5xl font-bold mb-8 leading-tight">
-              会社紹介
-            </motion.h2>
-            <motion.div initial={{ opacity: 0, y: 18 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }} className="space-y-4 leading-relaxed">
-              <p className="text-stone-600">NOVATYNCは、AI・Web・クラウド技術を軸に、企業の課題を解決するIT企業です。</p>
-              <p className="text-stone-700">受託開発だけではなく、事業パートナーとして、長期的な価値提供を目指しています。</p>
-            </motion.div>
-          </div>
-
+        {/* Profile header */}
+        <div ref={ref} className="grid lg:grid-cols-[280px_1fr] gap-12 lg:gap-16 items-start mb-24">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative h-64 lg:h-80"
+            initial={{ opacity: 0, y: 24 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
+            className="mx-auto w-full max-w-[280px]"
           >
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-shu-50 to-stone-50 border border-shu-100 overflow-hidden shadow-sm">
-              <div className="absolute inset-4 rounded-2xl border border-shu-100/60" />
-              {[
-                { text: "AI Engineer",     pos: "top-6 left-6",     delay: 0.5 },
-                { text: "Full Stack Dev",  pos: "top-6 right-6",    delay: 0.6 },
-                { text: "Cloud Architect", pos: "bottom-6 left-6",  delay: 0.7 },
-                { text: "UI/UX Designer",  pos: "bottom-6 right-6", delay: 0.8 },
-              ].map((el) => (
-                <motion.div
-                  key={el.text}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={inView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.5, delay: el.delay }}
-                  className={`absolute ${el.pos} bg-white border border-shu-100 shadow-sm px-3 py-1.5 rounded-lg text-xs text-stone-500`}
-                >
-                  {el.text}
-                </motion.div>
-              ))}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                <div className="text-4xl font-black gradient-text tracking-tight">4名</div>
-                <div className="text-stone-400 text-xs mt-1">少数精鋭</div>
+            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-3xl border border-shu-100 bg-white shadow-sm">
+              <Image
+                src="/mine.png"
+                alt="水藤 飛来 — フルスタックAIエンジニア"
+                fill
+                priority
+                className="object-cover object-[center_20%]"
+                sizes="280px"
+              />
+            </div>
+            <div className="mt-5 text-center">
+              <h3 className="text-sumi font-bold text-xl">水藤 飛来</h3>
+              <p className="text-stone-400 text-sm mt-1">Hira Suido</p>
+              <p className="text-shu-600 text-sm font-medium mt-2">フルスタックAIエンジニア</p>
+              <p className="text-stone-500 text-xs mt-1">代表取締役 CEO / NOVATYNC</p>
+              <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-shu-100 bg-shu-50 px-3 py-1.5 text-xs text-shu-700">
+                <span className="font-bold">1名</span>
+                <span className="text-stone-400">|</span>
+                <span>少数精鋭</span>
               </div>
             </div>
           </motion.div>
-        </div>
 
-        {/* Team */}
-        <div className="mb-24">
-          <motion.h3 initial={{ opacity: 0, y: 18 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }} className="text-2xl font-bold text-stone-800 mb-10 text-center">Team</motion.h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {team.map((m, i) => (
-              <motion.div
-                key={`${m.role}-${i}`}
-                initial={{ opacity: 0, y: 36 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.3 + i * 0.08 }}
-                className="bg-white rounded-2xl p-6 border border-stone-100 hover:border-shu-200 hover:shadow-md transition-all duration-300 text-center"
-              >
-                <div className="relative mx-auto w-16 h-16 mb-4">
-                  <div className={`w-full h-full rounded-2xl bg-gradient-to-br ${m.gradient} flex items-center justify-center text-white font-bold text-xl`}>{m.initials}</div>
-                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-white" />
-                </div>
-                <h4 className="text-sumi font-bold text-base">{m.name}</h4>
-                <p className="text-stone-400 text-xs mb-3">{m.nameEn}</p>
-                <span className="inline-block px-3 py-1 rounded-full bg-shu-50 border border-shu-100 text-shu-600 text-xs mb-4">{m.role}</span>
-                <div className="flex flex-wrap gap-1 justify-center">
-                  {m.skills.map((sk) => (
-                    <span key={sk} className="text-xs px-2 py-0.5 rounded bg-stone-50 text-stone-500 border border-stone-100">{sk}</span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+          <div>
+            <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-shu-600 mb-4 uppercase">
+              Profile
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 28 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="text-3xl md:text-5xl font-bold mb-8 leading-tight"
+            >
+              プロフィール
+            </motion.h2>
+
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="space-y-5 text-stone-600 leading-relaxed text-sm md:text-base"
+            >
+              <p>はじめまして。<br />プロフィールをご覧いただき、ありがとうございます。</p>
+              <p>
+                フルスタックAIエンジニアとして、要件定義から設計・開発・インフラ構築・運用まで一貫して対応しております。
+              </p>
+              <p>
+                単にシステムを開発するだけではなく、「業務をどう改善するか」「売上や生産性をどう向上させるか」という視点を大切にし、お客様のビジネスに最適なソリューションをご提案いたします。
+              </p>
+            </motion.div>
           </div>
         </div>
 
-        {/* CEO Message */}
-        <div ref={ceoRef}>
+        {/* Bio details */}
+        <div ref={bioRef} className="space-y-16">
+          {/* Specialties */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={ceoIn ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="bg-white rounded-3xl p-10 md:p-16 border border-shu-100 shadow-sm relative overflow-hidden"
+            initial={{ opacity: 0, y: 28 }}
+            animate={bioIn ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-3xl p-8 md:p-12 border border-shu-100 shadow-sm"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-shu-50/60 to-transparent" />
-            <div className="relative">
-              <motion.p initial={{ opacity: 0 }} animate={ceoIn ? { opacity: 1 } : {}} transition={{ delay: 0.2 }} className="text-xs tracking-[0.3em] text-shu-600 mb-6 uppercase">CEO Message</motion.p>
-              <motion.h3 initial={{ opacity: 0, y: 18 }} animate={ceoIn ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }} className="text-2xl md:text-4xl font-bold text-sumi mb-8 leading-tight">
-                技術ではなく、<br /><span className="gradient-text">価値を届ける</span>会社へ。
-              </motion.h3>
-              <motion.div initial={{ opacity: 0, y: 18 }} animate={ceoIn ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.3 }} className="space-y-4 text-stone-600 leading-relaxed text-sm md:text-base max-w-3xl">
-                <p>私たちはAIやクラウドを「導入すること」を目的とは考えていません。本当に重要なのは、その技術が企業やユーザーにどのような価値をもたらすかです。</p>
-                <p>NOVATYNCは、生成AI、Webシステム、クラウド、UI/UXを融合し、お客様の事業成長を支えるソリューションを提供します。</p>
-                <p className="text-stone-700">現在、私たちは4名の少数精鋭チームとして活動しています。だからこそ、一人ひとりが高い技術力と責任感を持ち、企画・設計・開発・運用までを一貫して担当しています。</p>
-                <p>小さな組織だからこそ意思決定は速く、お客様と近い距離で伴走できることが私たちの強みです。これからも日本発のテクノロジーカンパニーとして、世界に通用するソフトウェアを創り続けます。</p>
-              </motion.div>
-              <motion.div initial={{ opacity: 0 }} animate={ceoIn ? { opacity: 1 } : {}} transition={{ delay: 0.5 }} className="mt-8 flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-shu-600 to-gold-600 flex items-center justify-center text-white font-bold text-sm">HS</div>
-                <div>
-                  <div className="text-sumi font-semibold text-sm">水藤 飛来</div>
-                  <div className="text-stone-400 text-xs">代表取締役 CEO</div>
-                </div>
-              </motion.div>
+            <h3 className="text-xl md:text-2xl font-bold text-sumi mb-4">得意分野</h3>
+            <p className="text-stone-600 leading-relaxed text-sm md:text-base mb-4">
+              AIを活用した業務効率化システムや、保守性・拡張性を重視したWebアプリケーション開発を得意としております。
+            </p>
+            <p className="text-stone-600 leading-relaxed text-sm md:text-base mb-4">
+              MVP（最小実用製品）の開発から本番運用まで、アジャイル開発を取り入れながらスピーディーに価値をご提供いたします。
+            </p>
+            <p className="text-stone-600 leading-relaxed text-sm md:text-base mb-6">
+              新規サービスの立ち上げから既存システムの改善・リニューアルまで幅広く対応可能です。
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {specialties.map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-shu-100 bg-shu-50 px-3 py-1.5 text-xs text-shu-700"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Works */}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={bioIn ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="bg-white rounded-3xl p-8 md:p-12 border border-shu-100 shadow-sm"
+          >
+            <h3 className="text-xl md:text-2xl font-bold text-sumi mb-6">開発実績</h3>
+            <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {works.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-center gap-2 rounded-xl border border-stone-100 bg-stone-50/80 px-4 py-3 text-sm text-stone-700"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-shu-500 flex-shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 text-sm text-stone-500">
+              ポートフォリオ：{" "}
+              <Link href="/works" className="text-shu-600 hover:text-shu-700 underline underline-offset-2">
+                novatync.agency
+              </Link>
+            </p>
+          </motion.div>
+
+          {/* Values */}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={bioIn ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="bg-white rounded-3xl p-8 md:p-12 border border-shu-100 shadow-sm"
+          >
+            <h3 className="text-xl md:text-2xl font-bold text-sumi mb-4">仕事で大切にしていること</h3>
+            <div className="space-y-4 text-stone-600 leading-relaxed text-sm md:text-base mb-6">
+              <p>
+                お客様が本当に必要としているものを一緒に考えながら開発を進めることを大切にしています。
+              </p>
+              <p>
+                技術だけではなく、事業や運用まで考慮したご提案を行い、「作って終わり」ではなく、長く活用できるシステムをご提供いたします。
+              </p>
+              <p>また、以下を徹底しております。</p>
+            </div>
+            <ul className="grid sm:grid-cols-2 gap-3 mb-8">
+              {commitments.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-center gap-2 rounded-xl border border-shu-100 bg-shu-50/70 px-4 py-3 text-sm text-shu-800"
+                >
+                  <span className="text-shu-600 font-bold">✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div className="rounded-2xl border border-stone-200 bg-stone-50 px-6 py-5 text-sm md:text-base text-stone-600 leading-relaxed space-y-3">
+              <p className="font-medium text-sumi">
+                「まだ要件が固まっていない」<br />
+                「何から始めればよいかわからない」
+              </p>
+              <p>そのような段階でもお気軽にご相談ください。</p>
+              <p>
+                ヒアリングから丁寧にサポートし、お客様に最適なシステムをご提案いたします。
+              </p>
+              <p>
+                最後まで責任を持って対応いたしますので、どうぞよろしくお願いいたします。
+              </p>
+            </div>
+            <div className="mt-8">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 rounded-xl bg-shu-600 px-6 py-3 text-sm font-semibold text-white hover:bg-shu-700 transition-colors"
+              >
+                お問い合わせはこちら
+                <span aria-hidden>→</span>
+              </Link>
             </div>
           </motion.div>
         </div>

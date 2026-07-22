@@ -25,7 +25,7 @@ function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
 const stats = [
   { value: 8,   suffix: "+",  label: "Years Experience", sub: "豊富な開発実績" },
   { value: 100, suffix: "%",  label: "Remote Development", sub: "フルリモート体制" },
-  { value: 4,   suffix: "名", label: "Elite Team", sub: "少数精鋭チーム" },
+  { value: 1,   suffix: "名", label: "Elite Team", sub: "少数精鋭チーム" },
 ];
 
 const capabilities = [

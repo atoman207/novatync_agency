@@ -9,7 +9,7 @@ const rows = [
   { label: "事業内容", value: "AI開発・Webシステム開発・クラウド構築・DX支援" },
   { label: "所在地",   value: "Japan" },
   { label: "設立",     value: "2026年" },
-  { label: "社員数",   value: "4名" },
+  { label: "社員数",   value: "1名" },
   { label: "開発体制", value: "フルリモート" },
   { label: "対応地域", value: "日本・海外" },
 ];

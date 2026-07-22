@@ -40,5 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# local recommendation vote store (dev fallback)
+.data/
+
 # local build cache
 /dist

@@ -40,3 +40,15 @@ on conflict (id) do update set public = true;
 drop policy if exists "Public read portfolio images" on storage.objects;
 create policy "Public read portfolio images" on storage.objects
   for select using (bucket_id = 'portfolio-images');
+
+-- Site recommendations (one vote per IP)
+create table if not exists site_recommendation_votes (
+  ip_hash text primary key,
+  created_at timestamptz not null default now()
+);
+
+alter table site_recommendation_votes enable row level security;
+
+drop policy if exists "Public read recommendation votes" on site_recommendation_votes;
+create policy "Public read recommendation votes" on site_recommendation_votes
+  for select using (true);

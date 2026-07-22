@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import BrandMeaning from "@/components/BrandMeaning";
 import Mission from "@/components/Mission";
 import WhyNovatync from "@/components/WhyNovatync";
+import Reviews from "@/components/Reviews";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <BrandMeaning />
       <Mission />
       <WhyNovatync />
+      <Reviews />
     </>
   );
 }

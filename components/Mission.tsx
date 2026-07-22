@@ -22,15 +22,15 @@ export default function Mission() {
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-shu-100/40 rounded-full blur-[120px]" />
       </div>
 
-      <div ref={ref} className="max-w-7xl mx-auto px-6">
+      <div ref={ref} className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* Mission */}
-        <div className="mb-24 text-center">
+        <div className="mb-14 text-center sm:mb-18 md:mb-24">
           <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-shu-600 mb-4 uppercase">Mission</motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 28 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-3xl md:text-5xl font-bold text-sumi max-w-2xl mx-auto leading-tight"
+            className="mx-auto max-w-2xl text-2xl font-bold leading-tight text-sumi sm:text-3xl md:text-5xl"
           >
             AIで企業の可能性を<span className="gradient-text"> 最大化する。</span>
           </motion.h2>
@@ -38,7 +38,7 @@ export default function Mission() {
             initial={{ opacity: 0, y: 18 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-6 text-stone-500 max-w-xl mx-auto text-sm md:text-base leading-relaxed"
+            className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-stone-500 sm:mt-6 md:text-base"
           >
             企業の業務改善だけではなく、新しい価値を創り、<br />世界へ挑戦できるソフトウェアを生み出す。
           </motion.p>
@@ -49,11 +49,11 @@ export default function Mission() {
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="mb-24 rounded-3xl p-10 md:p-16 text-center border border-shu-100 relative overflow-hidden bg-white shadow-sm"
+          className="relative mb-14 overflow-hidden rounded-3xl border border-shu-100 bg-white p-6 text-center shadow-sm sm:mb-18 sm:p-8 md:mb-24 md:p-16"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-shu-50/60 to-gold-50/30" />
           <p className="relative text-xs tracking-[0.3em] text-gold-600 mb-4 uppercase">Vision</p>
-          <p className="relative text-2xl md:text-4xl font-bold text-sumi leading-relaxed">
+          <p className="relative text-xl font-bold leading-relaxed text-sumi sm:text-2xl md:text-4xl">
             世界中の企業が、<br />
             <span className="gradient-text">AIを当たり前に使う</span>
             <span className="text-sumi">未来を創る。</span>
@@ -70,7 +70,7 @@ export default function Mission() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.4 + i * 0.07 }}
-                className={`rounded-2xl p-6 border ${v.border} hover:shadow-md transition-all duration-300 bg-white`}
+                className={`rounded-2xl border bg-white p-5 transition-all duration-300 hover:shadow-md sm:p-6 ${v.border}`}
               >
                 <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${v.from} ${v.to} border ${v.border} flex items-center justify-center text-lg mb-4`}>
                   {v.icon}

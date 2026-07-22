@@ -28,7 +28,7 @@ export default function Chatbot() {
   }, [open]);
 
   return (
-    <div ref={panelRef} className="fixed bottom-6 left-6 z-50">
+    <div ref={panelRef} className="fixed bottom-4 left-4 z-50 sm:bottom-6 sm:left-6">
       <AnimatePresence>
         {open && (
           <motion.div
@@ -36,17 +36,17 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
             transition={{ duration: 0.22 }}
-            className="mb-4 w-[min(92vw,340px)] overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-2xl"
+            className="mb-3 w-[min(90vw,320px)] overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-2xl sm:mb-4 sm:w-[min(92vw,340px)]"
           >
-            <div className="bg-gradient-to-r from-shu-700 to-gold-600 px-5 py-4 text-white">
+            <div className="bg-gradient-to-r from-shu-700 to-gold-600 px-4 py-3.5 text-white sm:px-5 sm:py-4">
               <p className="text-sm font-semibold">NOVATYNC Assistant</p>
               <p className="mt-1 text-xs text-white/85">
                 ご質問やご相談はこちらからどうぞ。
               </p>
             </div>
 
-            <div className="space-y-3 px-5 py-4">
-              <div className="rounded-2xl rounded-tl-sm bg-stone-100 px-4 py-3 text-sm leading-relaxed text-stone-700">
+            <div className="space-y-3 px-4 py-3.5 sm:px-5 sm:py-4">
+              <div className="rounded-2xl rounded-tl-sm bg-stone-100 px-3.5 py-2.5 text-sm leading-relaxed text-stone-700 sm:px-4 sm:py-3">
                 こんにちは。NOVATYNCのサポートです。
                 <br />
                 サービス内容やお問い合わせ方法をご案内します。
@@ -85,14 +85,14 @@ export default function Chatbot() {
         onClick={() => setOpen((value) => !value)}
         aria-label={open ? "チャットを閉じる" : "チャットを開く"}
         aria-expanded={open}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-shu-600 text-white shadow-lg shadow-shu-600/30 transition hover:bg-shu-700 hover:shadow-xl"
+        className="flex h-12 w-12 items-center justify-center rounded-full bg-shu-600 text-white shadow-lg shadow-shu-600/30 transition hover:bg-shu-700 hover:shadow-xl sm:h-14 sm:w-14"
       >
         {open ? (
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M6 6l12 12M18 6L6 18" />
           </svg>
         ) : (
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" strokeWidth="1.8">
             <path d="M8 10h.01M12 10h.01M16 10h.01M7.5 17l-4.5 1.5 1.5-3.5A7.5 7.5 0 1112 19.5" />
           </svg>
         )}

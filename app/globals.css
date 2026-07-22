@@ -269,7 +269,11 @@ textarea:-webkit-autofill:focus {
 }
 
 /* ========= SPACING ========= */
-.section-padding { padding: 120px 0; }
+.section-padding { padding: 84px 0; }
+
+@media (min-width: 768px) {
+  .section-padding { padding: 120px 0; }
+}
 
 .page-content > section.section-padding:first-child,
 .page-content > div:first-child > section.section-padding {

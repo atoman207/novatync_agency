@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import {
-  buildContactEmailHtml,
-  buildContactEmailText,
+  buildContactEmailHtmlWithMeta,
+  buildContactEmailTextWithMeta,
   validateContactPayload,
 } from "@/lib/contact-email";
 
@@ -42,15 +42,29 @@ export async function POST(request: Request) {
     const payload = validated.data;
     const to = process.env.CONTACT_EMAIL_TO ?? "info@novatync.agency";
     const from = `"NOVATYNC" <${process.env.SMTP_USER}>`;
-    const subject = `【NOVATYNC】お問い合わせ: ${payload.name}`;
+    const subject = `NOVATYNC Contact: ${payload.name} <${payload.email}>`;
+    const senderIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
+    const sourceUrl = request.headers.get("origin") ?? request.headers.get("referer");
+    const userAgent = request.headers.get("user-agent");
+    const meta = {
+      submittedAt: new Date().toISOString(),
+      sourceLabel: "NOVATYNC website contact form",
+      sourceUrl,
+      senderIp,
+      userAgent,
+    };
 
     await transport.sendMail({
       from,
       to,
       replyTo: payload.email,
       subject,
-      html: buildContactEmailHtml(payload),
-      text: buildContactEmailText(payload),
+      html: buildContactEmailHtmlWithMeta(payload, meta),
+      text: buildContactEmailTextWithMeta(payload, meta),
+      headers: {
+        "X-Contact-Source": "novatync.agency/contact-form",
+        "X-Auto-Response-Suppress": "All",
+      },
     });
 
     return NextResponse.json({ ok: true });

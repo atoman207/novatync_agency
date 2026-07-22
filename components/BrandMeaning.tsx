@@ -13,7 +13,7 @@ export default function BrandMeaning() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-shu-100/40 rounded-full blur-[120px]" />
       </div>
 
-      <div ref={ref} className="max-w-5xl mx-auto px-6 text-center">
+      <div ref={ref} className="mx-auto max-w-5xl px-4 text-center sm:px-6">
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -25,20 +25,20 @@ export default function BrandMeaning() {
           initial={{ opacity: 0, y: 28 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-3xl md:text-5xl font-bold text-sumi mb-16"
+          className="mb-10 text-2xl font-bold text-sumi sm:mb-12 sm:text-3xl md:mb-16 md:text-5xl"
         >
           名前の意味
         </motion.h2>
 
-        <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-0">
+        <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 md:flex-row md:gap-0">
           {/* NOVA */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="rounded-2xl p-8 md:p-10 flex-1 max-w-xs text-left border border-shu-100 shadow-sm bg-white"
+            className="max-w-xs flex-1 rounded-2xl border border-shu-100 bg-white p-6 text-left shadow-sm sm:p-8 md:p-10"
           >
-            <div className="text-4xl md:text-5xl font-black gradient-text mb-6 tracking-tight">NOVA</div>
+            <div className="mb-4 text-3xl font-black tracking-tight gradient-text sm:mb-6 sm:text-4xl md:text-5xl">NOVA</div>
             <div className="space-y-3">
               {["新しい星", "革新", "爆発的成長"].map((w) => (
                 <div key={w} className="flex items-center gap-3">
@@ -54,7 +54,7 @@ export default function BrandMeaning() {
             initial={{ opacity: 0, scale: 0 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.4, delay: 0.45 }}
-            className="text-4xl font-thin text-stone-200 px-8 md:px-12 my-4 md:my-0"
+            className="my-2 px-6 text-3xl font-thin text-stone-200 sm:my-4 sm:px-8 sm:text-4xl md:my-0 md:px-12"
           >
             +
           </motion.div>
@@ -64,9 +64,9 @@ export default function BrandMeaning() {
             initial={{ opacity: 0, x: 40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="rounded-2xl p-8 md:p-10 flex-1 max-w-xs text-left border border-gold-200 shadow-sm bg-white"
+            className="max-w-xs flex-1 rounded-2xl border border-gold-200 bg-white p-6 text-left shadow-sm sm:p-8 md:p-10"
           >
-            <div className="text-4xl md:text-5xl font-black text-gold-600 mb-6 tracking-tight">SYNC</div>
+            <div className="mb-4 text-3xl font-black tracking-tight text-gold-600 sm:mb-6 sm:text-4xl md:text-5xl">SYNC</div>
             <div className="space-y-3">
               {["同期", "繋がり", "チームワーク", "テクノロジーの融合"].map((w) => (
                 <div key={w} className="flex items-center gap-3">
@@ -83,7 +83,7 @@ export default function BrandMeaning() {
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.5 }}
-          className="mt-12 flex flex-col items-center gap-6"
+          className="mt-10 flex flex-col items-center gap-5 sm:mt-12 sm:gap-6"
         >
           <div className="flex items-center gap-3 text-stone-300 text-lg">
             <span className="w-12 h-px bg-stone-200" />
@@ -91,9 +91,9 @@ export default function BrandMeaning() {
             <span className="w-12 h-px bg-stone-200" />
           </div>
 
-          <div className="rounded-2xl px-10 py-8 max-w-lg border border-shu-100 shadow-md bg-white">
-            <div className="text-5xl md:text-6xl font-black gradient-text mb-4 tracking-tight">NOVATYNC</div>
-            <p className="text-stone-500 text-base md:text-lg leading-relaxed italic">
+          <div className="max-w-lg rounded-2xl border border-shu-100 bg-white px-6 py-6 shadow-md sm:px-8 sm:py-7 md:px-10 md:py-8">
+            <div className="mb-3 text-4xl font-black tracking-tight gradient-text sm:mb-4 sm:text-5xl md:text-6xl">NOVATYNC</div>
+            <p className="text-sm italic leading-relaxed text-stone-500 sm:text-base md:text-lg">
               「革新を同期し、<br />人・企業・AIを繋ぐ。」
             </p>
             <p className="text-stone-400 text-xs mt-3 tracking-wider">— これが私たちのブランド名です。</p>

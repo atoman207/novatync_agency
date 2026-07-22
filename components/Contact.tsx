@@ -10,6 +10,8 @@ type FormData = {
   email: string;
   phone: string;
   message: string;
+  website: string;
+  formStartedAt: number;
 };
 
 export default function Contact() {
@@ -17,6 +19,7 @@ export default function Contact() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
 
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormData>();
 
@@ -27,7 +30,10 @@ export default function Contact() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          formStartedAt,
+        }),
       });
 
       const result = await response.json();
@@ -39,6 +45,7 @@ export default function Contact() {
 
       setSubmitted(true);
       reset();
+      setFormStartedAt(Date.now());
     } catch {
       setSubmitError("送信に失敗しました。しばらくしてから再度お試しください。");
     }
@@ -46,10 +53,10 @@ export default function Contact() {
 
   return (
     <section id="contact" className="section-padding relative bg-white">
-      <div ref={ref} className="relative z-10 max-w-2xl mx-auto px-6">
-        <div className="mb-12 text-center">
+      <div ref={ref} className="relative z-10 mx-auto max-w-2xl px-4 sm:px-6">
+        <div className="mb-10 text-center sm:mb-12">
           <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-shu-600 mb-4 uppercase">Contact</motion.p>
-          <motion.h2 initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.1 }} className="text-3xl md:text-5xl font-bold mb-4">
+          <motion.h2 initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.1 }} className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl md:text-5xl">
             Let&apos;s Build Together.
           </motion.h2>
           <motion.p initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }} className="text-stone-500 text-sm">
@@ -57,16 +64,25 @@ export default function Contact() {
           </motion.p>
         </div>
 
-        <div className="rounded-3xl border border-stone-200 bg-white p-8 shadow-lg md:p-10">
+        <div className="rounded-3xl border border-stone-200 bg-white p-5 shadow-lg sm:p-6 md:p-10">
           {submitted ? (
-            <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12">
-              <div className="w-16 h-16 rounded-2xl bg-shu-50 border border-shu-200 flex items-center justify-center mx-auto mb-4 text-3xl text-shu-600">✓</div>
-              <h3 className="text-sumi font-bold text-xl mb-2">送信完了しました</h3>
+            <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} className="py-10 text-center sm:py-12">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-shu-200 bg-shu-50 text-2xl text-shu-600 sm:h-16 sm:w-16 sm:text-3xl">✓</div>
+              <h3 className="mb-2 text-lg font-bold text-sumi sm:text-xl">送信完了しました</h3>
               <p className="text-stone-500 text-sm">お問い合わせいただきありがとうございます。<br />担当者より3営業日以内にご連絡いたします。</p>
               <button onClick={() => { setSubmitted(false); setSubmitError(""); }} className="mt-6 text-shu-600 text-sm hover:text-shu-700 transition-colors">別のお問い合わせをする →</button>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
+              <input
+                {...register("website")}
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                className="hidden"
+                aria-hidden="true"
+              />
+
               {[
                 { id: "company", label: "会社名",        placeholder: "NOVATYNC株式会社",    required: false },
                 { id: "name",    label: "担当者名",       placeholder: "山田 太郎",            required: true  },
@@ -84,7 +100,7 @@ export default function Contact() {
                     })}
                     type={field.type || "text"}
                     placeholder={field.placeholder}
-                    className="w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm text-sumi placeholder-stone-400 focus:border-shu-500 focus:outline-none focus:ring-2 focus:ring-shu-200 transition-all"
+                    className="w-full rounded-xl border border-stone-300 bg-white px-3.5 py-2.5 text-sm text-sumi placeholder-stone-400 transition-all focus:border-shu-500 focus:outline-none focus:ring-2 focus:ring-shu-200 sm:px-4 sm:py-3"
                   />
                   {errors[field.id as keyof FormData] && (
                     <p className="mt-1 text-xs text-rose-500">{errors[field.id as keyof FormData]?.message}</p>
@@ -97,10 +113,16 @@ export default function Contact() {
                   お問い合わせ内容 <span className="text-shu-600">*</span>
                 </label>
                 <textarea
-                  {...register("message", { required: "お問い合わせ内容は必須です" })}
+                  {...register("message", {
+                    required: "お問い合わせ内容は必須です",
+                    minLength: {
+                      value: 10,
+                      message: "お問い合わせ内容を10文字以上で入力してください",
+                    },
+                  })}
                   rows={5}
                   placeholder="プロジェクトの概要、ご要望などをご記入ください。"
-                  className="w-full resize-none rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm text-sumi placeholder-stone-400 focus:border-shu-500 focus:outline-none focus:ring-2 focus:ring-shu-200 transition-all"
+                  className="w-full resize-none rounded-xl border border-stone-300 bg-white px-3.5 py-2.5 text-sm text-sumi placeholder-stone-400 transition-all focus:border-shu-500 focus:outline-none focus:ring-2 focus:ring-shu-200 sm:px-4 sm:py-3"
                 />
                 {errors.message && <p className="mt-1 text-xs text-rose-500">{errors.message.message}</p>}
               </div>
@@ -114,7 +136,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="contact-submit-btn w-full rounded-xl bg-shu-700 py-4 text-sm font-semibold text-white shadow-md transition-colors hover:bg-shu-800 disabled:cursor-wait"
+                className="contact-submit-btn w-full rounded-xl bg-shu-700 py-3.5 text-sm font-semibold text-white shadow-md transition-colors hover:bg-shu-800 disabled:cursor-wait sm:py-4"
               >
                 <span className="flex items-center justify-center gap-2">
                   {isSubmitting ? (

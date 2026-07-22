@@ -19,18 +19,18 @@ export default function Footer() {
       {/* Top border accent */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
 
-      <div className="relative max-w-screen-2xl mx-auto px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+      <div className="relative mx-auto max-w-screen-2xl px-5 py-12 sm:px-6 sm:py-14 md:px-8 md:py-16">
+        <div className="mb-10 grid grid-cols-1 gap-8 md:mb-12 md:grid-cols-3 md:gap-12">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="mb-4 flex items-center gap-3">
               <Link href="/" className="flex items-center w-fit">
                 <Image
                   src="/logo.png"
                   alt="NOVATYNC"
                   width={160}
                   height={42}
-                  className="object-contain brightness-0 invert"
+                  className="h-8 w-auto object-contain brightness-0 invert sm:h-9"
                 />
               </Link>
               <span className="hanko" aria-hidden>信</span>
@@ -65,7 +65,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 sm:flex-row sm:pt-8">
           <p className="text-white/45 text-xs">© 2023 NOVATYNC Inc. All rights reserved.</p>
           <div className="flex gap-6">
             {["Privacy Policy", "Terms"].map((item) => (

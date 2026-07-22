@@ -35,25 +35,25 @@ export default function Hero() {
 
       <motion.div
         style={{ y }}
-        className="relative z-10 max-w-screen-2xl mx-auto px-8 pt-32 pb-24 w-full"
+        className="relative z-10 max-w-screen-2xl mx-auto w-full px-5 pt-26 pb-16 sm:px-6 sm:pt-28 sm:pb-20 md:px-8 md:pt-32 md:pb-24"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-6 items-center">
-          <div className="max-w-2xl flex flex-col gap-8">
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-6">
+          <div className="max-w-2xl flex flex-col gap-6 sm:gap-7 md:gap-8">
             {/* Badge */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <span className="inline-block glass-dark px-4 py-1.5 rounded-full text-xs tracking-widest text-gold-300 font-medium">
+              <span className="inline-block rounded-full glass-dark px-3 py-1.5 text-[10px] font-medium tracking-[0.22em] text-gold-300 sm:px-4 sm:text-xs sm:tracking-widest">
                 AI × Full Stack × Cloud Innovation
               </span>
             </motion.div>
 
             {/* Heading */}
             <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}>
-              <h1 className="text-5xl md:text-7xl font-bold leading-[1.06] tracking-tight">
+              <h1 className="text-4xl font-bold leading-[1.06] tracking-tight sm:text-5xl md:text-7xl">
                 <span className="gradient-text">Build the</span>
                 <br />
                 <span className="text-white">Future.</span>
               </h1>
-              <p className="text-lg md:text-xl font-light text-white mt-5 leading-relaxed">
+              <p className="mt-4 text-base font-light leading-relaxed text-white sm:mt-5 sm:text-lg md:text-xl">
                 AIが企業を変える。
                 <br />
                 <span className="text-white">私たちは、その未来を開発する。</span>
@@ -65,7 +65,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.2 }}
-              className="text-sm md:text-base text-white/85 leading-relaxed space-y-2 max-w-lg"
+              className="max-w-lg space-y-2 text-sm leading-relaxed text-white/85 md:text-base"
             >
               <p>NOVATYNCは、生成AI・Webシステム・クラウドを融合し、企業のDXを加速させるITパートナーです。</p>
               <p className="text-white">
@@ -78,17 +78,17 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-wrap gap-4"
+              className="flex flex-wrap gap-3 sm:gap-4"
             >
-              <Link href="/service" className="group relative px-7 py-3.5 rounded-xl text-sm font-medium text-white overflow-hidden">
+              <Link href="/service" className="group relative overflow-hidden rounded-xl px-5 py-3 text-sm font-medium text-white sm:px-7 sm:py-3.5">
                 <div className="absolute inset-0 gradient-border rounded-xl" />
                 <div className="absolute inset-[1px] bg-ai-900 rounded-[11px] group-hover:bg-shu-950 transition-colors" />
                 <span className="relative">サービスを見る</span>
               </Link>
-              <Link href="/works" className="px-7 py-3.5 rounded-xl text-sm font-medium text-white border border-white/35 hover:border-gold-300 hover:bg-white/10 transition-all">
+              <Link href="/works" className="rounded-xl border border-white/35 px-5 py-3 text-sm font-medium text-white transition-all hover:border-gold-300 hover:bg-white/10 sm:px-7 sm:py-3.5">
                 実績を見る
               </Link>
-              <Link href="/contact" className="px-7 py-3.5 rounded-xl text-sm font-semibold text-gold-200 hover:text-white transition-colors">
+              <Link href="/contact" className="rounded-xl px-3 py-3 text-sm font-semibold text-gold-200 transition-colors hover:text-white sm:px-4 sm:py-3.5">
                 お問い合わせ →
               </Link>
             </motion.div>
@@ -98,7 +98,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
-              className="flex items-center gap-3 text-xs text-white/60 tracking-widest"
+              className="flex items-center gap-2.5 text-[10px] tracking-[0.24em] text-white/60 sm:gap-3 sm:text-xs sm:tracking-widest"
             >
               <motion.div
                 animate={{ y: [0, 7, 0] }}
@@ -114,7 +114,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, delay: 0.25 }}
-            className="relative h-[420px] sm:h-[500px] lg:h-[640px] w-full overflow-visible"
+            className="relative h-[300px] w-full overflow-visible sm:h-[420px] lg:h-[640px]"
           >
             <HeroSphereClient />
           </motion.div>

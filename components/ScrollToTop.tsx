@@ -43,9 +43,11 @@ export default function ScrollToTop() {
           transition={{ duration: 0.22 }}
           onClick={scrollToTop}
           aria-label="ページトップへ戻る"
-          className="fixed bottom-6 right-6 z-50 flex h-14 min-w-14 items-center justify-center rounded-full border border-shu-200 bg-white px-5 text-sm font-semibold tracking-wide text-shu-700 shadow-lg shadow-shu-100 transition hover:border-shu-300 hover:bg-shu-50"
+          className="fixed bottom-4 right-4 z-50 flex h-12 min-w-12 items-center justify-center rounded-full border border-shu-200 bg-white px-4 text-sm font-semibold tracking-wide text-shu-700 shadow-lg shadow-shu-100 transition hover:border-shu-300 hover:bg-shu-50 sm:bottom-6 sm:right-6 sm:h-14 sm:min-w-14 sm:px-5"
         >
-          Top
+          <span aria-hidden="true" className="text-lg leading-none sm:text-xl">
+            ↑
+          </span>
         </motion.button>
       )}
     </AnimatePresence>

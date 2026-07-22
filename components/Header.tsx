@@ -33,7 +33,7 @@ export default function Header() {
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className="fixed top-0 left-0 right-0 z-50 bg-washi/95 backdrop-blur-sm border-b border-gold/25 shadow-sm"
       >
-        <div className="max-w-screen-2xl mx-auto px-8 h-20 flex items-center justify-between">
+        <div className="mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4 sm:h-18 sm:px-6 md:px-8 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center flex-shrink-0">
             <Image
@@ -41,7 +41,7 @@ export default function Header() {
               alt="NOVATYNC"
               width={180}
               height={48}
-              className="object-contain"
+              className="h-8 w-auto object-contain sm:h-9 md:h-10"
               priority
             />
           </Link>
@@ -69,7 +69,7 @@ export default function Header() {
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden flex flex-col gap-1.5 p-2"
+            className="flex flex-col gap-1.5 p-2 lg:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="メニュー"
           >
@@ -88,7 +88,7 @@ export default function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-washi flex flex-col items-center justify-center gap-8 lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-6 bg-washi px-6 lg:hidden"
           >
             {navItems.map((item, i) => (
               <motion.div
@@ -98,7 +98,7 @@ export default function Header() {
                 transition={{ delay: i * 0.06 }}
               >
                 <Link href={item.href} className="group flex flex-col items-center gap-1">
-                  <span className={`text-2xl font-light tracking-widest transition-colors ${
+                  <span className={`text-xl font-light tracking-[0.18em] transition-colors sm:text-2xl sm:tracking-widest ${
                     isActive(item.href) ? "text-shu-700" : "text-sumi group-hover:text-shu-700"
                   }`}>
                     {item.label}
@@ -110,7 +110,7 @@ export default function Header() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }}>
               <Link
                 href="/contact"
-                className="mt-4 px-8 py-3 rounded-full text-white text-sm font-medium bg-shu-600 hover:bg-shu-700 transition-colors"
+                className="mt-2 rounded-full bg-shu-600 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-shu-700 sm:mt-4 sm:px-8 sm:py-3"
               >
                 お問い合わせ
               </Link>

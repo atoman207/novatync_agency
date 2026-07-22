@@ -3,13 +3,17 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
+function lucide(name: string) {
+  return `https://cdn.jsdelivr.net/npm/lucide-static@0.469.0/icons/${name}.svg`;
+}
+
 const values = [
-  { title: "Innovation",          desc: "常に最先端技術を探求し、革新的なソリューションを提供します。",               icon: "⚡", border: "border-shu-100",     dot: "bg-shu-400",     from: "from-shu-50",    to: "to-white"  },
-  { title: "Quality",             desc: "世界基準のコード品質とデザインにこだわり続けます。",                           icon: "✦", border: "border-gold-200",    dot: "bg-gold-400",    from: "from-gold-50",   to: "to-white"  },
-  { title: "Trust",               desc: "お客様との長期的な信頼関係を何より大切にします。",                             icon: "◈", border: "border-ai-100",      dot: "bg-ai-400",      from: "from-ai-50",     to: "to-white"  },
-  { title: "Speed",               desc: "スタートアップの機動力でスピーディーに価値を届けます。",                       icon: "▸", border: "border-shu-100",     dot: "bg-shu-300",     from: "from-shu-50",    to: "to-white"  },
-  { title: "Ownership",           desc: "全員がオーナーシップを持ち、事業に責任感を持って取り組みます。",               icon: "◎", border: "border-emerald-100", dot: "bg-emerald-400", from: "from-emerald-50",to: "to-white"  },
-  { title: "Continuous Learning", desc: "技術は常に進化します。学び続けることが私たちの強みです。",                     icon: "∞", border: "border-ai-200",      dot: "bg-ai-500",      from: "from-ai-50",     to: "to-white"  },
+  { title: "Innovation",          desc: "常に最先端技術を探求し、革新的なソリューションを提供します。",               icon: lucide("zap"),            border: "border-shu-100",     from: "from-shu-50",    to: "to-white"  },
+  { title: "Quality",             desc: "世界基準のコード品質とデザインにこだわり続けます。",                           icon: lucide("badge-check"),    border: "border-gold-200",    from: "from-gold-50",   to: "to-white"  },
+  { title: "Trust",               desc: "お客様との長期的な信頼関係を何より大切にします。",                             icon: lucide("handshake"),      border: "border-ai-100",      from: "from-ai-50",     to: "to-white"  },
+  { title: "Speed",               desc: "スタートアップの機動力でスピーディーに価値を届けます。",                       icon: lucide("gauge"),          border: "border-shu-100",     from: "from-shu-50",    to: "to-white"  },
+  { title: "Ownership",           desc: "全員がオーナーシップを持ち、事業に責任感を持って取り組みます。",               icon: lucide("crown"),          border: "border-emerald-100", from: "from-emerald-50",to: "to-white"  },
+  { title: "Continuous Learning", desc: "技術は常に進化します。学び続けることが私たちの強みです。",                     icon: lucide("graduation-cap"), border: "border-ai-200",      from: "from-ai-50",     to: "to-white"  },
 ];
 
 export default function Mission() {
@@ -72,8 +76,16 @@ export default function Mission() {
                 transition={{ duration: 0.6, delay: 0.4 + i * 0.07 }}
                 className={`rounded-2xl border bg-white p-5 transition-all duration-300 hover:shadow-md sm:p-6 ${v.border}`}
               >
-                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${v.from} ${v.to} border ${v.border} flex items-center justify-center text-lg mb-4`}>
-                  {v.icon}
+                <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-xl border bg-gradient-to-br ${v.from} ${v.to} ${v.border}`}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={v.icon}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-5 w-5 object-contain opacity-80"
+                    style={{ filter: "invert(28%) sepia(42%) saturate(900%) hue-rotate(100deg) brightness(90%)" }}
+                    draggable={false}
+                  />
                 </div>
                 <h3 className="text-sumi font-semibold mb-2">{v.title}</h3>
                 <p className="text-stone-500 text-sm leading-relaxed">{v.desc}</p>

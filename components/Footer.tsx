@@ -23,7 +23,7 @@ export default function Footer() {
         <div className="mb-10 grid grid-cols-1 gap-8 md:mb-12 md:grid-cols-3 md:gap-12">
           {/* Brand */}
           <div>
-            <div className="mb-4 flex items-center gap-3">
+            <div className="mb-4 flex items-center">
               <Link href="/" className="flex items-center w-fit">
                 <Image
                   src="/logo.png"
@@ -33,7 +33,6 @@ export default function Footer() {
                   className="h-8 w-auto object-contain brightness-0 invert sm:h-9"
                 />
               </Link>
-              <span className="hanko" aria-hidden>信</span>
             </div>
             <p className="text-white/70 text-sm leading-relaxed">
               Creating Tomorrow&apos;s Intelligence.<br />AI × Full Stack × Cloud Innovation

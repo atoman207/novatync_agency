@@ -4,10 +4,33 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import ServiceModal, { type ServiceDetail } from "./ServiceModal";
 
+function devicon(path: string) {
+  return `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${path}`;
+}
+
+function simpleIcon(slug: string, hex?: string) {
+  return `https://cdn.simpleicons.org/${slug}${hex ? `/${hex}` : ""}`;
+}
+
+function lucide(name: string) {
+  return `https://cdn.jsdelivr.net/npm/lucide-static@0.469.0/icons/${name}.svg`;
+}
+
+/** OpenAI's mark ships colorless from third-party CDNs, so it's inlined here. */
+function OpenAIMark({ size = 18 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="#74AA9C" style={{ display: "block" }}>
+      <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" />
+    </svg>
+  );
+}
+
+type StackIcon = { name: string; src?: string; isOpenAI?: boolean; wide?: boolean };
+
 type Service = ServiceDetail & {
   description: string;
-  tags: string[];
-  icon: React.ReactNode;
+  stacks: StackIcon[];
+  iconSrc: string;
   tagAccent: string;
   tagBg: string;
   tagBorder: string;
@@ -21,8 +44,15 @@ const services: Service[] = [
     overview: "ChatGPT・Claude・Geminiなどの最新LLMを活用し、RAGシステム・AIエージェント・カスタムモデルの開発・統合を行います。PoC（概念実証）から本番環境まで一貫して対応します。",
     steps: ["要件定義・PoC設計", "LLM選定・アーキテクチャ設計", "RAG／ファインチューニング実装", "本番システムへの統合", "モニタリング・継続改善"],
     features: ["RAGシステム構築", "AIエージェント開発", "Fine-tuning", "プロンプトエンジニアリング", "ベクトルDB設計", "MLOps構築", "LLM評価基盤"],
-    tags: ["ChatGPT", "LLM", "RAG", "OpenAI", "Claude", "Gemini", "Agent"],
-    icon: (<svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>),
+    stacks: [
+      { name: "OpenAI", isOpenAI: true },
+      { name: "Claude", src: simpleIcon("anthropic", "D4A27F") },
+      { name: "Gemini", src: simpleIcon("googlegemini", "8E75F0") },
+      { name: "LangChain", src: simpleIcon("langchain") },
+      { name: "Hugging Face", src: simpleIcon("huggingface", "FFD21E") },
+      { name: "Python", src: devicon("python/python-original.svg") },
+    ],
+    iconSrc: lucide("sparkles"),
     accent: "text-shu-600",
     border: "border-shu-100",
     threeColor: "#16a34a",
@@ -35,8 +65,15 @@ const services: Service[] = [
     overview: "React・Next.jsをはじめとするモダンフレームワークを軸に、フロントエンドからバックエンドAPIまでフルスタックで開発します。Core Web Vitals・SEO・アクセシビリティを高い基準で実装します。",
     steps: ["要件定義・技術選定", "UI/UXデザイン", "フロントエンド開発", "バックエンドAPI開発", "テスト・品質保証", "デプロイ・運用"],
     features: ["SPA / SSR / SSG", "API設計・開発", "DB設計", "E2Eテスト", "パフォーマンス最適化", "SEO対策", "アクセシビリティ対応"],
-    tags: ["React", "Next.js", "Vue", "Nuxt", "Laravel", "Node.js"],
-    icon: (<svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" /></svg>),
+    stacks: [
+      { name: "React", src: devicon("react/react-original.svg") },
+      { name: "Next.js", src: simpleIcon("nextdotjs", "000000") },
+      { name: "Vue", src: devicon("vuejs/vuejs-original.svg") },
+      { name: "Nuxt", src: devicon("nuxtjs/nuxtjs-original.svg") },
+      { name: "Laravel", src: devicon("laravel/laravel-original.svg") },
+      { name: "Node.js", src: devicon("nodejs/nodejs-original.svg") },
+    ],
+    iconSrc: lucide("code-xml"),
     accent: "text-gold-700",
     border: "border-gold-200",
     threeColor: "#84cc16",
@@ -49,8 +86,15 @@ const services: Service[] = [
     overview: "AWS・Azureを中心にクラウドネイティブなインフラを設計・構築します。Terraformを用いたIaC化、Dockerコンテナ化、GitHub ActionsによるCI/CDパイプラインで安定した運用体制を確立します。",
     steps: ["現状分析・要件定義", "アーキテクチャ設計", "IaC実装（Terraform）", "CI/CDパイプライン構築", "監視・アラート設定", "移行・本番展開"],
     features: ["AWS / Azure設計", "Terraform IaC", "Docker / Kubernetes", "CI/CD構築", "コスト最適化", "セキュリティ設計", "障害対応体制"],
-    tags: ["AWS", "Azure", "Docker", "Terraform", "CI/CD", "Kubernetes"],
-    icon: (<svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" /></svg>),
+    stacks: [
+      { name: "AWS", src: devicon("amazonwebservices/amazonwebservices-original-wordmark.svg"), wide: true },
+      { name: "Azure", src: devicon("azure/azure-original.svg") },
+      { name: "Docker", src: devicon("docker/docker-original.svg") },
+      { name: "Terraform", src: devicon("terraform/terraform-original.svg") },
+      { name: "Kubernetes", src: devicon("kubernetes/kubernetes-plain.svg") },
+      { name: "GitHub Actions", src: simpleIcon("githubactions", "2088FF") },
+    ],
+    iconSrc: lucide("cloud"),
     accent: "text-ai-600",
     border: "border-ai-100",
     threeColor: "#10b981",
@@ -63,8 +107,14 @@ const services: Service[] = [
     overview: "FlutterおよびReact Nativeを使用し、iOS・Android両対応のクロスプラットフォームアプリを開発します。ネイティブ品質のUXと高いパフォーマンスを両立させます。",
     steps: ["要件定義・画面設計", "UIデザイン", "クロスプラットフォーム開発", "テスト（iOS / Android）", "ストア申請・リリース", "運用・アップデート対応"],
     features: ["Flutter / React Native", "Push通知", "オフライン対応", "In-App Purchase", "ストア申請サポート", "パフォーマンス最適化"],
-    tags: ["Flutter", "React Native", "iOS", "Android"],
-    icon: (<svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>),
+    stacks: [
+      { name: "Flutter", src: devicon("flutter/flutter-original.svg") },
+      { name: "React Native", src: devicon("react/react-original.svg") },
+      { name: "Expo", src: simpleIcon("expo", "000020") },
+      { name: "iOS", src: devicon("apple/apple-original.svg") },
+      { name: "Android", src: devicon("android/android-original.svg") },
+    ],
+    iconSrc: lucide("smartphone"),
     accent: "text-emerald-600",
     border: "border-emerald-100",
     threeColor: "#34d399",
@@ -77,8 +127,14 @@ const services: Service[] = [
     overview: "Figmaを軸にしたデザインシステムの構築から、ユーザーリサーチ・プロトタイピング・ユーザビリティテストまで包括的に対応します。アクセシビリティ（WCAG 2.1）準拠のデザインを提供します。",
     steps: ["ユーザーリサーチ", "情報アーキテクチャ設計", "ワイヤーフレーム作成", "UIデザイン・プロトタイプ", "ユーザビリティテスト", "デザインシステム納品"],
     features: ["Figmaデザインシステム", "プロトタイピング", "ユーザーリサーチ", "アクセシビリティ対応", "Storybook連携", "コンポーネントライブラリ"],
-    tags: ["Figma", "Design System", "Storybook", "Accessibility"],
-    icon: (<svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" /></svg>),
+    stacks: [
+      { name: "Figma", src: devicon("figma/figma-original.svg") },
+      { name: "Storybook", src: simpleIcon("storybook", "FF4785") },
+      { name: "Adobe XD", src: devicon("xd/xd-plain.svg") },
+      { name: "Sketch", src: devicon("sketch/sketch-original.svg") },
+      { name: "Illustrator", src: devicon("illustrator/illustrator-plain.svg") },
+    ],
+    iconSrc: lucide("palette"),
     accent: "text-teal-600",
     border: "border-teal-100",
     threeColor: "#4ade80",
@@ -91,8 +147,14 @@ const services: Service[] = [
     overview: "DX推進・技術アーキテクチャ設計・チーム組成支援・CTO支援まで、技術と事業を橋渡しするコンサルティングを提供します。単なる提案に留まらず、実行フェーズまで共に走ります。",
     steps: ["現状分析・課題定義", "技術戦略立案", "ロードマップ策定", "実行支援・チーム組成", "KPI設計・効果測定", "継続的な改善サポート"],
     features: ["DX推進支援", "技術アーキテクチャ設計", "CTO支援", "エンジニアチーム組成", "コードレビュー", "採用・育成支援", "技術選定コンサル"],
-    tags: ["DX", "Architecture", "Tech Lead", "CTO Support"],
-    icon: (<svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" /></svg>),
+    stacks: [
+      { name: "GitHub", src: simpleIcon("github", "181717") },
+      { name: "Notion", src: simpleIcon("notion", "000000") },
+      { name: "Jira", src: simpleIcon("jira", "0052CC") },
+      { name: "Miro", src: simpleIcon("miro", "050038") },
+      { name: "Slack", src: devicon("slack/slack-original.svg") },
+    ],
+    iconSrc: lucide("briefcase-business"),
     accent: "text-lime-600",
     border: "border-lime-100",
     threeColor: "#a3e635",
@@ -133,14 +195,38 @@ export default function Services() {
               className={`bg-white rounded-2xl p-7 border ${s.border} group hover:scale-[1.025] hover:shadow-lg transition-all duration-300 cursor-pointer`}
             >
               <div className={`w-11 h-11 rounded-xl bg-gradient-to-br from-stone-50 to-stone-100 border ${s.border} flex items-center justify-center mb-5 ${s.accent} group-hover:scale-110 transition-transform duration-300`}>
-                {s.icon}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={s.iconSrc}
+                  alt=""
+                  aria-hidden="true"
+                  className="h-5 w-5 object-contain opacity-80"
+                  style={{ filter: "invert(28%) sepia(42%) saturate(900%) hue-rotate(100deg) brightness(90%)" }}
+                  draggable={false}
+                />
               </div>
               <h3 className="text-sumi font-bold text-lg mb-1">{s.title}</h3>
               <p className="text-stone-400 text-[11px] mb-2 tracking-wide">{s.titleJa}</p>
               <p className="text-stone-500 text-sm leading-relaxed mb-5">{s.description}</p>
-              <div className="flex flex-wrap gap-1.5 mb-4">
-                {s.tags.map((tag) => (
-                  <span key={tag} className={`text-xs px-2.5 py-0.5 rounded-md ${s.tagBg} ${s.tagAccent} border ${s.tagBorder}`}>{tag}</span>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {s.stacks.map((stack) => (
+                  <span
+                    key={stack.name}
+                    title={stack.name}
+                    className={`flex h-9 w-9 items-center justify-center rounded-lg border ${s.tagBorder} ${s.tagBg} transition-transform hover:scale-110`}
+                  >
+                    {stack.isOpenAI ? (
+                      <OpenAIMark />
+                    ) : (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={stack.src}
+                        alt={stack.name}
+                        className={stack.wide ? "h-4 w-7 object-contain" : "h-5 w-5 object-contain"}
+                        draggable={false}
+                      />
+                    )}
+                  </span>
                 ))}
               </div>
               <div className={`text-xs ${s.accent} flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200`}>

@@ -10,10 +10,10 @@ const positions = [
     type: "正社員 / 業務委託",
     skills: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
     desc: "世界基準のUIを構築するフロントエンドエンジニアを募集しています。",
-    badgeBg: "bg-sky-50", badgeBorder: "border-sky-200", badgeText: "text-sky-600",
-    dot: "bg-sky-500",
-    border: "border-sky-100", hover: "hover:border-sky-300",
-    skillBg: "bg-sky-50", skillText: "text-sky-600",
+    badgeBg: "bg-shu-50", badgeBorder: "border-shu-200", badgeText: "text-shu-700",
+    dot: "bg-shu-500",
+    border: "border-shu-100", hover: "hover:border-shu-300",
+    skillBg: "bg-shu-50", skillText: "text-shu-700",
   },
   {
     role: "Backend Engineer",
@@ -30,20 +30,20 @@ const positions = [
     type: "正社員 / 業務委託",
     skills: ["LLM", "RAG", "OpenAI", "Python"],
     desc: "生成AIを事業へ統合するAIエンジニアを募集しています。",
-    badgeBg: "bg-cyan-50", badgeBorder: "border-cyan-200", badgeText: "text-cyan-600",
-    dot: "bg-cyan-500",
-    border: "border-cyan-100", hover: "hover:border-cyan-300",
-    skillBg: "bg-cyan-50", skillText: "text-cyan-600",
+    badgeBg: "bg-gold-50", badgeBorder: "border-gold-200", badgeText: "text-gold-700",
+    dot: "bg-gold-500",
+    border: "border-gold-200", hover: "hover:border-gold-400",
+    skillBg: "bg-gold-50", skillText: "text-gold-700",
   },
   {
     role: "Cloud Engineer",
     type: "正社員 / 業務委託",
     skills: ["AWS", "Azure", "Terraform", "Docker"],
     desc: "クラウドインフラの設計・運用を担当するエンジニアを募集しています。",
-    badgeBg: "bg-blue-50", badgeBorder: "border-blue-200", badgeText: "text-blue-600",
-    dot: "bg-blue-500",
-    border: "border-blue-100", hover: "hover:border-blue-300",
-    skillBg: "bg-blue-50", skillText: "text-blue-600",
+    badgeBg: "bg-ai-50", badgeBorder: "border-ai-200", badgeText: "text-ai-700",
+    dot: "bg-ai-500",
+    border: "border-ai-100", hover: "hover:border-ai-300",
+    skillBg: "bg-ai-50", skillText: "text-ai-700",
   },
   {
     role: "UI/UX Designer",
@@ -65,11 +65,11 @@ export default function Career() {
     <section id="career" className="section-padding relative bg-white">
       <div ref={ref} className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="mb-16 text-center">
-          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-sky-500 mb-4 uppercase">Career</motion.p>
+          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-shu-600 mb-4 uppercase">Career</motion.p>
           <motion.h2 initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.1 }} className="text-3xl md:text-5xl font-bold mb-4">
             Join Us.
           </motion.h2>
-          <motion.p initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }} className="text-slate-500 text-sm md:text-base">
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }} className="text-stone-500 text-sm md:text-base">
             未来を一緒につくる仲間を募集しています。
           </motion.p>
         </div>
@@ -87,8 +87,8 @@ export default function Career() {
                 <span className={`w-1.5 h-1.5 rounded-full ${pos.dot}`} />
                 {pos.type}
               </div>
-              <h3 className="text-slate-900 font-bold text-lg mb-2">{pos.role}</h3>
-              <p className="text-slate-500 text-sm leading-relaxed mb-4">{pos.desc}</p>
+              <h3 className="text-sumi font-bold text-lg mb-2">{pos.role}</h3>
+              <p className="text-stone-500 text-sm leading-relaxed mb-4">{pos.desc}</p>
               <div className="flex flex-wrap gap-1.5">
                 {pos.skills.map((sk) => (
                   <span key={sk} className={`text-xs px-2 py-0.5 rounded border border-transparent ${pos.skillBg} ${pos.skillText}`}>{sk}</span>
@@ -106,7 +106,7 @@ export default function Career() {
         >
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-xl bg-sky-700 px-8 py-4 text-sm font-semibold text-white shadow-md transition-colors hover:bg-sky-800"
+            className="inline-flex items-center gap-2 rounded-xl bg-shu-700 px-8 py-4 text-sm font-semibold text-white shadow-md transition-colors hover:bg-shu-800"
           >
             応募・お問い合わせ
             <span className="transition-transform group-hover:translate-x-1">→</span>

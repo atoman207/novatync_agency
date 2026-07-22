@@ -3,7 +3,7 @@ import PageHeader from "@/components/PageHeader";
 import Career from "@/components/Career";
 
 export const metadata: Metadata = {
-  title: "採用情報 | NOVATYNC",
+  title: "採用情報",
   description: "NOVATYNCで一緒に未来を創る仲間を募集しています。フロントエンド・バックエンド・AI・クラウドエンジニア募集中。",
 };
 

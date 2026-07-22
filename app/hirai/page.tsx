@@ -1,7 +1,7 @@
 import HiraiAdmin from "@/components/HiraiAdmin";
 
 export const metadata = {
-  title: "Hirai Admin | NOVATYNC",
+  title: "Hirai Admin",
   robots: {
     index: false,
     follow: false,

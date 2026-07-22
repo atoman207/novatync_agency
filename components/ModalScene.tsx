@@ -75,7 +75,7 @@ interface ModalSceneProps {
   color?: string;
 }
 
-export default function ModalScene({ color = "#38bdf8" }: ModalSceneProps) {
+export default function ModalScene({ color = "#34d17f" }: ModalSceneProps) {
   const rings: RingProps[] = [
     { radius: 2.4, tube: 0.007, speed: 1.0, color, initRot: [0.4,  0.6,  0.0], opacity: 0.6  },
     { radius: 1.7, tube: 0.005, speed: 1.6, color, initRot: [-0.3, 0.9,  0.4], opacity: 0.4  },

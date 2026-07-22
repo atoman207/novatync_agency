@@ -5,7 +5,7 @@ import { getPortfolioFromDb } from "@/lib/portfolio/db";
 import { buildPortfolioData } from "@/lib/portfolio/utils";
 
 export const metadata: Metadata = {
-  title: "実績・事例 | NOVATYNC",
+  title: "実績・事例",
   description: "NOVATYNCがこれまでに制作したプロジェクトを、スタック別にご紹介します。",
 };
 

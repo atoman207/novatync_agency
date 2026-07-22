@@ -13,7 +13,7 @@ export type ServiceDetail = {
   steps: string[];
   features: string[];
   threeColor: string;
-  accent: string;   // Tailwind text class e.g. "text-sky-600"
+  accent: string;   // Tailwind text class e.g. "text-shu-600"
   border: string;   // Tailwind border class
 };
 
@@ -51,7 +51,7 @@ export default function ServiceModal({ service, onClose }: Props) {
           onClick={onClose}
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-xl" />
+          <div className="absolute inset-0 bg-ai-900/80 backdrop-blur-xl" />
 
           {/* Three.js canvas */}
           <div className="absolute inset-0 opacity-25 pointer-events-none">
@@ -65,13 +65,13 @@ export default function ServiceModal({ service, onClose }: Props) {
             animate={{ scale: 1,    y: 0,  opacity: 1 }}
             exit={{    scale: 0.88, y: 24, opacity: 0 }}
             transition={{ type: "spring", damping: 28, stiffness: 320 }}
-            className="relative w-full max-w-2xl max-h-[88vh] overflow-y-auto rounded-3xl bg-white border border-slate-200 shadow-2xl"
+            className="relative w-full max-w-2xl max-h-[88vh] overflow-y-auto rounded-3xl bg-white border border-stone-200 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-all z-10"
+              className="absolute top-5 right-5 w-9 h-9 rounded-full bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-400 hover:text-sumi hover:bg-stone-200 transition-all z-10"
               aria-label="閉じる"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-4 h-4">
@@ -85,19 +85,19 @@ export default function ServiceModal({ service, onClose }: Props) {
                 <span className={`text-xs tracking-[0.3em] uppercase font-medium ${service.accent} mb-2 block`}>
                   {service.titleJa}
                 </span>
-                <h2 className="text-2xl md:text-3xl font-bold text-slate-900">{service.title}</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-sumi">{service.title}</h2>
               </div>
 
               {/* Overview */}
-              <div className={`rounded-2xl p-6 mb-8 bg-sky-50 border ${service.border}`}>
-                <p className="text-slate-600 text-sm md:text-base leading-relaxed">{service.overview}</p>
+              <div className={`rounded-2xl p-6 mb-8 bg-shu-50 border ${service.border}`}>
+                <p className="text-stone-600 text-sm md:text-base leading-relaxed">{service.overview}</p>
               </div>
 
               {/* Process */}
               <div className="mb-8">
-                <h3 className="text-xs tracking-widest text-slate-400 uppercase mb-4">プロセス</h3>
+                <h3 className="text-xs tracking-widest text-stone-400 uppercase mb-4">プロセス</h3>
                 <div className="relative">
-                  <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-sky-400/50 via-sky-300/30 to-transparent" />
+                  <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-shu-400/50 via-gold-300/30 to-transparent" />
                   <div className="space-y-4 pl-10">
                     {service.steps.map((step, i) => (
                       <motion.div
@@ -107,10 +107,10 @@ export default function ServiceModal({ service, onClose }: Props) {
                         transition={{ delay: 0.15 + i * 0.07 }}
                         className="flex items-center gap-3"
                       >
-                        <div className="absolute left-[11px] w-3.5 h-3.5 rounded-full bg-sky-100 border border-sky-300 flex items-center justify-center">
-                          <div className="w-1 h-1 rounded-full bg-sky-500" />
+                        <div className="absolute left-[11px] w-3.5 h-3.5 rounded-full bg-shu-100 border border-shu-300 flex items-center justify-center">
+                          <div className="w-1 h-1 rounded-full bg-shu-500" />
                         </div>
-                        <span className="text-sm text-slate-600">{step}</span>
+                        <span className="text-sm text-stone-600">{step}</span>
                       </motion.div>
                     ))}
                   </div>
@@ -119,7 +119,7 @@ export default function ServiceModal({ service, onClose }: Props) {
 
               {/* Features */}
               <div>
-                <h3 className="text-xs tracking-widest text-slate-400 uppercase mb-4">対応範囲</h3>
+                <h3 className="text-xs tracking-widest text-stone-400 uppercase mb-4">対応範囲</h3>
                 <div className="flex flex-wrap gap-2">
                   {service.features.map((f, i) => (
                     <motion.span
@@ -127,7 +127,7 @@ export default function ServiceModal({ service, onClose }: Props) {
                       initial={{ opacity: 0, scale: 0.85 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.25 + i * 0.04 }}
-                      className={`text-xs px-3 py-1.5 rounded-full bg-sky-50 border ${service.border} ${service.accent}`}
+                      className={`text-xs px-3 py-1.5 rounded-full bg-shu-50 border ${service.border} ${service.accent}`}
                     >
                       {f}
                     </motion.span>
@@ -136,11 +136,11 @@ export default function ServiceModal({ service, onClose }: Props) {
               </div>
 
               {/* CTA */}
-              <div className="mt-8 pt-6 border-t border-slate-100">
+              <div className="mt-8 pt-6 border-t border-stone-100">
                 <a
                   href="/contact"
                   onClick={onClose}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 transition-colors shadow-sm"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium text-white bg-shu-600 hover:bg-shu-700 transition-colors shadow-sm"
                 >
                   このサービスについて相談する
                   <span className="transition-transform group-hover:translate-x-0.5">→</span>

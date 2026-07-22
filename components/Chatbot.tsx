@@ -36,9 +36,9 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
             transition={{ duration: 0.22 }}
-            className="mb-4 w-[min(92vw,340px)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
+            className="mb-4 w-[min(92vw,340px)] overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-2xl"
           >
-            <div className="bg-gradient-to-r from-sky-600 to-cyan-500 px-5 py-4 text-white">
+            <div className="bg-gradient-to-r from-shu-700 to-gold-600 px-5 py-4 text-white">
               <p className="text-sm font-semibold">NOVATYNC Assistant</p>
               <p className="mt-1 text-xs text-white/85">
                 ご質問やご相談はこちらからどうぞ。
@@ -46,7 +46,7 @@ export default function Chatbot() {
             </div>
 
             <div className="space-y-3 px-5 py-4">
-              <div className="rounded-2xl rounded-tl-sm bg-slate-100 px-4 py-3 text-sm leading-relaxed text-slate-700">
+              <div className="rounded-2xl rounded-tl-sm bg-stone-100 px-4 py-3 text-sm leading-relaxed text-stone-700">
                 こんにちは。NOVATYNCのサポートです。
                 <br />
                 サービス内容やお問い合わせ方法をご案内します。
@@ -58,7 +58,7 @@ export default function Chatbot() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1.5 text-xs font-medium text-sky-700 transition hover:bg-sky-100"
+                    className="rounded-full border border-shu-200 bg-shu-50 px-3 py-1.5 text-xs font-medium text-shu-700 transition hover:bg-shu-100"
                   >
                     {item.label}
                   </Link>
@@ -66,11 +66,11 @@ export default function Chatbot() {
               </div>
             </div>
 
-            <div className="border-t border-slate-100 px-4 py-3">
+            <div className="border-t border-stone-100 px-4 py-3">
               <Link
                 href="/contact"
                 onClick={() => setOpen(false)}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-sky-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-sky-700"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-shu-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-shu-700"
               >
                 お問い合わせフォームへ
                 <span aria-hidden>→</span>
@@ -85,7 +85,7 @@ export default function Chatbot() {
         onClick={() => setOpen((value) => !value)}
         aria-label={open ? "チャットを閉じる" : "チャットを開く"}
         aria-expanded={open}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-600 text-white shadow-lg shadow-sky-600/30 transition hover:bg-sky-700 hover:shadow-xl"
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-shu-600 text-white shadow-lg shadow-shu-600/30 transition hover:bg-shu-700 hover:shadow-xl"
       >
         {open ? (
           <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">

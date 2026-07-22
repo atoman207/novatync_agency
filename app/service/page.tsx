@@ -3,7 +3,7 @@ import PageHeader from "@/components/PageHeader";
 import Services from "@/components/Services";
 
 export const metadata: Metadata = {
-  title: "サービス | NOVATYNC",
+  title: "サービス",
   description: "AI開発・Web開発・クラウド・モバイル・UI/UX・コンサルティング。NOVATYNCが提供する6つのサービス。",
 };
 

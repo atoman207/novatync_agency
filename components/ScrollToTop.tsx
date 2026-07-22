@@ -43,7 +43,7 @@ export default function ScrollToTop() {
           transition={{ duration: 0.22 }}
           onClick={scrollToTop}
           aria-label="ページトップへ戻る"
-          className="fixed bottom-6 right-6 z-50 flex h-14 min-w-14 items-center justify-center rounded-full border border-sky-200 bg-white px-5 text-sm font-semibold tracking-wide text-sky-700 shadow-lg shadow-sky-100 transition hover:border-sky-300 hover:bg-sky-50"
+          className="fixed bottom-6 right-6 z-50 flex h-14 min-w-14 items-center justify-center rounded-full border border-shu-200 bg-white px-5 text-sm font-semibold tracking-wide text-shu-700 shadow-lg shadow-shu-100 transition hover:border-shu-300 hover:bg-shu-50"
         >
           Top
         </motion.button>

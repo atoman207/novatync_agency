@@ -19,14 +19,14 @@ export default function CompanyInfo() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section className="section-padding relative overflow-hidden bg-slate-50">
+    <section className="section-padding relative overflow-hidden bg-washi-deep">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-sky-50 rounded-full blur-[100px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-shu-50 rounded-full blur-[100px]" />
       </div>
 
       <div ref={ref} className="max-w-3xl mx-auto px-6">
         <div className="text-center mb-12">
-          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-sky-500 mb-4 uppercase">Company</motion.p>
+          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-shu-600 mb-4 uppercase">Company</motion.p>
           <motion.h2 initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.1 }} className="text-3xl md:text-4xl font-bold">
             会社概要
           </motion.h2>
@@ -36,7 +36,7 @@ export default function CompanyInfo() {
           initial={{ opacity: 0, y: 36 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"
+          className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden"
         >
           {rows.map((row, i) => (
             <motion.div
@@ -44,12 +44,12 @@ export default function CompanyInfo() {
               initial={{ opacity: 0, x: -16 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.25 + i * 0.055 }}
-              className={`flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-8 px-6 py-4 hover:bg-sky-50 transition-colors ${
-                i < rows.length - 1 ? "border-b border-slate-100" : ""
+              className={`flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-8 px-6 py-4 hover:bg-shu-50 transition-colors ${
+                i < rows.length - 1 ? "border-b border-stone-100" : ""
               }`}
             >
-              <span className="text-slate-400 text-xs tracking-wider w-24 flex-shrink-0 uppercase font-medium">{row.label}</span>
-              <span className="text-slate-800 text-sm">{row.value}</span>
+              <span className="text-stone-400 text-xs tracking-wider w-24 flex-shrink-0 uppercase font-medium">{row.label}</span>
+              <span className="text-stone-800 text-sm">{row.value}</span>
             </motion.div>
           ))}
         </motion.div>

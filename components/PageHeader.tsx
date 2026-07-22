@@ -11,10 +11,10 @@ interface Props {
 
 export default function PageHeader({ en, ja, desc }: Props) {
   return (
-    <section className="page-header relative pt-36 pb-14 overflow-hidden bg-white grid-bg" data-hero-section>
+    <section className="page-header relative pt-36 pb-14 overflow-hidden bg-washi grid-bg" data-hero-section>
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-sky-100/60 rounded-full blur-[140px]" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-shu-100/50 rounded-full blur-[140px]" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6">
@@ -23,11 +23,11 @@ export default function PageHeader({ en, ja, desc }: Props) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="flex items-center gap-2 text-[11px] text-slate-400 mb-10 tracking-wider"
+          className="flex items-center gap-2 text-[11px] text-stone-400 mb-10 tracking-wider"
         >
-          <Link href="/" className="hover:text-slate-700 transition-colors">HOME</Link>
-          <span className="text-slate-300">/</span>
-          <span className="text-sky-500">{en.toUpperCase()}</span>
+          <Link href="/" className="hover:text-sumi transition-colors">HOME</Link>
+          <span className="text-stone-300">/</span>
+          <span className="text-shu-600">{en.toUpperCase()}</span>
         </motion.nav>
 
         {/* Eyebrow */}
@@ -35,7 +35,7 @@ export default function PageHeader({ en, ja, desc }: Props) {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.06 }}
-          className="text-[11px] tracking-[0.3em] text-sky-500 mb-4 uppercase font-medium"
+          className="text-[11px] tracking-[0.3em] text-shu-600 mb-4 uppercase font-medium"
         >
           {en}
         </motion.p>
@@ -45,7 +45,7 @@ export default function PageHeader({ en, ja, desc }: Props) {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-          className="text-5xl md:text-7xl font-bold text-slate-900 tracking-tight leading-[1.05] mb-5"
+          className="text-5xl md:text-7xl font-bold text-sumi tracking-tight leading-[1.05] mb-5"
         >
           {ja}
         </motion.h1>
@@ -55,7 +55,7 @@ export default function PageHeader({ en, ja, desc }: Props) {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.22 }}
-            className="text-slate-500 text-base md:text-lg max-w-2xl leading-relaxed"
+            className="text-stone-500 text-base md:text-lg max-w-2xl leading-relaxed"
           >
             {desc}
           </motion.p>

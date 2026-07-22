@@ -1,20 +1,30 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import {
   buildContactEmailHtml,
   buildContactEmailText,
   validateContactPayload,
 } from "@/lib/contact-email";
 
-function getResendClient() {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return null;
-  return new Resend(apiKey);
+function getSmtpTransport() {
+  const host = process.env.SMTP_HOST;
+  const port = process.env.SMTP_PORT;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+
+  if (!host || !port || !user || !pass) return null;
+
+  return nodemailer.createTransport({
+    host,
+    port: Number(port),
+    secure: Number(port) === 465,
+    auth: { user, pass },
+  });
 }
 
 export async function POST(request: Request) {
-  const resend = getResendClient();
-  if (!resend) {
+  const transport = getSmtpTransport();
+  if (!transport) {
     return NextResponse.json(
       { error: "メール送信の設定が完了していません。" },
       { status: 500 }
@@ -30,40 +40,20 @@ export async function POST(request: Request) {
     }
 
     const payload = validated.data;
-    const to = process.env.CONTACT_TO_EMAIL ?? "info@novatync.agency";
-    const from =
-      process.env.CONTACT_FROM_EMAIL ?? "NOVATYNC <onboarding@resend.dev>";
+    const to = process.env.CONTACT_EMAIL_TO ?? "info@novatync.agency";
+    const from = `"NOVATYNC" <${process.env.SMTP_USER}>`;
     const subject = `【NOVATYNC】お問い合わせ: ${payload.name}`;
 
-    const { data, error } = await resend.emails.send({
+    await transport.sendMail({
       from,
-      to: [to],
+      to,
       replyTo: payload.email,
       subject,
       html: buildContactEmailHtml(payload),
       text: buildContactEmailText(payload),
     });
 
-    if (error) {
-      console.error("Resend error:", error);
-      const resendMessage =
-        typeof error.message === "string" ? error.message : "Unknown Resend error";
-      const normalizedMessage = resendMessage.toLowerCase();
-
-      const userMessage =
-        normalizedMessage.includes("verify") ||
-        normalizedMessage.includes("domain") ||
-        normalizedMessage.includes("sender")
-          ? "送信元メールアドレスの設定が未完了です。Resendで`novatync.agency`のドメイン認証と`CONTACT_FROM_EMAIL`を確認してください。"
-          : `メール送信エラー: ${resendMessage}`;
-
-      return NextResponse.json(
-        { error: userMessage },
-        { status: 502 }
-      );
-    }
-
-    return NextResponse.json({ ok: true, id: data?.id });
+    return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Contact API error:", error);
     const message = error instanceof Error ? error.message : "Unknown error";

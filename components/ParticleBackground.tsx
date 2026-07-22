@@ -13,9 +13,9 @@ function StarField() {
     const positions = new Float32Array(COUNT * 3);
     const colors = new Float32Array(COUNT * 3);
 
-    const skyBlue = new THREE.Color("#38bdf8");
-    const cyan = new THREE.Color("#22d3ee");
-    const white = new THREE.Color("#e8f4ff");
+    const skyBlue = new THREE.Color("#34d17f");
+    const cyan = new THREE.Color("#84cc16");
+    const white = new THREE.Color("#eafff1");
 
     for (let i = 0; i < COUNT; i++) {
       // Spread across a wide 3-D volume
@@ -111,8 +111,8 @@ export function ParticleScene() {
       dpr={[0.6, 1]}
     >
       <StarField />
-      <NebulaCloud position={[-8,  4, -5]} color="#0ea5e9" />
-      <NebulaCloud position={[ 8, -3, -6]} color="#22d3ee" />
+      <NebulaCloud position={[-8,  4, -5]} color="#16a34a" />
+      <NebulaCloud position={[ 8, -3, -6]} color="#84cc16" />
     </Canvas>
   );
 }

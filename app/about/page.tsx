@@ -4,7 +4,7 @@ import About from "@/components/About";
 import CompanyInfo from "@/components/CompanyInfo";
 
 export const metadata: Metadata = {
-  title: "会社概要 | NOVATYNC",
+  title: "会社概要",
   description: "NOVATYNCの会社情報、チームメンバー、CEOメッセージ。AI・フルスタック・クラウドの少数精鋭チーム。",
 };
 

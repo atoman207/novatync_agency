@@ -1,15 +1,97 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #1e293b;
-  --accent: #0ea5e9;
-  --accent-2: #38bdf8;
+  /* ---- washi paper (green-tinted) / midori ink ---- */
+  --background: #f3f8f4;
+  --foreground: #0f2418;
+
+  --washi: #f3f8f4;
+  --washi-deep: #e4efe7;
+  --sumi: #0f2418;
+  --gold: #65a30d;
+
+  /* ---- ai (deep forest green scale) — dark surfaces & primary ---- */
+  --ai-50:  #eef7f1;
+  --ai-100: #d6ecdd;
+  --ai-200: #aedcbe;
+  --ai-300: #7cc39a;
+  --ai-400: #4aa473;
+  --ai-500: #2c8354;
+  --ai-600: #1f6942;
+  --ai-700: #1a5335;
+  --ai-800: #16412b;
+  --ai-900: #0f2c1e;
+  --ai-950: #07160f;
+
+  /* ---- shu (vivid emerald accent scale) ---- */
+  --shu-50:  #ecfdf3;
+  --shu-100: #d1fadf;
+  --shu-200: #a7f3c6;
+  --shu-300: #6ee7a3;
+  --shu-400: #34d17f;
+  --shu-500: #17a34a;
+  --shu-600: #12813c;
+  --shu-700: #0f6631;
+  --shu-800: #0d5028;
+  --shu-900: #0a3d20;
+  --shu-950: #052e16;
+
+  /* ---- gold (lime / chartreuse accent scale) ---- */
+  --gold-50:  #f7fee7;
+  --gold-100: #ecfccb;
+  --gold-200: #d9f99d;
+  --gold-300: #bef264;
+  --gold-400: #a3e635;
+  --gold-500: #84cc16;
+  --gold-600: #65a30d;
+  --gold-700: #4d7c0f;
+  --gold-800: #3f6212;
+  --gold-900: #365314;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-washi: var(--washi);
+  --color-washi-deep: var(--washi-deep);
+  --color-sumi: var(--sumi);
+  --color-gold: var(--gold);
+
+  --color-ai-50: var(--ai-50);
+  --color-ai-100: var(--ai-100);
+  --color-ai-200: var(--ai-200);
+  --color-ai-300: var(--ai-300);
+  --color-ai-400: var(--ai-400);
+  --color-ai-500: var(--ai-500);
+  --color-ai-600: var(--ai-600);
+  --color-ai-700: var(--ai-700);
+  --color-ai-800: var(--ai-800);
+  --color-ai-900: var(--ai-900);
+  --color-ai-950: var(--ai-950);
+
+  --color-shu-50: var(--shu-50);
+  --color-shu-100: var(--shu-100);
+  --color-shu-200: var(--shu-200);
+  --color-shu-300: var(--shu-300);
+  --color-shu-400: var(--shu-400);
+  --color-shu-500: var(--shu-500);
+  --color-shu-600: var(--shu-600);
+  --color-shu-700: var(--shu-700);
+  --color-shu-800: var(--shu-800);
+  --color-shu-900: var(--shu-900);
+  --color-shu-950: var(--shu-950);
+
+  --color-gold-50: var(--gold-50);
+  --color-gold-100: var(--gold-100);
+  --color-gold-200: var(--gold-200);
+  --color-gold-300: var(--gold-300);
+  --color-gold-400: var(--gold-400);
+  --color-gold-500: var(--gold-500);
+  --color-gold-600: var(--gold-600);
+  --color-gold-700: var(--gold-700);
+  --color-gold-800: var(--gold-800);
+  --color-gold-900: var(--gold-900);
 }
 
 html {
@@ -17,14 +99,19 @@ html {
 }
 
 /* ========= TYPOGRAPHY ========= */
+:root {
+  --font-sans: "Noto Sans JP";
+  --font-serif: "Noto Serif JP";
+}
+
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif, "Noto Serif JP"), "Hiragino Mincho ProN", serif;
+  font-family: var(--font-serif), "Hiragino Mincho ProN", serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans, "Noto Sans JP"), -apple-system, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  font-family: var(--font-sans), -apple-system, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
   overflow-x: hidden;
 }
 
@@ -34,7 +121,7 @@ input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus {
-  -webkit-text-fill-color: #0f172a;
+  -webkit-text-fill-color: #1c1c1c;
   -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
   box-shadow: 0 0 0 1000px #ffffff inset;
   transition: background-color 9999s ease-in-out 0s;
@@ -47,34 +134,34 @@ textarea:-webkit-autofill:focus {
 }
 
 #contact .contact-submit-btn:disabled {
-  background-color: #0369a1;
+  background-color: var(--shu-700);
   color: #ffffff;
   opacity: 1;
 }
 
-/* Section h2 titles — light blue */
+/* Section h2 titles — vermillion */
 .section-padding h2 {
-  color: #0284c7;
+  color: var(--shu-600);
 }
 
-/* PageHeader h1 override — keep slate */
+/* PageHeader h1 override — sumi ink */
 .page-header h1 {
-  color: #0f172a;
+  color: var(--sumi);
 }
 
 /* ========= SCROLLBAR ========= */
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-track { background: var(--washi-deep); }
 ::-webkit-scrollbar-thumb {
-  background: rgba(14, 165, 233, 0.35);
+  background: rgba(23, 163, 74, 0.4);
   border-radius: 2px;
 }
 
 /* ========= GLASS ========= */
-/* Light glass card — white sections */
+/* Light glass card — washi sections */
 .glass {
   background: rgba(255, 255, 255, 0.97);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(28, 28, 28, 0.07);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.03);
@@ -82,22 +169,23 @@ textarea:-webkit-autofill:focus {
 
 /* Dark glass — hero/dark sections only */
 .glass-dark {
-  background: rgba(56, 189, 248, 0.06);
-  border: 1px solid rgba(56, 189, 248, 0.15);
+  background: rgba(52, 209, 127, 0.08);
+  border: 1px solid rgba(52, 209, 127, 0.28);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
 
 /* ========= GRADIENT ========= */
+/* midori (緑) gradient — emerald to lime to deep forest */
 .gradient-text {
-  background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 50%, #818cf8 100%);
+  background: linear-gradient(135deg, #34d17f 0%, #84cc16 50%, #12813c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-text-blue {
-  background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 100%);
+  background: linear-gradient(135deg, #a3e635 0%, #17a34a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -110,28 +198,74 @@ textarea:-webkit-autofill:focus {
 }
 
 .gradient-border {
-  background: linear-gradient(135deg, #0ea5e9, #22d3ee, #6366f1, #0ea5e9);
+  background: linear-gradient(135deg, #17a34a, #84cc16, #0f2c1e, #17a34a);
   background-size: 300% 300%;
   animation: gradient-border 4s ease infinite;
 }
 
 .glow-sky {
-  box-shadow: 0 0 40px rgba(56, 189, 248, 0.25), 0 0 80px rgba(56, 189, 248, 0.08);
+  box-shadow: 0 0 40px rgba(52, 209, 127, 0.22), 0 0 80px rgba(132, 204, 22, 0.1);
 }
 
 /* ========= GRID BACKGROUNDS ========= */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+    linear-gradient(rgba(28, 28, 28, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 28, 28, 0.035) 1px, transparent 1px);
   background-size: 64px 64px;
 }
 
 .grid-bg-dark {
   background-image:
-    linear-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(132, 204, 22, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(132, 204, 22, 0.07) 1px, transparent 1px);
   background-size: 64px 64px;
+}
+
+/* ========= WAFU PATTERNS ========= */
+/* Seigaiha (青海波) — nested wave pattern, used as a subtle textured backdrop */
+.seigaiha {
+  background-color: var(--washi);
+  background-image:
+    radial-gradient(circle at 50% 100%, transparent 20%, rgba(15, 44, 30, 0.08) 21%, rgba(15, 44, 30, 0.08) 34%, transparent 35%, transparent 40%, rgba(15, 44, 30, 0.08) 41%, rgba(15, 44, 30, 0.08) 54%, transparent 55%),
+    radial-gradient(circle at 0 100%, transparent 20%, rgba(15, 44, 30, 0.08) 21%, rgba(15, 44, 30, 0.08) 34%, transparent 35%, transparent 40%, rgba(15, 44, 30, 0.08) 41%, rgba(15, 44, 30, 0.08) 54%, transparent 55%),
+    radial-gradient(circle at 100% 100%, transparent 20%, rgba(15, 44, 30, 0.08) 21%, rgba(15, 44, 30, 0.08) 34%, transparent 35%, transparent 40%, rgba(15, 44, 30, 0.08) 41%, rgba(15, 44, 30, 0.08) 54%, transparent 55%);
+  background-size: 60px 30px;
+}
+
+.seigaiha-dark {
+  background-image:
+    radial-gradient(circle at 50% 100%, transparent 20%, rgba(132, 204, 22, 0.1) 21%, rgba(132, 204, 22, 0.1) 34%, transparent 35%, transparent 40%, rgba(132, 204, 22, 0.1) 41%, rgba(132, 204, 22, 0.1) 54%, transparent 55%),
+    radial-gradient(circle at 0 100%, transparent 20%, rgba(132, 204, 22, 0.1) 21%, rgba(132, 204, 22, 0.1) 34%, transparent 35%, transparent 40%, rgba(132, 204, 22, 0.1) 41%, rgba(132, 204, 22, 0.1) 54%, transparent 55%),
+    radial-gradient(circle at 100% 100%, transparent 20%, rgba(132, 204, 22, 0.1) 21%, rgba(132, 204, 22, 0.1) 34%, transparent 35%, transparent 40%, rgba(132, 204, 22, 0.1) 41%, rgba(132, 204, 22, 0.1) 54%, transparent 55%);
+  background-size: 60px 30px;
+}
+
+/* Thin gold hairline divider — 一線 */
+.hairline-gold {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold) 50%, transparent);
+  opacity: 0.55;
+}
+
+/* Hanko (判子) — vermillion seal-stamp accent */
+.hanko {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: var(--shu-600);
+  color: #fdf6ea;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 1px rgba(253, 246, 234, 0.25), 0 1px 3px rgba(0, 0, 0, 0.25);
+  font-family: var(--font-serif, "Noto Serif JP"), serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  line-height: 1;
+  writing-mode: vertical-rl;
+  letter-spacing: 0.05em;
 }
 
 /* ========= SPACING ========= */

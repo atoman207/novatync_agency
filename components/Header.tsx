@@ -31,7 +31,7 @@ export default function Header() {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 shadow-sm"
+        className="fixed top-0 left-0 right-0 z-50 bg-washi/95 backdrop-blur-sm border-b border-gold/25 shadow-sm"
       >
         <div className="max-w-screen-2xl mx-auto px-8 h-20 flex items-center justify-between">
           {/* Logo */}
@@ -41,7 +41,7 @@ export default function Header() {
               alt="NOVATYNC"
               width={180}
               height={48}
-              className="object-contain h-12 w-auto"
+              className="object-contain"
               priority
             />
           </Link>
@@ -55,13 +55,13 @@ export default function Header() {
                 className="nav-link group relative"
               >
                 <span className={`nav-label text-sm font-medium transition-colors duration-200 ${
-                  isActive(item.href) ? "text-sky-600" : "text-slate-500 group-hover:text-sky-600"
+                  isActive(item.href) ? "text-shu-700" : "text-stone-500 group-hover:text-shu-700"
                 }`}>
                   <span className="nav-label-en tracking-widest">{item.label}</span>
-                  <span className="nav-label-ja text-sky-500 font-medium">{item.ja}</span>
+                  <span className="nav-label-ja text-shu-600 font-medium">{item.ja}</span>
                 </span>
                 {isActive(item.href) && (
-                  <span className="absolute -bottom-[1px] left-0 right-0 h-0.5 bg-sky-500/70 rounded-full" />
+                  <span className="absolute -bottom-[1px] left-0 right-0 h-0.5 bg-shu-600/70 rounded-full" />
                 )}
               </Link>
             ))}
@@ -73,9 +73,9 @@ export default function Header() {
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="メニュー"
           >
-            <span className={`block w-5 h-0.5 bg-slate-700 transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-            <span className={`block w-5 h-0.5 bg-slate-700 transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block w-5 h-0.5 bg-slate-700 transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+            <span className={`block w-5 h-0.5 bg-sumi transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
+            <span className={`block w-5 h-0.5 bg-sumi transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-5 h-0.5 bg-sumi transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
           </button>
         </div>
       </motion.header>
@@ -88,7 +88,7 @@ export default function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-white flex flex-col items-center justify-center gap-8 lg:hidden"
+            className="fixed inset-0 z-40 bg-washi flex flex-col items-center justify-center gap-8 lg:hidden"
           >
             {navItems.map((item, i) => (
               <motion.div
@@ -99,18 +99,18 @@ export default function Header() {
               >
                 <Link href={item.href} className="group flex flex-col items-center gap-1">
                   <span className={`text-2xl font-light tracking-widest transition-colors ${
-                    isActive(item.href) ? "text-sky-600" : "text-slate-700 group-hover:text-sky-600"
+                    isActive(item.href) ? "text-shu-700" : "text-sumi group-hover:text-shu-700"
                   }`}>
                     {item.label}
                   </span>
-                  <span className="text-xs text-sky-500/80 tracking-wider">{item.ja}</span>
+                  <span className="text-xs text-shu-600/80 tracking-wider">{item.ja}</span>
                 </Link>
               </motion.div>
             ))}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }}>
               <Link
                 href="/contact"
-                className="mt-4 px-8 py-3 rounded-full text-white text-sm font-medium bg-sky-600 hover:bg-sky-700 transition-colors"
+                className="mt-4 px-8 py-3 rounded-full text-white text-sm font-medium bg-shu-600 hover:bg-shu-700 transition-colors"
               >
                 お問い合わせ
               </Link>

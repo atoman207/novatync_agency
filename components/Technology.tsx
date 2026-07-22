@@ -45,16 +45,16 @@ export default function Technology() {
   return (
     <section id="technology" className="section-padding relative overflow-hidden bg-white">
       <div className="absolute inset-0 pointer-events-none grid-bg opacity-60" />
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-sky-100/50 rounded-full blur-[100px]" />
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-shu-100/40 rounded-full blur-[100px]" />
 
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
         <div ref={ref} className="mb-16 text-center">
-          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-sky-500 mb-4 uppercase">Technology</motion.p>
-          <motion.h2 initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.1 }} className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">
+          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-shu-600 mb-4 uppercase">Technology</motion.p>
+          <motion.h2 initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.1 }} className="text-3xl md:text-5xl font-bold text-sumi mb-4">
             私たちが使う技術
           </motion.h2>
-          <motion.p initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }} className="text-slate-500 text-sm">
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }} className="text-stone-500 text-sm">
             世界基準のスタックで、スケーラブルな開発を実現します。
           </motion.p>
         </div>
@@ -67,23 +67,23 @@ export default function Technology() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1 + i * 0.025 }}
-              className="bg-white rounded-xl p-3 flex flex-col items-center gap-2 group hover:scale-110 transition-all duration-200 cursor-default border border-slate-100 hover:border-sky-200 hover:shadow-md"
+              className="bg-white rounded-xl p-3 flex flex-col items-center gap-2 group hover:scale-110 transition-all duration-200 cursor-default border border-stone-100 hover:border-shu-200 hover:shadow-md"
             >
               <span className="text-xl leading-none" style={{ color: tech.color }}>{tech.icon}</span>
-              <span className="text-[10px] text-slate-400 text-center leading-tight group-hover:text-slate-700 transition-colors">{tech.name}</span>
+              <span className="text-[10px] text-stone-400 text-center leading-tight group-hover:text-stone-700 transition-colors">{tech.name}</span>
             </motion.div>
           ))}
         </div>
 
         {/* Development Flow */}
         <div ref={flowRef}>
-          <motion.p initial={{ opacity: 0 }} animate={flowIn ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-sky-500 mb-4 uppercase text-center">Development Flow</motion.p>
-          <motion.h3 initial={{ opacity: 0, y: 18 }} animate={flowIn ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.1 }} className="text-2xl md:text-3xl font-bold text-slate-900 text-center mb-12">
+          <motion.p initial={{ opacity: 0 }} animate={flowIn ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-shu-600 mb-4 uppercase text-center">Development Flow</motion.p>
+          <motion.h3 initial={{ opacity: 0, y: 18 }} animate={flowIn ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.1 }} className="text-2xl md:text-3xl font-bold text-sumi text-center mb-12">
             開発フロー
           </motion.h3>
 
           <div className="relative">
-            <div className="hidden lg:block absolute top-8 left-0 right-0 h-px bg-gradient-to-r from-transparent via-sky-200 to-transparent" />
+            <div className="hidden lg:block absolute top-8 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-300 to-transparent" />
 
             <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 lg:gap-2">
               {devFlow.map((step, i) => (
@@ -95,18 +95,18 @@ export default function Technology() {
                   className="relative flex lg:flex-col items-start lg:items-center gap-4 lg:gap-3"
                 >
                   {i < devFlow.length - 1 && (
-                    <div className="lg:hidden absolute left-5 top-12 w-px h-full bg-gradient-to-b from-sky-200 to-transparent" />
+                    <div className="lg:hidden absolute left-5 top-12 w-px h-full bg-gradient-to-b from-gold-300 to-transparent" />
                   )}
-                  <div className="relative z-10 w-11 h-11 rounded-full bg-white border border-sky-200 flex items-center justify-center flex-shrink-0 hover:border-sky-400 hover:shadow-md transition-all">
+                  <div className="relative z-10 w-11 h-11 rounded-full bg-white border border-shu-200 flex items-center justify-center flex-shrink-0 hover:border-shu-400 hover:shadow-md transition-all">
                     <span className="text-lg">{step.icon}</span>
-                    <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-white border border-sky-300 flex items-center justify-center shadow-sm">
-                      <span className="text-[8px] text-sky-500 font-bold leading-none">{i + 1}</span>
+                    <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-white border border-gold-300 flex items-center justify-center shadow-sm">
+                      <span className="text-[8px] text-shu-600 font-bold leading-none">{i + 1}</span>
                     </div>
                   </div>
                   <div className="lg:text-center">
-                    <div className="text-xs text-sky-500 font-mono mb-0.5">{step.step}</div>
-                    <div className="text-slate-900 text-sm font-semibold">{step.title}</div>
-                    <div className="text-slate-400 text-xs mt-0.5 leading-tight">{step.desc}</div>
+                    <div className="text-xs text-shu-600 font-mono mb-0.5">{step.step}</div>
+                    <div className="text-sumi text-sm font-semibold">{step.title}</div>
+                    <div className="text-stone-400 text-xs mt-0.5 leading-tight">{step.desc}</div>
                   </div>
                 </motion.div>
               ))}

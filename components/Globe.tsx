@@ -23,10 +23,10 @@ function GlobeMesh() {
 
   return (
     <>
-      {/* Main globe — deep ocean-navy base */}
+      {/* Main globe — deep forest-green base */}
       <Sphere ref={meshRef} args={[1.4, 64, 64]}>
         <MeshDistortMaterial
-          color="#051e3e"
+          color="#07160f"
           attach="material"
           distort={0.15}
           speed={1.5}
@@ -36,14 +36,14 @@ function GlobeMesh() {
         />
       </Sphere>
 
-      {/* Sky-blue wireframe overlay */}
+      {/* Emerald wireframe overlay */}
       <Sphere ref={wireRef} args={[1.42, 24, 24]}>
-        <meshBasicMaterial color="#0ea5e9" wireframe transparent opacity={0.13} />
+        <meshBasicMaterial color="#34d17f" wireframe transparent opacity={0.13} />
       </Sphere>
 
       {/* Outer glow shell */}
       <Sphere args={[1.62, 32, 32]}>
-        <meshBasicMaterial color="#38bdf8" transparent opacity={0.04} side={THREE.BackSide} />
+        <meshBasicMaterial color="#84cc16" transparent opacity={0.04} side={THREE.BackSide} />
       </Sphere>
     </>
   );
@@ -56,8 +56,8 @@ function NetworkDots() {
   const geometry = useMemo(() => {
     const positions = new Float32Array(POINTS * 3);
     const colors    = new Float32Array(POINTS * 3);
-    const cyan      = new THREE.Color("#22d3ee");
-    const sky       = new THREE.Color("#38bdf8");
+    const cyan      = new THREE.Color("#34d17f");
+    const sky       = new THREE.Color("#a3e635");
 
     for (let i = 0; i < POINTS; i++) {
       const phi   = Math.acos(-1 + (2 * i) / POINTS);
@@ -97,9 +97,9 @@ export default function GlobeCanvas() {
     <div className="w-full h-full">
       <Canvas camera={{ position: [0, 0, 3.5], fov: 50 }} gl={{ antialias: true, alpha: true }} style={{ background: "transparent" }}>
         <ambientLight intensity={0.3} />
-        <directionalLight position={[5, 5, 5]}   intensity={0.9} color="#0ea5e9" />
-        <directionalLight position={[-5, -3, -5]} intensity={0.4} color="#22d3ee" />
-        <pointLight       position={[0, 0, 4]}    intensity={1.2} color="#38bdf8" distance={8} />
+        <directionalLight position={[5, 5, 5]}   intensity={0.9} color="#34d17f" />
+        <directionalLight position={[-5, -3, -5]} intensity={0.4} color="#84cc16" />
+        <pointLight       position={[0, 0, 4]}    intensity={1.2} color="#a3e635" distance={8} />
 
         <Stars radius={8} depth={50} count={1200} factor={3} saturation={0.3} fade speed={0.4} />
 

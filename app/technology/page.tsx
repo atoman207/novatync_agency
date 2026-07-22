@@ -3,7 +3,7 @@ import PageHeader from "@/components/PageHeader";
 import Technology from "@/components/Technology";
 
 export const metadata: Metadata = {
-  title: "テクノロジー | NOVATYNC",
+  title: "テクノロジー",
   description: "NOVATYNCが採用するモダンな技術スタックと開発フロー。React・Next.js・Python・AWS・OpenAIなど。",
 };
 

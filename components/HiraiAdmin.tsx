@@ -308,9 +308,9 @@ export default function HiraiAdmin() {
 
   if (!authenticated) {
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6">
+      <div className="min-h-screen bg-stone-950 text-white flex items-center justify-center px-6">
         <form onSubmit={handleLogin} className="w-full max-w-md rounded-3xl border border-white/10 bg-white/5 p-8">
-          <p className="text-xs uppercase tracking-[0.3em] text-sky-300">Hirai Admin</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-shu-300">Hirai Admin</p>
           <h1 className="mt-3 text-3xl font-bold">Portfolio Control</h1>
           <p className="mt-2 text-sm text-white/60">Enter the admin key to manage portfolio data.</p>
           <input
@@ -318,11 +318,11 @@ export default function HiraiAdmin() {
             value={adminKey}
             onChange={(event) => setAdminKey(event.target.value)}
             placeholder="Admin key"
-            className="mt-6 w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white outline-none focus:border-sky-400"
+            className="mt-6 w-full rounded-xl border border-white/10 bg-stone-900 px-4 py-3 text-white outline-none focus:border-shu-400"
           />
           <button
             type="submit"
-            className="mt-4 w-full rounded-xl bg-sky-500 px-4 py-3 font-medium text-white hover:bg-sky-400"
+            className="mt-4 w-full rounded-xl bg-shu-500 px-4 py-3 font-medium text-white hover:bg-shu-400"
           >
             Enter Admin
           </button>
@@ -332,32 +332,32 @@ export default function HiraiAdmin() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="border-b border-slate-200 bg-white">
+    <div className="min-h-screen bg-stone-50 text-stone-900">
+      <div className="border-b border-stone-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-sky-500">Hirai Admin</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-shu-500">Hirai Admin</p>
             <h1 className="text-2xl font-bold">Portfolio Manager</h1>
           </div>
           <div className="flex gap-3">
             <button
               type="button"
               onClick={() => void loadPortfolio()}
-              className="rounded-xl border border-slate-200 px-4 py-2 text-sm hover:bg-slate-100"
+              className="rounded-xl border border-stone-200 px-4 py-2 text-sm hover:bg-stone-100"
             >
               Refresh
             </button>
             <button
               type="button"
               onClick={() => void handleSeed()}
-              className="rounded-xl border border-yellow-300 bg-yellow-100 px-4 py-2 text-sm hover:bg-yellow-200"
+              className="rounded-xl border border-gold-300 bg-gold-100 px-4 py-2 text-sm hover:bg-gold-200"
             >
               Seed Database
             </button>
             <button
               type="button"
               onClick={handleLogout}
-              className="rounded-xl bg-slate-900 px-4 py-2 text-sm text-white hover:bg-slate-800"
+              className="rounded-xl bg-stone-900 px-4 py-2 text-sm text-white hover:bg-stone-800"
             >
               Logout
             </button>
@@ -367,7 +367,7 @@ export default function HiraiAdmin() {
 
       <div className="mx-auto max-w-7xl px-6 py-8 space-y-8">
         {message && (
-          <div className="rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800">
+          <div className="rounded-2xl border border-shu-200 bg-shu-50 px-4 py-3 text-sm text-shu-800">
             {message}
           </div>
         )}
@@ -391,7 +391,7 @@ export default function HiraiAdmin() {
         )}
 
         <div className="grid gap-8 lg:grid-cols-2">
-          <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
             <h2 className="text-lg font-bold">
               {editingCategoryId ? "Edit Skill / Category" : "Add Skill / Category"}
             </h2>
@@ -401,19 +401,19 @@ export default function HiraiAdmin() {
                 onChange={(event) => setCategoryForm({ ...categoryForm, id: event.target.value })}
                 placeholder="ID (slug, e.g. next)"
                 disabled={!!editingCategoryId}
-                className="w-full rounded-xl border border-slate-200 px-4 py-3 disabled:bg-slate-100"
+                className="w-full rounded-xl border border-stone-200 px-4 py-3 disabled:bg-stone-100"
               />
               <input
                 value={categoryForm.label}
                 onChange={(event) => setCategoryForm({ ...categoryForm, label: event.target.value })}
                 placeholder="Label (e.g. Next.js)"
-                className="w-full rounded-xl border border-slate-200 px-4 py-3"
+                className="w-full rounded-xl border border-stone-200 px-4 py-3"
               />
               <input
                 value={categoryForm.stacks}
                 onChange={(event) => setCategoryForm({ ...categoryForm, stacks: event.target.value })}
                 placeholder="Stacks (comma separated)"
-                className="w-full rounded-xl border border-slate-200 px-4 py-3"
+                className="w-full rounded-xl border border-stone-200 px-4 py-3"
               />
               <div className="flex gap-3">
                 <select
@@ -424,7 +424,7 @@ export default function HiraiAdmin() {
                       group_type: event.target.value as "skill" | "other",
                     })
                   }
-                  className="flex-1 rounded-xl border border-slate-200 px-4 py-3"
+                  className="flex-1 rounded-xl border border-stone-200 px-4 py-3"
                 >
                   <option value="skill">Skill tab</option>
                   <option value="other">Other tab</option>
@@ -435,14 +435,14 @@ export default function HiraiAdmin() {
                   onChange={(event) =>
                     setCategoryForm({ ...categoryForm, sort_order: Number(event.target.value) })
                   }
-                  className="w-28 rounded-xl border border-slate-200 px-4 py-3"
+                  className="w-28 rounded-xl border border-stone-200 px-4 py-3"
                 />
               </div>
               <div className="flex gap-3">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="rounded-xl bg-sky-600 px-4 py-3 text-sm font-medium text-white hover:bg-sky-500"
+                  className="rounded-xl bg-shu-600 px-4 py-3 text-sm font-medium text-white hover:bg-shu-500"
                 >
                   {editingCategoryId ? "Update Category" : "Create Category"}
                 </button>
@@ -450,7 +450,7 @@ export default function HiraiAdmin() {
                   <button
                     type="button"
                     onClick={resetCategoryForm}
-                    className="rounded-xl border border-slate-200 px-4 py-3 text-sm"
+                    className="rounded-xl border border-stone-200 px-4 py-3 text-sm"
                   >
                     Cancel
                   </button>
@@ -459,19 +459,19 @@ export default function HiraiAdmin() {
             </form>
           </section>
 
-          <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
             <h2 className="text-lg font-bold">{editingSiteId ? "Edit Site" : "Add Site URL"}</h2>
             <form onSubmit={saveSite} className="mt-4 space-y-4">
               <input
                 value={siteForm.url}
                 onChange={(event) => setSiteForm({ ...siteForm, url: event.target.value })}
                 placeholder="https://example.com/"
-                className="w-full rounded-xl border border-slate-200 px-4 py-3"
+                className="w-full rounded-xl border border-stone-200 px-4 py-3"
               />
               <select
                 value={siteForm.category_id}
                 onChange={(event) => setSiteForm({ ...siteForm, category_id: event.target.value })}
-                className="w-full rounded-xl border border-slate-200 px-4 py-3"
+                className="w-full rounded-xl border border-stone-200 px-4 py-3"
               >
                 {portfolio?.categories.map((category) => (
                   <option key={category.id} value={category.id}>
@@ -483,7 +483,7 @@ export default function HiraiAdmin() {
                 value={siteForm.image_url}
                 onChange={(event) => setSiteForm({ ...siteForm, image_url: event.target.value })}
                 placeholder="Image URL (optional)"
-                className="w-full rounded-xl border border-slate-200 px-4 py-3"
+                className="w-full rounded-xl border border-stone-200 px-4 py-3"
               />
               <div className="flex items-center gap-3">
                 <input
@@ -499,7 +499,7 @@ export default function HiraiAdmin() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="rounded-xl border border-slate-200 px-4 py-3 text-sm hover:bg-slate-50"
+                  className="rounded-xl border border-stone-200 px-4 py-3 text-sm hover:bg-stone-50"
                 >
                   Upload Image
                 </button>
@@ -507,7 +507,7 @@ export default function HiraiAdmin() {
                   <img
                     src={siteForm.image_url}
                     alt="Preview"
-                    className="h-14 w-24 rounded-lg object-cover border border-slate-200"
+                    className="h-14 w-24 rounded-lg object-cover border border-stone-200"
                   />
                 )}
               </div>
@@ -517,13 +517,13 @@ export default function HiraiAdmin() {
                 onChange={(event) =>
                   setSiteForm({ ...siteForm, sort_order: Number(event.target.value) })
                 }
-                className="w-full rounded-xl border border-slate-200 px-4 py-3"
+                className="w-full rounded-xl border border-stone-200 px-4 py-3"
               />
               <div className="flex gap-3">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="rounded-xl bg-sky-600 px-4 py-3 text-sm font-medium text-white hover:bg-sky-500"
+                  className="rounded-xl bg-shu-600 px-4 py-3 text-sm font-medium text-white hover:bg-shu-500"
                 >
                   {editingSiteId ? "Update Site" : "Create Site"}
                 </button>
@@ -531,7 +531,7 @@ export default function HiraiAdmin() {
                   <button
                     type="button"
                     onClick={resetSiteForm}
-                    className="rounded-xl border border-slate-200 px-4 py-3 text-sm"
+                    className="rounded-xl border border-stone-200 px-4 py-3 text-sm"
                   >
                     Cancel
                   </button>
@@ -543,21 +543,21 @@ export default function HiraiAdmin() {
 
         <section className="space-y-6">
           <h2 className="text-xl font-bold">All Portfolio Data</h2>
-          {loading && !portfolio && <p className="text-slate-500">Loading...</p>}
+          {loading && !portfolio && <p className="text-stone-500">Loading...</p>}
           {portfolio?.categories.map((category) => (
-            <div key={category.id} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div key={category.id} className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
               <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-yellow-600">
+                  <p className="text-xs uppercase tracking-[0.2em] text-gold-600">
                     {category.group_type === "other" ? "Other" : "Skill"}
                   </p>
                   <h3 className="text-2xl font-bold">{category.label}</h3>
-                  <p className="mt-1 text-sm text-slate-500">ID: {category.id}</p>
+                  <p className="mt-1 text-sm text-stone-500">ID: {category.id}</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {category.stacks.map((stack) => (
                       <span
                         key={stack}
-                        className="rounded-full bg-yellow-100 px-2.5 py-1 text-xs text-slate-700"
+                        className="rounded-full bg-gold-100 px-2.5 py-1 text-xs text-stone-700"
                       >
                         {stack}
                       </span>
@@ -568,7 +568,7 @@ export default function HiraiAdmin() {
                   <button
                     type="button"
                     onClick={() => editCategory(category)}
-                    className="rounded-xl border border-slate-200 px-4 py-2 text-sm hover:bg-slate-50"
+                    className="rounded-xl border border-stone-200 px-4 py-2 text-sm hover:bg-stone-50"
                   >
                     Edit
                   </button>
@@ -584,8 +584,8 @@ export default function HiraiAdmin() {
 
               <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {category.sites.map((site) => (
-                  <div key={site.id} className="rounded-2xl border border-slate-200 p-4">
-                    <div className="h-28 overflow-hidden rounded-xl bg-slate-100">
+                  <div key={site.id} className="rounded-2xl border border-stone-200 p-4">
+                    <div className="h-28 overflow-hidden rounded-xl bg-stone-100">
                       {site.image_url ? (
                         <img
                           src={site.image_url}
@@ -593,18 +593,18 @@ export default function HiraiAdmin() {
                           className="h-full w-full object-cover"
                         />
                       ) : (
-                        <div className="flex h-full items-center justify-center text-xs text-slate-400">
+                        <div className="flex h-full items-center justify-center text-xs text-stone-400">
                           Auto preview
                         </div>
                       )}
                     </div>
                     <p className="mt-3 font-semibold break-all">{getSiteName(site.url)}</p>
-                    <p className="mt-1 text-xs text-slate-500 break-all">{site.url}</p>
+                    <p className="mt-1 text-xs text-stone-500 break-all">{site.url}</p>
                     <div className="mt-3 flex gap-2">
                       <button
                         type="button"
                         onClick={() => editSite(site, category.id)}
-                        className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs hover:bg-slate-50"
+                        className="rounded-lg border border-stone-200 px-3 py-1.5 text-xs hover:bg-stone-50"
                       >
                         Edit
                       </button>

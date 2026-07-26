@@ -15,8 +15,7 @@ type Review = {
 };
 
 /**
- * Avatar images are hosted on Unsplash (real portrait photos, linked online).
- * Cropped to faces for consistent circular avatars.
+ * Japanese professional headshot avatars (local assets).
  */
 const reviews: Review[] = [
   {
@@ -26,8 +25,7 @@ const reviews: Review[] = [
     company: "テックフロンティア株式会社",
     rating: 5,
     body: "生成AIの導入で社内の問い合わせ対応を自動化できました。要件整理から本番運用まで、スピードと品質のバランスが非常に高いです。",
-    avatar:
-      "https://images.unsplash.com/photo-1548783300-70b41bc84f56?auto=format&fit=crop&w=200&h=200&q=80&crop=faces",
+    avatar: "/reviews/avatar-01.jpg",
   },
   {
     id: "2",
@@ -36,8 +34,7 @@ const reviews: Review[] = [
     company: "クラウドワークス合同会社",
     rating: 5,
     body: "フルスタックでの開発力とコミュニケーションの丁寧さが印象的でした。リリース後の改善提案まで伴走してもらえ、安心して任せられます。",
-    avatar:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&h=200&q=80&crop=faces",
+    avatar: "/reviews/avatar-02.jpg",
   },
   {
     id: "3",
@@ -46,8 +43,7 @@ const reviews: Review[] = [
     company: "ノーザングリーン株式会社",
     rating: 5,
     body: "スタートアップ特有のスピード感に合わせてくれる開発体制が助かりました。UIも洗練されていて、顧客からの評価も上がっています。",
-    avatar:
-      "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=200&h=200&q=80&crop=faces",
+    avatar: "/reviews/avatar-03.jpg",
   },
   {
     id: "4",
@@ -56,8 +52,7 @@ const reviews: Review[] = [
     company: "ブランディングラボ",
     rating: 5,
     body: "デザインと実装が一体で進むので、手戻りがほとんどありませんでした。世界水準の体験設計を、現実的なスケジュールで届けてくれます。",
-    avatar:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&h=200&q=80&crop=faces",
+    avatar: "/reviews/avatar-04.jpg",
   },
   {
     id: "5",
@@ -66,8 +61,7 @@ const reviews: Review[] = [
     company: "東日本ロジスティクス",
     rating: 4,
     body: "社内レガシーシステムのクラウド移行を依頼しました。セキュリティとコスト最適化まで含めた提案があり、経営層への説明もスムーズでした。",
-    avatar:
-      "https://images.unsplash.com/photo-1484995978482-cf913162930c?auto=format&fit=crop&w=200&h=200&q=80&crop=faces",
+    avatar: "/reviews/avatar-05.jpg",
   },
   {
     id: "6",
@@ -76,8 +70,7 @@ const reviews: Review[] = [
     company: "モビールスタジオ",
     rating: 5,
     body: "Figmaのデザインシステムをそのまま実装品質に落とし込んでくれます。細部へのこだわりが強く、プロダクトの完成度が一段上がりました。",
-    avatar:
-      "https://images.unsplash.com/photo-1505440484611-23c171ad6e96?auto=format&fit=crop&w=200&h=200&q=80&crop=faces",
+    avatar: "/reviews/avatar-06.jpg",
   },
   {
     id: "7",
@@ -86,8 +79,7 @@ const reviews: Review[] = [
     company: "データブリッジ株式会社",
     rating: 5,
     body: "コード品質が高く、レビュー文化も丁寧です。LLMを使った社内ツール開発では、PoCから本番まで一貫した支援を受けられました。",
-    avatar:
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&h=200&q=80&crop=faces",
+    avatar: "/reviews/avatar-07.jpg",
   },
   {
     id: "8",
@@ -96,8 +88,7 @@ const reviews: Review[] = [
     company: "リテールネクスト",
     rating: 5,
     body: "業務課題のヒアリングが深く、単なる受託ではなくパートナーとして一緒に考えてくれます。納品後の運用相談にも迅速に応えてくれました。",
-    avatar:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&h=200&q=80&crop=faces",
+    avatar: "/reviews/avatar-08.jpg",
   },
   {
     id: "9",
@@ -106,8 +97,7 @@ const reviews: Review[] = [
     company: "スマートファクトリー合同会社",
     rating: 4,
     body: "IoTデータの可視化ダッシュボードを短期間で構築。現場の使いやすさを優先したUIが好評で、導入定着率が想定以上でした。",
-    avatar:
-      "https://images.unsplash.com/photo-1532236204992-f5e85c024202?auto=format&fit=crop&w=200&h=200&q=80&crop=faces",
+    avatar: "/reviews/avatar-09.jpg",
   },
   {
     id: "10",
@@ -116,8 +106,7 @@ const reviews: Review[] = [
     company: "ピープルテック株式会社",
     rating: 5,
     body: "採用サイトと応募管理の仕組みを刷新してもらいました。応募完了率が改善し、採用チームの工数も大幅に削減できています。",
-    avatar:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&h=200&q=80&crop=faces",
+    avatar: "/reviews/avatar-10.jpg",
   },
 ];
 

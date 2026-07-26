@@ -13,6 +13,38 @@ const navLinks = [
   { label: "CONTACT",    href: "/contact"    },
 ];
 
+function simpleIcon(slug: string, hex: string) {
+  return `https://cdn.simpleicons.org/${slug}/${hex}`;
+}
+
+const contactChannels = [
+  {
+    name: "LINE",
+    href: "https://line.me/ti/p/XSUZTyrXGh",
+    icon: simpleIcon("line", "06C755"),
+    chip: "bg-white",
+    iconClass: "h-5 w-5 object-contain",
+    external: true,
+  },
+  {
+    name: "Email",
+    href: "mailto:japan.dev07@gmail.com",
+    icon: simpleIcon("gmail", "EA4335"),
+    chip: "bg-white",
+    iconClass: "h-5 w-5 object-contain",
+    external: false,
+  },
+  {
+    name: "Chatwork",
+    href: "https://www.chatwork.com/novatync",
+    // Official Chatwork Focus Bubble mark (red + white on navy)
+    icon: "/icons/chatwork.svg",
+    chip: "bg-transparent p-0",
+    iconClass: "h-10 w-10 rounded-lg object-contain",
+    external: true,
+  },
+] as const;
+
 export default function Footer() {
   return (
     <footer className="relative bg-ai-950 overflow-hidden">
@@ -52,13 +84,27 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <p className="text-xs tracking-widest text-white/50 mb-4 uppercase">Get in Touch</p>
-            <div className="space-y-2">
-              <p className="text-sm text-white/70">Japan</p>
-              <p className="text-sm text-white/70">フルリモート対応</p>
-              <Link href="/contact" className="inline-flex items-center gap-1.5 text-sm text-shu-300 hover:text-shu-200 transition-colors mt-2 group">
-                お問い合わせ
-                <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
-              </Link>
+            <div className="flex items-center gap-3">
+              {contactChannels.map((channel) => (
+                <a
+                  key={channel.name}
+                  href={channel.href}
+                  aria-label={channel.name}
+                  title={channel.name}
+                  {...(channel.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className={`flex h-10 w-10 items-center justify-center rounded-lg shadow-sm transition hover:scale-105 ${channel.chip}`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={channel.icon}
+                    alt={channel.name}
+                    className={channel.iconClass}
+                    draggable={false}
+                  />
+                </a>
+              ))}
             </div>
           </div>
         </div>

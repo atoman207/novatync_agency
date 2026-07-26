@@ -1,14 +1,20 @@
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
+import { tmpdir } from "node:os";
 import { createServerClient } from "@/lib/supabase/server";
 
 type LocalStore = {
   votes: string[];
 };
 
-const LOCAL_STORE_PATH = resolve(process.cwd(), ".data", "recommendations.json");
+// Vercel's serverless filesystem is read-only except for os.tmpdir(), and this
+// store only exists as a dev-time fallback when Supabase isn't configured —
+// so it must never throw if writes aren't possible.
+const LOCAL_STORE_PATH = resolve(tmpdir(), "novatync-recommendations.json");
 const SUPABASE_TIMEOUT_MS = 2500;
+// Baseline shown before any real votes are counted (social-proof starting point).
+const BASE_COUNT = 983;
 
 function hashIp(ip: string) {
   const salt = process.env.HIRAI_ADMIN_KEY ?? process.env.SUPABASE_SECRET_KEY ?? "novatync";
@@ -43,19 +49,24 @@ function readLocalStore(): LocalStore {
 }
 
 function writeLocalStore(store: LocalStore) {
-  mkdirSync(dirname(LOCAL_STORE_PATH), { recursive: true });
-  writeFileSync(LOCAL_STORE_PATH, JSON.stringify(store, null, 2), "utf8");
+  try {
+    mkdirSync(dirname(LOCAL_STORE_PATH), { recursive: true });
+    writeFileSync(LOCAL_STORE_PATH, JSON.stringify(store, null, 2), "utf8");
+  } catch {
+    // Read-only filesystem or other write failure — the vote still counts
+    // for this request, it just won't persist across invocations.
+  }
 }
 
 function getStateFromLocal(ipHash: string) {
   const store = readLocalStore();
   return {
-    count: store.votes.length,
+    count: BASE_COUNT + store.votes.length,
     recommended: store.votes.includes(ipHash),
   };
 }
 
-async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+async function withTimeout<T>(promise: PromiseLike<T>, ms: number): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined;
   try {
     return await Promise.race([
@@ -88,7 +99,7 @@ async function getStateFromSupabase(ipHash: string) {
   if (voteError) throw new Error(voteError.message);
 
   return {
-    count: count ?? 0,
+    count: BASE_COUNT + (count ?? 0),
     recommended: Boolean(vote),
   };
 }
@@ -133,7 +144,7 @@ function recommendOnLocal(ipHash: string) {
   const store = readLocalStore();
   if (store.votes.includes(ipHash)) {
     return {
-      count: store.votes.length,
+      count: BASE_COUNT + store.votes.length,
       recommended: true,
       alreadyRecommended: true as const,
     };
@@ -142,7 +153,7 @@ function recommendOnLocal(ipHash: string) {
   store.votes.push(ipHash);
   writeLocalStore(store);
   return {
-    count: store.votes.length,
+    count: BASE_COUNT + store.votes.length,
     recommended: true,
     alreadyRecommended: false as const,
   };

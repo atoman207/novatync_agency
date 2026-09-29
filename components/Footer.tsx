@@ -36,7 +36,7 @@ const contactChannels = [
   },
   {
     name: "Chatwork",
-    href: "https://www.chatwork.com/novatync",
+    href: "https://www.chatwork.com/kingtiger0207",
     // Official Chatwork Focus Bubble mark (red + white on navy)
     icon: "/icons/chatwork.svg",
     chip: "bg-transparent p-0",

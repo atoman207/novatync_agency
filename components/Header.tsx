@@ -67,9 +67,6 @@ export default function Header() {
                 }`}>
                   {showJa ? t.nav[item.key] : item.label}
                 </span>
-                {isActive(item.href) && (
-                  <span className="absolute -bottom-[1px] left-0 right-0 h-0.5 bg-accent/70 rounded-full" />
-                )}
               </Link>
             ))}
           </nav>

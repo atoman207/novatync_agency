@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, type CSSProperties } from "react";
+import { useI18n } from "@/components/PreferencesProvider";
 
 function devicon(path: string) {
   return `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${path}`;
@@ -55,35 +56,36 @@ const techStack: TechItem[] = [
 ];
 
 const devFlow = [
-  { step: "01", title: "Requirement", desc: "要件定義・ヒアリング", icon: lucide("clipboard-list") },
-  { step: "02", title: "Architecture", desc: "設計・技術選定", icon: lucide("network") },
-  { step: "03", title: "Design", desc: "UI/UX設計", icon: lucide("palette") },
-  { step: "04", title: "Development", desc: "フロント・バックエンド開発", icon: lucide("code-xml") },
-  { step: "05", title: "Testing", desc: "品質保証・テスト", icon: lucide("shield-check") },
-  { step: "06", title: "Deployment", desc: "リリース・本番展開", icon: lucide("rocket") },
-  { step: "07", title: "Maintenance", desc: "運用・保守・改善", icon: lucide("wrench") },
-];
+  { key: "requirement",  step: "01", title: "Requirement",  icon: lucide("clipboard-list") },
+  { key: "architecture", step: "02", title: "Architecture", icon: lucide("network") },
+  { key: "design",       step: "03", title: "Design",       icon: lucide("palette") },
+  { key: "development",  step: "04", title: "Development",  icon: lucide("code-xml") },
+  { key: "testing",      step: "05", title: "Testing",      icon: lucide("shield-check") },
+  { key: "deployment",   step: "06", title: "Deployment",   icon: lucide("rocket") },
+  { key: "maintenance",  step: "07", title: "Maintenance",  icon: lucide("wrench") },
+] as const;
 
 export default function Technology() {
   const ref     = useRef(null);
   const inView  = useInView(ref, { once: true, margin: "-60px" });
   const flowRef = useRef(null);
   const flowIn  = useInView(flowRef, { once: true, margin: "-60px" });
+  const { t }   = useI18n();
 
   return (
-    <section id="technology" className="section-padding relative overflow-hidden bg-white">
+    <section id="technology" className="section-padding relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none grid-bg opacity-60" />
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-shu-100/40 rounded-full blur-[100px]" />
 
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
         <div ref={ref} className="mb-16 text-center">
-          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-shu-600 mb-4 uppercase">Technology</motion.p>
+          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-accent mb-4 uppercase">Technology</motion.p>
           <motion.h2 initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.1 }} className="text-3xl md:text-5xl font-bold text-sumi mb-4">
-            私たちが使う技術
+            {t.technology.title}
           </motion.h2>
-          <motion.p initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }} className="text-stone-500 text-sm">
-            世界基準のスタックで、スケーラブルな開発を実現します。
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }} className="text-muted text-sm">
+            {t.technology.lead}
           </motion.p>
         </div>
 
@@ -95,9 +97,10 @@ export default function Technology() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1 + i * 0.025 }}
-              className="bg-white rounded-xl p-3 flex flex-col items-center gap-2 group hover:scale-110 transition-all duration-200 cursor-default border border-stone-100 hover:border-shu-200 hover:shadow-md"
+              className="bg-surface rounded-xl p-3 flex flex-col items-center gap-2 group hover:scale-110 transition-all duration-200 cursor-default border border-line-soft hover:border-shu-200 hover:shadow-md"
             >
-              <span className="flex h-8 w-8 items-center justify-center">
+              {/* brand marks are drawn for light backgrounds, so in space they sit on a pale chip */}
+              <span className="flex h-8 w-8 items-center justify-center space:h-9 space:w-9 space:rounded-lg space:bg-white/90">
                 {tech.isOpenAI ? (
                   <OpenAIMark size={28} />
                 ) : (
@@ -105,21 +108,21 @@ export default function Technology() {
                   <img
                     src={tech.src}
                     alt={tech.name}
-                    className={tech.wide ? "h-6 w-10 object-contain" : "h-7 w-7 object-contain"}
+                    className={tech.wide ? "h-6 w-10 object-contain space:w-8" : "h-7 w-7 object-contain"}
                     draggable={false}
                   />
                 )}
               </span>
-              <span className="text-[10px] text-stone-400 text-center leading-tight group-hover:text-stone-700 transition-colors">{tech.name}</span>
+              <span className="text-[10px] text-faint text-center leading-tight group-hover:text-ink-soft transition-colors">{tech.name}</span>
             </motion.div>
           ))}
         </div>
 
         {/* Development Flow */}
         <div ref={flowRef}>
-          <motion.p initial={{ opacity: 0 }} animate={flowIn ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-shu-600 mb-4 uppercase text-center">Development Flow</motion.p>
+          <motion.p initial={{ opacity: 0 }} animate={flowIn ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-accent mb-4 uppercase text-center">Development Flow</motion.p>
           <motion.h3 initial={{ opacity: 0, y: 18 }} animate={flowIn ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.1 }} className="text-2xl md:text-3xl font-bold text-sumi text-center mb-12">
-            開発フロー
+            {t.technology.flowTitle}
           </motion.h3>
 
           <div className="relative">
@@ -137,24 +140,20 @@ export default function Technology() {
                   {i < devFlow.length - 1 && (
                     <div className="lg:hidden absolute left-5 top-12 w-px h-full bg-gradient-to-b from-gold-300 to-transparent" />
                   )}
-                  <div className="relative z-10 w-11 h-11 rounded-full bg-white border border-shu-200 flex items-center justify-center flex-shrink-0 hover:border-shu-400 hover:shadow-md transition-all">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={step.icon}
-                      alt=""
+                  <div className="relative z-10 w-11 h-11 rounded-full bg-popover border border-shu-200 flex items-center justify-center flex-shrink-0 hover:border-shu-400 hover:shadow-md transition-all">
+                    <span
                       aria-hidden="true"
-                      className="h-5 w-5 object-contain opacity-80"
-                      style={{ filter: "invert(28%) sepia(42%) saturate(900%) hue-rotate(100deg) brightness(90%)" }}
-                      draggable={false}
+                      className="icon-mask h-5 w-5 opacity-80"
+                      style={{ "--icon": `url(${step.icon})` } as CSSProperties}
                     />
-                    <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-white border border-gold-300 flex items-center justify-center shadow-sm">
-                      <span className="text-[8px] text-shu-600 font-bold leading-none">{i + 1}</span>
+                    <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-popover border border-gold-300 flex items-center justify-center shadow-sm">
+                      <span className="text-[8px] text-accent font-bold leading-none">{i + 1}</span>
                     </div>
                   </div>
                   <div className="lg:text-center">
-                    <div className="text-xs text-shu-600 font-mono mb-0.5">{step.step}</div>
+                    <div className="text-xs text-accent font-mono mb-0.5">{step.step}</div>
                     <div className="text-sumi text-sm font-semibold">{step.title}</div>
-                    <div className="text-stone-400 text-xs mt-0.5 leading-tight">{step.desc}</div>
+                    <div className="text-faint text-xs mt-0.5 leading-tight">{t.technology.flow[step.key]}</div>
                   </div>
                 </motion.div>
               ))}

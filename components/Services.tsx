@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, type CSSProperties } from "react";
+import { useI18n } from "@/components/PreferencesProvider";
 import ServiceModal, { type ServiceDetail } from "./ServiceModal";
 
 function devicon(path: string) {
@@ -27,23 +28,25 @@ function OpenAIMark({ size = 18 }: { size?: number }) {
 
 type StackIcon = { name: string; src?: string; isOpenAI?: boolean; wide?: boolean };
 
-type Service = ServiceDetail & {
-  description: string;
+type ServiceId = "ai" | "web" | "cloud" | "mobile" | "design" | "consulting";
+
+/** Everything about a service that doesn't change with the language. */
+type ServiceStyle = {
+  id: ServiceId;
+  title: string;
   stacks: StackIcon[];
   iconSrc: string;
-  tagAccent: string;
+  accent: string;
+  border: string;
+  threeColor: string;
   tagBg: string;
   tagBorder: string;
 };
 
-const services: Service[] = [
+const services: ServiceStyle[] = [
   {
+    id: "ai",
     title: "AI Development",
-    titleJa: "AI開発",
-    description: "生成AIの設計・実装から、LLMの事業統合まで対応します。",
-    overview: "ChatGPT・Claude・Geminiなどの最新LLMを活用し、RAGシステム・AIエージェント・カスタムモデルの開発・統合を行います。PoC（概念実証）から本番環境まで一貫して対応します。",
-    steps: ["要件定義・PoC設計", "LLM選定・アーキテクチャ設計", "RAG／ファインチューニング実装", "本番システムへの統合", "モニタリング・継続改善"],
-    features: ["RAGシステム構築", "AIエージェント開発", "Fine-tuning", "プロンプトエンジニアリング", "ベクトルDB設計", "MLOps構築", "LLM評価基盤"],
     stacks: [
       { name: "OpenAI", isOpenAI: true },
       { name: "Claude", src: simpleIcon("anthropic", "D4A27F") },
@@ -53,18 +56,14 @@ const services: Service[] = [
       { name: "Python", src: devicon("python/python-original.svg") },
     ],
     iconSrc: lucide("sparkles"),
-    accent: "text-shu-600",
+    accent: "text-accent",
     border: "border-shu-100",
     threeColor: "#16a34a",
-    tagAccent: "text-shu-600", tagBg: "bg-shu-50", tagBorder: "border-shu-100",
+    tagBg: "bg-shu-50", tagBorder: "border-shu-100",
   },
   {
+    id: "web",
     title: "Web Development",
-    titleJa: "Web開発",
-    description: "最新フレームワークでパフォーマンスと保守性を両立したWebアプリを構築します。",
-    overview: "React・Next.jsをはじめとするモダンフレームワークを軸に、フロントエンドからバックエンドAPIまでフルスタックで開発します。Core Web Vitals・SEO・アクセシビリティを高い基準で実装します。",
-    steps: ["要件定義・技術選定", "UI/UXデザイン", "フロントエンド開発", "バックエンドAPI開発", "テスト・品質保証", "デプロイ・運用"],
-    features: ["SPA / SSR / SSG", "API設計・開発", "DB設計", "E2Eテスト", "パフォーマンス最適化", "SEO対策", "アクセシビリティ対応"],
     stacks: [
       { name: "React", src: devicon("react/react-original.svg") },
       { name: "Next.js", src: simpleIcon("nextdotjs", "000000") },
@@ -74,18 +73,14 @@ const services: Service[] = [
       { name: "Node.js", src: devicon("nodejs/nodejs-original.svg") },
     ],
     iconSrc: lucide("code-xml"),
-    accent: "text-gold-700",
+    accent: "text-accent-alt",
     border: "border-gold-200",
     threeColor: "#84cc16",
-    tagAccent: "text-gold-700", tagBg: "bg-gold-50", tagBorder: "border-gold-200",
+    tagBg: "bg-gold-50", tagBorder: "border-gold-200",
   },
   {
+    id: "cloud",
     title: "Cloud",
-    titleJa: "クラウド",
-    description: "AWS・AzureのインフラからCI/CDパイプラインまで、クラウドネイティブな環境を構築します。",
-    overview: "AWS・Azureを中心にクラウドネイティブなインフラを設計・構築します。Terraformを用いたIaC化、Dockerコンテナ化、GitHub ActionsによるCI/CDパイプラインで安定した運用体制を確立します。",
-    steps: ["現状分析・要件定義", "アーキテクチャ設計", "IaC実装（Terraform）", "CI/CDパイプライン構築", "監視・アラート設定", "移行・本番展開"],
-    features: ["AWS / Azure設計", "Terraform IaC", "Docker / Kubernetes", "CI/CD構築", "コスト最適化", "セキュリティ設計", "障害対応体制"],
     stacks: [
       { name: "AWS", src: devicon("amazonwebservices/amazonwebservices-original-wordmark.svg"), wide: true },
       { name: "Azure", src: devicon("azure/azure-original.svg") },
@@ -95,18 +90,14 @@ const services: Service[] = [
       { name: "GitHub Actions", src: simpleIcon("githubactions", "2088FF") },
     ],
     iconSrc: lucide("cloud"),
-    accent: "text-ai-600",
+    accent: "text-accent",
     border: "border-ai-100",
     threeColor: "#10b981",
-    tagAccent: "text-ai-600", tagBg: "bg-ai-50", tagBorder: "border-ai-100",
+    tagBg: "bg-ai-50", tagBorder: "border-ai-100",
   },
   {
+    id: "mobile",
     title: "Mobile",
-    titleJa: "モバイル開発",
-    description: "iOS・Androidのクロスプラットフォームアプリ開発でモバイル体験を最大化します。",
-    overview: "FlutterおよびReact Nativeを使用し、iOS・Android両対応のクロスプラットフォームアプリを開発します。ネイティブ品質のUXと高いパフォーマンスを両立させます。",
-    steps: ["要件定義・画面設計", "UIデザイン", "クロスプラットフォーム開発", "テスト（iOS / Android）", "ストア申請・リリース", "運用・アップデート対応"],
-    features: ["Flutter / React Native", "Push通知", "オフライン対応", "In-App Purchase", "ストア申請サポート", "パフォーマンス最適化"],
     stacks: [
       { name: "Flutter", src: devicon("flutter/flutter-original.svg") },
       { name: "React Native", src: devicon("react/react-original.svg") },
@@ -115,18 +106,14 @@ const services: Service[] = [
       { name: "Android", src: devicon("android/android-original.svg") },
     ],
     iconSrc: lucide("smartphone"),
-    accent: "text-emerald-600",
-    border: "border-emerald-100",
+    accent: "text-accent",
+    border: "border-shu-100",
     threeColor: "#34d399",
-    tagAccent: "text-emerald-600", tagBg: "bg-emerald-50", tagBorder: "border-emerald-100",
+    tagBg: "bg-shu-50", tagBorder: "border-shu-100",
   },
   {
+    id: "design",
     title: "UI/UX Design",
-    titleJa: "UI/UX デザイン",
-    description: "ユーザー中心のデザインプロセスで、世界水準の体験を設計します。",
-    overview: "Figmaを軸にしたデザインシステムの構築から、ユーザーリサーチ・プロトタイピング・ユーザビリティテストまで包括的に対応します。アクセシビリティ（WCAG 2.1）準拠のデザインを提供します。",
-    steps: ["ユーザーリサーチ", "情報アーキテクチャ設計", "ワイヤーフレーム作成", "UIデザイン・プロトタイプ", "ユーザビリティテスト", "デザインシステム納品"],
-    features: ["Figmaデザインシステム", "プロトタイピング", "ユーザーリサーチ", "アクセシビリティ対応", "Storybook連携", "コンポーネントライブラリ"],
     stacks: [
       { name: "Figma", src: devicon("figma/figma-original.svg") },
       { name: "Storybook", src: simpleIcon("storybook", "FF4785") },
@@ -135,18 +122,14 @@ const services: Service[] = [
       { name: "Illustrator", src: devicon("illustrator/illustrator-plain.svg") },
     ],
     iconSrc: lucide("palette"),
-    accent: "text-teal-600",
-    border: "border-teal-100",
+    accent: "text-accent",
+    border: "border-ai-100",
     threeColor: "#4ade80",
-    tagAccent: "text-teal-600", tagBg: "bg-teal-50", tagBorder: "border-teal-100",
+    tagBg: "bg-ai-50", tagBorder: "border-ai-100",
   },
   {
+    id: "consulting",
     title: "Consulting",
-    titleJa: "コンサルティング",
-    description: "技術戦略からCTO支援まで、事業の根幹から伴走するコンサルティングを提供します。",
-    overview: "DX推進・技術アーキテクチャ設計・チーム組成支援・CTO支援まで、技術と事業を橋渡しするコンサルティングを提供します。単なる提案に留まらず、実行フェーズまで共に走ります。",
-    steps: ["現状分析・課題定義", "技術戦略立案", "ロードマップ策定", "実行支援・チーム組成", "KPI設計・効果測定", "継続的な改善サポート"],
-    features: ["DX推進支援", "技術アーキテクチャ設計", "CTO支援", "エンジニアチーム組成", "コードレビュー", "採用・育成支援", "技術選定コンサル"],
     stacks: [
       { name: "GitHub", src: simpleIcon("github", "181717") },
       { name: "Notion", src: simpleIcon("notion", "000000") },
@@ -155,89 +138,96 @@ const services: Service[] = [
       { name: "Slack", src: devicon("slack/slack-original.svg") },
     ],
     iconSrc: lucide("briefcase-business"),
-    accent: "text-lime-600",
-    border: "border-lime-100",
+    accent: "text-accent-alt",
+    border: "border-gold-200",
     threeColor: "#a3e635",
-    tagAccent: "text-lime-600", tagBg: "bg-lime-50", tagBorder: "border-lime-100",
+    tagBg: "bg-gold-50", tagBorder: "border-gold-200",
   },
 ];
 
 export default function Services() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
-  const [selected, setSelected] = useState<ServiceDetail | null>(null);
+  const [selectedId, setSelectedId] = useState<ServiceId | null>(null);
+  const { t } = useI18n();
+
+  // Keyed by id (not a copy of the text) so an open modal follows a language switch.
+  const selectedStyle = services.find((s) => s.id === selectedId);
+  const selected: ServiceDetail | null = selectedStyle
+    ? { ...selectedStyle, ...t.services.items[selectedStyle.id] }
+    : null;
 
   return (
-    <section id="service" className="section-padding relative overflow-hidden bg-white">
+    <section id="service" className="section-padding relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-shu-100/30 rounded-full blur-[100px]" />
       </div>
 
       <div ref={ref} className="max-w-7xl mx-auto px-6">
         <div className="mb-16 text-center">
-          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-shu-600 mb-4 uppercase">Service</motion.p>
+          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} className="text-xs tracking-[0.3em] text-accent mb-4 uppercase">Service</motion.p>
           <motion.h2 initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.1 }} className="text-3xl md:text-5xl font-bold text-sumi mb-3">
             What I Do
           </motion.h2>
-          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.2 }} className="text-stone-400 text-sm">
-            カードをクリックすると詳細を確認できます
+          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.2 }} className="text-faint text-sm">
+            {t.services.hint}
           </motion.p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {services.map((s, i) => (
-            <motion.div
-              key={s.title}
-              initial={{ opacity: 0, y: 36 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.15 + i * 0.07 }}
-              onClick={() => setSelected(s)}
-              className={`bg-white rounded-2xl p-7 border ${s.border} group hover:scale-[1.025] hover:shadow-lg transition-all duration-300 cursor-pointer`}
-            >
-              <div className={`w-11 h-11 rounded-xl bg-gradient-to-br from-stone-50 to-stone-100 border ${s.border} flex items-center justify-center mb-5 ${s.accent} group-hover:scale-110 transition-transform duration-300`}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={s.iconSrc}
-                  alt=""
-                  aria-hidden="true"
-                  className="h-5 w-5 object-contain opacity-80"
-                  style={{ filter: "invert(28%) sepia(42%) saturate(900%) hue-rotate(100deg) brightness(90%)" }}
-                  draggable={false}
-                />
-              </div>
-              <h3 className="text-sumi font-bold text-lg mb-1">{s.title}</h3>
-              <p className="text-stone-400 text-[11px] mb-2 tracking-wide">{s.titleJa}</p>
-              <p className="text-stone-500 text-sm leading-relaxed mb-5">{s.description}</p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {s.stacks.map((stack) => (
+          {services.map((s, i) => {
+            const text = t.services.items[s.id];
+            return (
+              <motion.div
+                key={s.title}
+                initial={{ opacity: 0, y: 36 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.15 + i * 0.07 }}
+                onClick={() => setSelectedId(s.id)}
+                className={`bg-surface rounded-2xl p-7 border ${s.border} group hover:scale-[1.025] hover:shadow-lg transition-all duration-300 cursor-pointer`}
+              >
+                <div className={`w-11 h-11 rounded-xl bg-sunken border ${s.border} flex items-center justify-center mb-5 ${s.accent} group-hover:scale-110 transition-transform duration-300`}>
                   <span
-                    key={stack.name}
-                    title={stack.name}
-                    className={`flex h-9 w-9 items-center justify-center rounded-lg border ${s.tagBorder} ${s.tagBg} transition-transform hover:scale-110`}
-                  >
-                    {stack.isOpenAI ? (
-                      <OpenAIMark />
-                    ) : (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={stack.src}
-                        alt={stack.name}
-                        className={stack.wide ? "h-4 w-7 object-contain" : "h-5 w-5 object-contain"}
-                        draggable={false}
-                      />
-                    )}
-                  </span>
-                ))}
-              </div>
-              <div className={`text-xs ${s.accent} flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200`}>
-                詳細を見る <span>→</span>
-              </div>
-            </motion.div>
-          ))}
+                    aria-hidden="true"
+                    className="icon-mask h-5 w-5 opacity-80"
+                    style={{ "--icon": `url(${s.iconSrc})` } as CSSProperties}
+                  />
+                </div>
+                <h3 className="text-sumi font-bold text-lg mb-1">{s.title}</h3>
+                {text.subtitle && <p className="text-faint text-[11px] mb-2 tracking-wide">{text.subtitle}</p>}
+                <p className="text-muted text-sm leading-relaxed mb-5">{text.description}</p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {s.stacks.map((stack) => (
+                    // brand marks are drawn for light backgrounds, so in space they sit on a pale chip
+                    <span
+                      key={stack.name}
+                      title={stack.name}
+                      className={`flex h-9 w-9 items-center justify-center rounded-lg border ${s.tagBorder} ${s.tagBg} transition-transform hover:scale-110 space:border-transparent space:bg-white/90`}
+                    >
+                      {stack.isOpenAI ? (
+                        <OpenAIMark />
+                      ) : (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={stack.src}
+                          alt={stack.name}
+                          className={stack.wide ? "h-4 w-7 object-contain" : "h-5 w-5 object-contain"}
+                          draggable={false}
+                        />
+                      )}
+                    </span>
+                  ))}
+                </div>
+                <div className={`text-xs ${s.accent} flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200`}>
+                  {t.services.more} <span>→</span>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 
-      <ServiceModal service={selected} onClose={() => setSelected(null)} />
+      <ServiceModal service={selected} onClose={() => setSelectedId(null)} />
     </section>
   );
 }

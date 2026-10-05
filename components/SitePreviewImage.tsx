@@ -146,6 +146,7 @@ export default function SitePreviewImage({ url, categoryLabel, imageUrl }: Props
     const screenshot = isScreenshotUrl(imageSrc);
 
     if (
+      !imageUrl &&
       !screenshot &&
       (img.naturalWidth < MIN_PREVIEW_WIDTH || img.naturalHeight < MIN_PREVIEW_HEIGHT)
     ) {
@@ -173,7 +174,7 @@ export default function SitePreviewImage({ url, categoryLabel, imageUrl }: Props
   return (
     <div
       ref={containerRef}
-      className="relative h-52 overflow-hidden border-b border-stone-100 bg-stone-100"
+      className="relative h-52 overflow-hidden border-b border-line-soft bg-sunken"
     >
       {!hasError && imageSrc ? (
         <>
@@ -188,19 +189,19 @@ export default function SitePreviewImage({ url, categoryLabel, imageUrl }: Props
             className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
           />
           {isLoading && (
-            <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-stone-200 via-stone-100 to-stone-200" />
+            <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-line via-sunken to-line" />
           )}
         </>
       ) : (
-        <div className="flex h-full flex-col items-center justify-center bg-gradient-to-br from-stone-100 to-stone-200 px-4 text-center">
+        <div className="flex h-full flex-col items-center justify-center bg-gradient-to-br from-sunken to-line px-4 text-center">
           {isLoading && !hasError ? (
-            <div className="h-full w-full animate-pulse bg-gradient-to-br from-stone-200 via-stone-100 to-stone-200" />
+            <div className="h-full w-full animate-pulse bg-gradient-to-br from-line via-sunken to-line" />
           ) : (
             <>
-              <span className="text-2xl font-bold text-stone-500">
+              <span className="text-2xl font-bold text-muted">
                 {siteName.slice(0, 2).toUpperCase()}
               </span>
-              <span className="mt-2 text-xs text-stone-500">Preview unavailable</span>
+              <span className="mt-2 text-xs text-muted">Preview unavailable</span>
             </>
           )}
         </div>
@@ -208,7 +209,7 @@ export default function SitePreviewImage({ url, categoryLabel, imageUrl }: Props
 
       <div className="absolute inset-0 bg-gradient-to-t from-stone-900/20 via-transparent to-transparent pointer-events-none" />
 
-      <div className="absolute top-3 left-3 rounded-full border border-gold-300 bg-gold-300 px-2.5 py-1 text-[10px] font-semibold text-stone-900 shadow-sm">
+      <div className="absolute top-3 left-3 rounded-full border border-gold-300 bg-gold-300 px-2.5 py-1 text-[10px] font-semibold text-ai-950 shadow-sm">
         {categoryLabel}
       </div>
     </div>

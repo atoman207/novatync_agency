@@ -16,11 +16,7 @@ export const seedPortfolioCategories: SeedCategory[] = [
     stacks: ["BASE", "E-commerce"],
     group_type: "skill",
     sort_order: 0,
-    sites: [
-      "https://busmotto.kyusanko.co.jp/",
-      "https://shop.awaji-resort.com/",
-      "https://shirasuya.co.jp/",
-    ],
+    sites: ["https://shop.awaji-resort.com/"],
   },
   {
     id: "ec-cube",
@@ -28,7 +24,7 @@ export const seedPortfolioCategories: SeedCategory[] = [
     stacks: ["EC-CUBE", "PHP", "E-commerce"],
     group_type: "skill",
     sort_order: 1,
-    sites: ["https://www.i2-jp.com/", "https://www.itojuku.co.jp/"],
+    sites: ["https://www.itojuku.co.jp/"],
   },
   {
     id: "makeshop",
@@ -38,7 +34,6 @@ export const seedPortfolioCategories: SeedCategory[] = [
     sort_order: 2,
     sites: [
       "https://morght.com/",
-      "https://www.suntory.co.jp/",
       "https://www.adastria.co.jp/",
       "https://teamyokomo.com/",
     ],
@@ -48,15 +43,16 @@ export const seedPortfolioCategories: SeedCategory[] = [
     label: "Next.js",
     stacks: ["Next.js", "React", "TypeScript"],
     group_type: "skill",
-    sort_order: 3,
+    sort_order: -1,
     sites: [
-      "https://corp.itandi.co.jp/",
       "https://wh-sanchoku.com/",
       "https://thekitchenconnection.net/",
       "https://retouch.salon/",
-      "https://retouch.news/",
-      "https://i-m-service.com/",
       "https://aircon-cleannavi.com/",
+      "https://bajigakuin.net/",
+      "https://labnote.site/",
+      "https://luckybronzecoin.com/",
+      "https://saiseibouquet.jp/",
     ],
   },
   {
@@ -74,7 +70,6 @@ export const seedPortfolioCategories: SeedCategory[] = [
     group_type: "skill",
     sort_order: 5,
     sites: [
-      "https://store.makuake.com/",
       "https://www.kracie.co.jp/",
       "https://moon-castle.jp/",
       "https://konnybaby.jp/",
@@ -91,7 +86,6 @@ export const seedPortfolioCategories: SeedCategory[] = [
       "https://crayonshinchan-japancrafts.jp/",
       "https://service.norm.co.jp/",
       "https://agel-english.com/",
-      "https://aura-clinic.jp/",
       "https://x-ross.jp/",
     ],
   },
@@ -116,11 +110,9 @@ export const seedPortfolioCategories: SeedCategory[] = [
     group_type: "skill",
     sort_order: 8,
     sites: [
-      "https://www.tradition-design.jp/",
       "https://www.welfing.info/",
       "https://www.webmarketing.dxup.jp/",
       "https://www.kaedehatashima.com/",
-      "https://www.sijam.com/",
       "https://www.anshinlife.biz/",
       "https://www.glwa.jp/",
       "https://www.dentease.jp/",
@@ -136,7 +128,6 @@ export const seedPortfolioCategories: SeedCategory[] = [
       "https://kaho-enterprise.co.jp/",
       "https://www.every24.co.jp/",
       "https://www.apexia.biz/",
-      "https://yukos.kospro.jp/",
     ],
   },
   {
@@ -152,13 +143,12 @@ export const seedPortfolioCategories: SeedCategory[] = [
       "https://www.glcl.co.jp/",
       "https://www.leapath.jp/lp_company/",
       "https://don-consultant.com/",
-      "https://kirakuni-consulting.com/",
       "https://keiei-navi.com/",
       "https://www.tsuyomi.biz/",
       "https://song-cs.com/",
-      "https://kinutasmec.com/",
       "https://bizdesign-partners.com/",
       "https://nkjm-smec.jp/",
+      "https://koholab.jp/",
     ],
   },
   {
@@ -182,11 +172,7 @@ export const seedPortfolioCategories: SeedCategory[] = [
     sort_order: 12,
     sites: [
       "https://www.muji.com/jp/ja/store",
-      "https://corp.zozo.com/",
       "https://hanaya-fashion.co.jp/",
-      "https://pato.today/guest/",
-      "https://thesalon.tokyo/",
-      "https://jemiremi.com/",
       "https://www.umeya1951.jp/",
     ],
   },
@@ -210,9 +196,7 @@ export const seedPortfolioCategories: SeedCategory[] = [
     sites: [
       "https://writersbox.com/ja/",
       "https://aiocr.ai/lp/",
-      "https://sb-jp.com/",
       "https://usen.com/portal/biz_music/lp_uplink/",
-      "https://daae.shiftinc.jp/",
     ],
   },
   {

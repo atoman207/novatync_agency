@@ -9,5 +9,10 @@ export const metadata = {
 };
 
 export default function HiraiPage() {
-  return <HiraiAdmin />;
+  // The admin tool has its own fixed colours — keep it out of the site's theme switch.
+  return (
+    <div data-theme="light">
+      <HiraiAdmin />
+    </div>
+  );
 }

@@ -1,17 +1,27 @@
+import About from "@/components/About";
+import Contact from "@/components/Contact";
 import Hero from "@/components/Hero";
-import BrandMeaning from "@/components/BrandMeaning";
-import Mission from "@/components/Mission";
-import WhyNovatync from "@/components/WhyNovatync";
-import Reviews from "@/components/Reviews";
+import Works from "@/components/Works";
+import { getPortfolioFromDb } from "@/lib/portfolio/db";
+import { buildPortfolioData } from "@/lib/portfolio/utils";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  let portfolio;
+
+  try {
+    portfolio = await getPortfolioFromDb();
+  } catch {
+    portfolio = buildPortfolioData([]);
+  }
+
   return (
     <>
       <Hero />
-      <BrandMeaning />
-      <Mission />
-      <WhyNovatync />
-      <Reviews />
+      <Works portfolio={portfolio} />
+      <About />
+      <Contact />
     </>
   );
 }

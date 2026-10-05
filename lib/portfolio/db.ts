@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { createServerClient } from "@/lib/supabase/server";
 import { seedPortfolioCategories } from "@/lib/portfolio/seed-data";
 import type { PortfolioCategory, PortfolioSite } from "@/lib/portfolio/types";
@@ -26,6 +28,38 @@ function sortSites(sites: PortfolioSite[]) {
   });
 }
 
+function localImageNames(url: string) {
+  const host = new URL(url).hostname;
+  const bare = host.replace(/^www\./, "");
+  const names = [`${host}.png`, `${bare}.png`, `https${host}.png`];
+  if (bare === "koholab.jp") names.push("koholab.png");
+  return names;
+}
+
+/** Prefer screenshots in public/sites, then older files in public/. */
+export function getLocalPortfolioImage(url: string) {
+  let names: string[];
+  try {
+    names = localImageNames(url);
+  } catch {
+    return null;
+  }
+
+  for (const name of names) {
+    if (existsSync(join(process.cwd(), "public", "sites", name))) {
+      return `/sites/${name}`;
+    }
+  }
+
+  for (const name of names) {
+    if (existsSync(join(process.cwd(), "public", name))) {
+      return `/${name}`;
+    }
+  }
+
+  return null;
+}
+
 export async function getPortfolioFromDb() {
   const supabase = createServerClient();
 
@@ -45,7 +79,7 @@ export async function getPortfolioFromDb() {
     bucket.push({
       id: site.id,
       url: site.url,
-      image_url: site.image_url,
+      image_url: getLocalPortfolioImage(site.url) ?? site.image_url,
       category_id: site.category_id,
       sort_order: site.sort_order,
     });
@@ -82,11 +116,13 @@ export async function seedPortfolioDatabase() {
     if (categoryError) throw categoryError;
 
     for (const [siteIndex, url] of category.sites.entries()) {
+      const homepageImage = getLocalPortfolioImage(url);
+
       const { error: siteError } = await supabase.from("portfolio_sites").upsert(
         {
           url,
           category_id: category.id,
-          image_url: null,
+          ...(homepageImage ? { image_url: homepageImage } : {}),
           sort_order: siteIndex,
           updated_at: new Date().toISOString(),
         },

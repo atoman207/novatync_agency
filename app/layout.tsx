@@ -11,38 +11,53 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingWidgets from "@/components/FloatingWidgets";
-import ScrollSceneClient from "@/components/ScrollSceneClient";
+import PreferencesProvider from "@/components/PreferencesProvider";
+import SpaceBackground from "@/components/SpaceBackground";
+import { dictionaries } from "@/lib/i18n/dictionaries";
+import { getPreferences } from "@/lib/preferences/server";
 
-export const metadata: Metadata = {
-  title: {
-    default: "NOVATYNC開発会社 | AI × Full Stack × Cloud Innovation",
-    template: "%s | NOVATYNC開発会社",
-  },
-  description:
-    "NOVATYNCは、生成AI、Webシステム、クラウド、そして最先端技術を融合し、企業のDXを加速させるITパートナーです。",
-  keywords: ["AI開発", "フルスタック", "クラウド", "DX", "Next.js", "React", "NOVATYNC"],
-  icons: {
-    icon: [{ url: "/favicon.png", type: "image/png", sizes: "64x64" }],
-    shortcut: "/favicon.png",
-    apple: "/apple-touch-icon.png",
-  },
-  openGraph: {
-    title: "NOVATYNC開発会社 | AI × Full Stack × Cloud Innovation",
-    description: "Creating Tomorrow's Intelligence.",
-    siteName: "NOVATYNC開発会社",
-    locale: "ja_JP",
-    type: "website",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { lang } = await getPreferences();
+  const { meta } = dictionaries[lang];
 
-export default function RootLayout({
+  return {
+    title: {
+      default: meta.title,
+      template: `%s | ${meta.siteName}`,
+    },
+    description: meta.description,
+    keywords: meta.keywords,
+    icons: {
+      icon: [{ url: "/favicon.png", type: "image/png", sizes: "1254x1254" }],
+      shortcut: "/favicon.png",
+      apple: "/favicon.png",
+    },
+    openGraph: {
+      title: meta.title,
+      description: meta.description,
+      siteName: meta.siteName,
+      locale: meta.ogLocale,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.description,
+    },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Language and background come from cookies, so the first paint is already right.
+  const { lang, theme } = await getPreferences();
+
   return (
-    <html lang="ja" className="h-full">
-      <body className="min-h-full antialiased bg-washi text-sumi">
+    <html lang={lang} data-theme={theme} className="h-full">
+      <body className="min-h-full antialiased">
         <Script id="clear-stale-sw" strategy="beforeInteractive">{`
           (function () {
             if (!("serviceWorker" in navigator)) return;
@@ -59,13 +74,15 @@ export default function RootLayout({
             });
           })();
         `}</Script>
-        <ScrollSceneClient />
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <FloatingWidgets />
-        </div>
+        <PreferencesProvider initialLang={lang} initialTheme={theme}>
+          <SpaceBackground />
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <FloatingWidgets />
+          </div>
+        </PreferencesProvider>
       </body>
     </html>
   );

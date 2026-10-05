@@ -4,16 +4,19 @@ import { Suspense, useLayoutEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Html, Sphere, Stars, useTexture } from "@react-three/drei";
 import * as THREE from "three";
+import { useTheme } from "@/components/PreferencesProvider";
+import type { Theme } from "@/lib/preferences/config";
 
 /**
  * Official stack icons — mirrors the skill set shown in Technology.tsx.
  * Sourced from the Devicon CDN (colored, official brand SVGs). A few marks
  * ship near-black by default, so those use a light/colored Simple Icons
- * variant instead so they stay visible against the dark hero background.
+ * variant instead so they stay visible against the dark hero background
+ * (`lightSrc` is the dark original, used on the white background).
  */
 const STACKS = [
   { name: "React", src: devicon("react/react-original.svg") },
-  { name: "Next.js", src: simpleIcon("nextdotjs", "FFFFFF") },
+  { name: "Next.js", src: simpleIcon("nextdotjs", "FFFFFF"), lightSrc: simpleIcon("nextdotjs", "000000") },
   { name: "TypeScript", src: devicon("typescript/typescript-original.svg") },
   { name: "Python", src: devicon("python/python-original.svg") },
   { name: "FastAPI", src: devicon("fastapi/fastapi-original.svg") },
@@ -29,7 +32,7 @@ const STACKS = [
   { name: "OpenAI", src: "", isOpenAI: true },
   { name: "Claude", src: simpleIcon("anthropic", "D4A27F") },
   { name: "Gemini", src: simpleIcon("googlegemini", "8E75F0") },
-  { name: "GitHub", src: simpleIcon("github", "FFFFFF") },
+  { name: "GitHub", src: simpleIcon("github", "FFFFFF"), lightSrc: simpleIcon("github", "181717") },
   { name: "Terraform", src: devicon("terraform/terraform-original.svg") },
   { name: "Kubernetes", src: devicon("kubernetes/kubernetes-plain.svg") },
 ] as const;
@@ -168,12 +171,13 @@ type OrbitSkill = (typeof STACKS)[number] & {
   spin: number;
 };
 
-function OrbitingIcon({ skill }: { skill: OrbitSkill }) {
+function OrbitingIcon({ skill, theme }: { skill: OrbitSkill; theme: Theme }) {
   const groupRef = useRef<THREE.Group>(null);
   const iconRef = useRef<HTMLDivElement>(null);
   const isWide = "wide" in skill && skill.wide;
   const isOpenAI = "isOpenAI" in skill && skill.isOpenAI;
   const size = isWide ? 40 : 26;
+  const src = theme === "light" && "lightSrc" in skill ? skill.lightSrc : skill.src;
 
   useFrame(({ clock }) => {
     if (!groupRef.current) return;
@@ -203,7 +207,7 @@ function OrbitingIcon({ skill }: { skill: OrbitSkill }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            filter: "drop-shadow(0 2px 7px rgba(0,0,0,0.6))",
+            filter: `drop-shadow(0 2px 7px rgba(0,0,0,${theme === "light" ? 0.18 : 0.6}))`,
           }}
         >
           {isOpenAI ? (
@@ -211,7 +215,7 @@ function OrbitingIcon({ skill }: { skill: OrbitSkill }) {
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={skill.src}
+              src={src}
               alt={skill.name}
               draggable={false}
               style={{ width: "100%", height: "100%", objectFit: "contain", background: "transparent" }}
@@ -223,7 +227,7 @@ function OrbitingIcon({ skill }: { skill: OrbitSkill }) {
   );
 }
 
-function OrbitingStacks() {
+function OrbitingStacks({ theme }: { theme: Theme }) {
   // Two icons per plane where possible, evenly phased, each with a unique speed.
   const skills = useMemo<OrbitSkill[]>(
     () =>
@@ -257,7 +261,7 @@ function OrbitingStacks() {
         <OrbitRing key={`ring-${i}`} plane={plane} />
       ))}
       {skills.map((skill) => (
-        <OrbitingIcon key={skill.name} skill={skill} />
+        <OrbitingIcon key={skill.name} skill={skill} theme={theme} />
       ))}
     </group>
   );
@@ -291,7 +295,7 @@ function ResponsiveRig() {
   return null;
 }
 
-function Scene() {
+function Scene({ theme }: { theme: Theme }) {
   const rootRef = useRef<THREE.Group>(null);
 
   useFrame(({ clock }) => {
@@ -302,10 +306,14 @@ function Scene() {
   return (
     <>
       <ResponsiveRig />
-      <Stars radius={60} depth={40} count={3200} factor={2.4} saturation={0} fade speed={0.35} />
+      {/* white points of light only read against the dark sky */}
+      {theme === "space" && (
+        <Stars radius={60} depth={40} count={3200} factor={2.4} saturation={0} fade speed={0.35} />
+      )}
 
       <group ref={rootRef}>
-        <ambientLight intensity={0.55} />
+        {/* on white, lift the night side so the globe doesn't read as a black disc */}
+        <ambientLight intensity={theme === "light" ? 1.6 : 0.55} />
         <directionalLight position={[4, 3, 5]} intensity={1.35} color="#eafff1" />
         <directionalLight position={[-3, -2, -4]} intensity={0.35} color="#34d17f" />
         <pointLight position={[0, 0, 3.5]} intensity={0.8} color="#84cc16" distance={10} />
@@ -313,13 +321,16 @@ function Scene() {
         <Suspense fallback={null}>
           <EarthGlobe />
         </Suspense>
-        <OrbitingStacks />
+        <OrbitingStacks theme={theme} />
       </group>
     </>
   );
 }
 
 export default function HeroSphere() {
+  // read outside the canvas: <Html> content renders in its own React root
+  const { theme } = useTheme();
+
   return (
     <Canvas
       camera={{ position: [0, 0.1, CAMERA_DISTANCE], fov: 42, near: 0.1, far: 200 }}
@@ -327,7 +338,7 @@ export default function HeroSphere() {
       dpr={[1, 1.75]}
       style={{ background: "transparent", width: "100%", height: "100%" }}
     >
-      <Scene />
+      <Scene theme={theme} />
     </Canvas>
   );
 }

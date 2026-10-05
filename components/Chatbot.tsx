@@ -3,16 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+import { useI18n } from "@/components/PreferencesProvider";
 
 const quickReplies = [
-  { label: "サービスについて", href: "/service" },
-  { label: "実績を見る", href: "/works" },
-  { label: "お問い合わせ", href: "/contact" },
-];
+  { key: "works", href: "/#works" },
+  { key: "contact", href: "/#contact" },
+] as const;
 
 export default function Chatbot() {
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     if (!open) return;
@@ -36,20 +37,20 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
             transition={{ duration: 0.22 }}
-            className="mb-3 w-[min(90vw,320px)] overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-2xl sm:mb-4 sm:w-[min(92vw,340px)]"
+            className="mb-3 w-[min(90vw,320px)] overflow-hidden rounded-2xl border border-line bg-popover shadow-2xl sm:mb-4 sm:w-[min(92vw,340px)]"
           >
             <div className="bg-gradient-to-r from-shu-700 to-gold-600 px-4 py-3.5 text-white sm:px-5 sm:py-4">
               <p className="text-sm font-semibold">NOVATYNC Assistant</p>
               <p className="mt-1 text-xs text-white/85">
-                ご質問やご相談はこちらからどうぞ。
+                {t.chatbot.subtitle}
               </p>
             </div>
 
             <div className="space-y-3 px-4 py-3.5 sm:px-5 sm:py-4">
-              <div className="rounded-2xl rounded-tl-sm bg-stone-100 px-3.5 py-2.5 text-sm leading-relaxed text-stone-700 sm:px-4 sm:py-3">
-                こんにちは。NOVATYNCのサポートです。
+              <div className="rounded-2xl rounded-tl-sm bg-sunken px-3.5 py-2.5 text-sm leading-relaxed text-ink-soft sm:px-4 sm:py-3">
+                {t.chatbot.greeting[0]}
                 <br />
-                サービス内容やお問い合わせ方法をご案内します。
+                {t.chatbot.greeting[1]}
               </div>
 
               <div className="flex flex-wrap gap-2">
@@ -58,21 +59,21 @@ export default function Chatbot() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="rounded-full border border-shu-200 bg-shu-50 px-3 py-1.5 text-xs font-medium text-shu-700 transition hover:bg-shu-100"
+                    className="rounded-full border border-shu-200 bg-shu-50 px-3 py-1.5 text-xs font-medium text-accent-strong transition hover:bg-shu-100"
                   >
-                    {item.label}
+                    {t.chatbot.quick[item.key]}
                   </Link>
                 ))}
               </div>
             </div>
 
-            <div className="border-t border-stone-100 px-4 py-3">
+            <div className="border-t border-line-soft px-4 py-3">
               <Link
-                href="/contact"
+                href="/#contact"
                 onClick={() => setOpen(false)}
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-shu-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-shu-700"
               >
-                お問い合わせフォームへ
+                {t.chatbot.cta}
                 <span aria-hidden>→</span>
               </Link>
             </div>
@@ -83,7 +84,7 @@ export default function Chatbot() {
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        aria-label={open ? "チャットを閉じる" : "チャットを開く"}
+        aria-label={open ? t.chatbot.close : t.chatbot.open}
         aria-expanded={open}
         className="flex h-12 w-12 items-center justify-center rounded-full bg-shu-600 text-white shadow-lg shadow-shu-600/30 transition hover:bg-shu-700 hover:shadow-xl sm:h-14 sm:w-14"
       >

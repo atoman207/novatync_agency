@@ -1,10 +1,18 @@
 @import "tailwindcss";
 
-:root {
-  /* ---- washi paper (green-tinted) / midori ink ---- */
-  --background: #f3f8f4;
+/* `space:` — utilities that only apply while the space theme is active */
+@custom-variant space (&:where([data-theme="space"], [data-theme="space"] *));
+
+/* ========= THEME: WHITE ========= */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* ---- page backdrop (behind the 3D canvas) ---- */
+  --background: #ffffff;
   --foreground: #0f2418;
 
+  /* ---- washi paper (green-tinted) / midori ink ---- */
   --washi: #f3f8f4;
   --washi-deep: #e4efe7;
   --sumi: #0f2418;
@@ -47,6 +55,82 @@
   --gold-700: #4d7c0f;
   --gold-800: #3f6212;
   --gold-900: #365314;
+
+  /* ---- surfaces ---- */
+  --band: rgba(228, 239, 231, 0.62);    /* alternating section tint */
+  --surface: rgba(255, 255, 255, 0.9);  /* cards — the backdrop shows through faintly */
+  --popover: #ffffff;                   /* floating panels, always opaque */
+  --sunken: #f5f5f4;
+  --field: #ffffff;
+  --autofill: #ffffff;
+  --chrome: rgba(243, 248, 244, 0.95);  /* header */
+  --footer: var(--ai-950);
+
+  /* ---- hairlines ---- */
+  --line-soft: #f5f5f4;
+  --line: #e7e5e4;
+  --line-strong: #d6d3d1;
+  --grid-line: rgba(28, 28, 28, 0.035);
+
+  /* ---- text ---- */
+  --ink-soft: #57534e;
+  --muted: #78716c;
+  --faint: #a8a29e;
+  --ghost: #d6d3d1;
+
+  /* ---- accents readable on the page backdrop ---- */
+  --accent: var(--shu-600);
+  --accent-strong: var(--shu-700);
+  --accent-alt: var(--gold-600);
+  --gradient-text: linear-gradient(135deg, #34d17f 0%, #84cc16 50%, #12813c 100%);
+}
+
+/* ========= THEME: SPACE (default) ========= */
+[data-theme="space"] {
+  color-scheme: dark;
+
+  --background: #03050d;
+  --foreground: #edf2ff;
+
+  --washi: #070b1a;
+  --washi-deep: #0b1126;
+  --sumi: #edf2ff;
+  --gold: #a3e635;
+
+  /* the palest tints turn into soft glows on a dark sky */
+  --ai-50:  rgba(124, 195, 154, 0.1);
+  --ai-100: rgba(124, 195, 154, 0.2);
+  --ai-200: rgba(124, 195, 154, 0.32);
+  --shu-50:  rgba(52, 209, 127, 0.1);
+  --shu-100: rgba(52, 209, 127, 0.2);
+  --shu-200: rgba(52, 209, 127, 0.34);
+  --gold-50:  rgba(163, 230, 53, 0.08);
+  --gold-100: rgba(163, 230, 53, 0.15);
+  --gold-200: rgba(163, 230, 53, 0.26);
+
+  --band: rgba(110, 124, 255, 0.05);
+  --surface: rgba(10, 15, 34, 0.72);
+  --popover: #0b1124;
+  --sunken: rgba(255, 255, 255, 0.05);
+  --field: rgba(255, 255, 255, 0.05);
+  --autofill: #0d1329;
+  --chrome: rgba(4, 7, 18, 0.7);
+  --footer: rgba(3, 5, 13, 0.78);
+
+  --line-soft: rgba(150, 166, 255, 0.1);
+  --line: rgba(150, 166, 255, 0.17);
+  --line-strong: rgba(150, 166, 255, 0.3);
+  --grid-line: rgba(150, 166, 255, 0.05);
+
+  --ink-soft: #cbd3ea;
+  --muted: #a4aecb;
+  --faint: #8590b2;
+  --ghost: rgba(150, 166, 255, 0.4);
+
+  --accent: #5fe3a1;
+  --accent-strong: #9df2c6;
+  --accent-alt: #c3f06f;
+  --gradient-text: linear-gradient(135deg, #5fe3a1 0%, #c3f06f 50%, #34d17f 100%);
 }
 
 @theme inline {
@@ -92,6 +176,27 @@
   --color-gold-700: var(--gold-700);
   --color-gold-800: var(--gold-800);
   --color-gold-900: var(--gold-900);
+
+  --color-band: var(--band);
+  --color-surface: var(--surface);
+  --color-popover: var(--popover);
+  --color-sunken: var(--sunken);
+  --color-field: var(--field);
+  --color-chrome: var(--chrome);
+  --color-footer: var(--footer);
+
+  --color-line-soft: var(--line-soft);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-ghost: var(--ghost);
+
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-alt: var(--accent-alt);
 }
 
 html {
@@ -121,9 +226,9 @@ input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus {
-  -webkit-text-fill-color: #1c1c1c;
-  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
-  box-shadow: 0 0 0 1000px #ffffff inset;
+  -webkit-text-fill-color: var(--sumi);
+  -webkit-box-shadow: 0 0 0 1000px var(--autofill) inset;
+  box-shadow: 0 0 0 1000px var(--autofill) inset;
   transition: background-color 9999s ease-in-out 0s;
 }
 
@@ -141,7 +246,7 @@ textarea:-webkit-autofill:focus {
 
 /* Section h2 titles — vermillion */
 .section-padding h2 {
-  color: var(--shu-600);
+  color: var(--accent);
 }
 
 /* PageHeader h1 override — sumi ink */
@@ -167,8 +272,8 @@ textarea:-webkit-autofill:focus {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.03);
 }
 
-/* Dark glass — hero/dark sections only */
-.glass-dark {
+/* Tinted glass — hero badge */
+.glass-tint {
   background: rgba(52, 209, 127, 0.08);
   border: 1px solid rgba(52, 209, 127, 0.28);
   backdrop-filter: blur(14px);
@@ -178,7 +283,7 @@ textarea:-webkit-autofill:focus {
 /* ========= GRADIENT ========= */
 /* midori (緑) gradient — emerald to lime to deep forest */
 .gradient-text {
-  background: linear-gradient(135deg, #34d17f 0%, #84cc16 50%, #12813c 100%);
+  background: var(--gradient-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -210,8 +315,8 @@ textarea:-webkit-autofill:focus {
 /* ========= GRID BACKGROUNDS ========= */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(28, 28, 28, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(28, 28, 28, 0.035) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 64px 64px;
 }
 
@@ -266,6 +371,72 @@ textarea:-webkit-autofill:focus {
   line-height: 1;
   writing-mode: vertical-rl;
   letter-spacing: 0.05em;
+}
+
+/* ========= ICONS ========= */
+/* Monochrome line icons, tinted with the theme accent. Set --icon to url(...). */
+.icon-mask {
+  display: inline-block;
+  background-color: var(--accent);
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+/* ========= SPACE BACKDROP ========= */
+/* Painted under the WebGL canvas: shows instantly, and stands in if WebGL is unavailable. */
+.space-backdrop {
+  background-color: var(--background);
+}
+
+.space-backdrop::before,
+.space-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+/* deep-space glow */
+.space-backdrop::before {
+  background:
+    radial-gradient(120% 80% at 82% -10%, rgba(88, 70, 190, 0.32), transparent 60%),
+    radial-gradient(90% 70% at 8% 108%, rgba(16, 122, 96, 0.28), transparent 62%),
+    radial-gradient(70% 60% at 50% 50%, rgba(14, 22, 58, 0.6), transparent 75%),
+    linear-gradient(180deg, #03050d 0%, #060a1c 55%, #03050d 100%);
+}
+
+/* a still layer of faint, far-away stars */
+.space-backdrop::after {
+  background-image:
+    radial-gradient(1px 1px at 11% 17%, rgba(255, 255, 255, 0.8) 50%, transparent 51%),
+    radial-gradient(1px 1px at 29% 71%, rgba(196, 214, 255, 0.7) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 47% 33%, rgba(255, 255, 255, 0.6) 50%, transparent 51%),
+    radial-gradient(1px 1px at 63% 88%, rgba(255, 236, 205, 0.7) 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 9%, rgba(255, 255, 255, 0.7) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 91% 54%, rgba(180, 255, 221, 0.6) 50%, transparent 51%),
+    radial-gradient(1px 1px at 5% 92%, rgba(255, 255, 255, 0.6) 50%, transparent 51%),
+    radial-gradient(1px 1px at 38% 5%, rgba(214, 200, 255, 0.7) 50%, transparent 51%);
+  background-size: 380px 380px;
+}
+
+[data-theme="space"] .space-backdrop::before { opacity: 1; }
+[data-theme="space"] .space-backdrop::after { opacity: 0.55; }
+
+/* ========= THEME SWITCH — circular reveal ========= */
+:root.theme-reveal::view-transition-old(root),
+:root.theme-reveal::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+:root.theme-reveal::view-transition-new(root) {
+  animation: theme-reveal 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes theme-reveal {
+  from { clip-path: circle(0 at var(--reveal-x) var(--reveal-y)); }
+  to   { clip-path: circle(var(--reveal-r) at var(--reveal-x) var(--reveal-y)); }
 }
 
 /* ========= SPACING ========= */

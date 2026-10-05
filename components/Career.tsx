@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useI18n } from "@/components/PreferencesProvider";
 
 function devicon(path: string) {
   return `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${path}`;
@@ -24,22 +25,29 @@ function OpenAIMark({ size = 18 }: { size?: number }) {
 
 type Skill = { name: string; src?: string; isOpenAI?: boolean };
 
-type Position = {
+type PositionId = "frontend" | "backend" | "ai" | "cloud" | "design";
+
+/** Everything about a position that doesn't change with the language. */
+type PositionStyle = {
+  id: PositionId;
   role: string;
-  type: string;
+  type: "both" | "contract";
   bg: string;
   skills: Skill[];
-  desc: string;
   badgeText: string;
   dot: string;
   border: string;
   glow: string;
 };
 
-const positions: Position[] = [
+/** A position with its employment type and description in the current language. */
+type Position = Omit<PositionStyle, "type"> & { type: string; desc: string };
+
+const positions: PositionStyle[] = [
   {
+    id: "frontend",
     role: "Frontend Engineer",
-    type: "正社員 / 業務委託",
+    type: "both",
     bg: "/career/frontend-bg.jpg",
     skills: [
       { name: "React", src: devicon("react/react-original.svg") },
@@ -49,15 +57,15 @@ const positions: Position[] = [
       { name: "JavaScript", src: devicon("javascript/javascript-original.svg") },
       { name: "Vite", src: devicon("vitejs/vitejs-original.svg") },
     ],
-    desc: "世界基準のUIを構築するフロントエンドエンジニアを募集しています。",
     badgeText: "text-shu-300",
     dot: "bg-shu-400",
     border: "border-shu-400/50",
     glow: "rgba(52, 209, 127, 0.55)",
   },
   {
+    id: "backend",
     role: "Backend Engineer",
-    type: "正社員 / 業務委託",
+    type: "both",
     bg: "/career/backend-bg.jpg",
     skills: [
       { name: "Python", src: devicon("python/python-original.svg") },
@@ -67,15 +75,15 @@ const positions: Position[] = [
       { name: "Redis", src: devicon("redis/redis-original.svg") },
       { name: "Docker", src: devicon("docker/docker-original.svg") },
     ],
-    desc: "スケーラブルなバックエンドシステムを設計・開発するエンジニアを募集しています。",
     badgeText: "text-emerald-300",
     dot: "bg-emerald-400",
     border: "border-emerald-400/50",
     glow: "rgba(52, 211, 153, 0.55)",
   },
   {
+    id: "ai",
     role: "AI Engineer",
-    type: "正社員 / 業務委託",
+    type: "both",
     bg: "/career/ai-bg.jpg",
     skills: [
       { name: "OpenAI", isOpenAI: true },
@@ -85,15 +93,15 @@ const positions: Position[] = [
       { name: "Gemini", src: simpleIcon("googlegemini", "8E75F0") },
       { name: "Hugging Face", src: simpleIcon("huggingface", "FFD21E") },
     ],
-    desc: "生成AIを事業へ統合するAIエンジニアを募集しています。",
     badgeText: "text-gold-300",
     dot: "bg-gold-400",
     border: "border-gold-400/50",
     glow: "rgba(163, 230, 53, 0.55)",
   },
   {
+    id: "cloud",
     role: "Cloud Engineer",
-    type: "正社員 / 業務委託",
+    type: "both",
     bg: "/career/cloud-bg.jpg",
     skills: [
       { name: "AWS", src: devicon("amazonwebservices/amazonwebservices-original-wordmark.svg") },
@@ -103,15 +111,15 @@ const positions: Position[] = [
       { name: "Docker", src: devicon("docker/docker-original.svg") },
       { name: "GitHub Actions", src: simpleIcon("githubactions", "2088FF") },
     ],
-    desc: "クラウドインフラの設計・運用を担当するエンジニアを募集しています。",
-    badgeText: "text-ai-200",
+    badgeText: "text-ai-300",
     dot: "bg-ai-400",
     border: "border-ai-400/50",
     glow: "rgba(16, 185, 129, 0.55)",
   },
   {
+    id: "design",
     role: "UI/UX Designer",
-    type: "業務委託",
+    type: "contract",
     bg: "/career/design-bg.jpg",
     skills: [
       { name: "Figma", src: devicon("figma/figma-original.svg") },
@@ -120,7 +128,6 @@ const positions: Position[] = [
       { name: "Photoshop", src: devicon("photoshop/photoshop-plain.svg") },
       { name: "Sketch", src: devicon("sketch/sketch-original.svg") },
     ],
-    desc: "世界水準のユーザー体験をデザインするUIデザイナーを募集しています。",
     badgeText: "text-pink-300",
     dot: "bg-pink-400",
     border: "border-pink-400/50",
@@ -286,8 +293,14 @@ export default function Career() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const { t } = useI18n();
 
-  const selected = positions.find((p) => p.role === selectedRole) ?? null;
+  const localized: Position[] = positions.map((p) => ({
+    ...p,
+    type: t.career.types[p.type],
+    desc: t.career.positions[p.id],
+  }));
+  const selected = localized.find((p) => p.role === selectedRole) ?? null;
   const fan = isMobile ? MOBILE_FAN : FAN;
 
   useEffect(() => {
@@ -316,13 +329,13 @@ export default function Career() {
   const closeModal = () => setSelectedRole(null);
 
   return (
-    <section id="career" className="section-padding relative overflow-hidden bg-white">
+    <section id="career" className="section-padding relative scroll-mt-20 overflow-hidden">
       <div ref={ref} className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mb-10 text-center md:mb-14">
           <motion.p
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
-            className="mb-4 text-xs uppercase tracking-[0.3em] text-shu-600"
+            className="mb-4 text-xs uppercase tracking-[0.3em] text-accent"
           >
             Career
           </motion.p>
@@ -338,18 +351,18 @@ export default function Career() {
             initial={{ opacity: 0, y: 16 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2 }}
-            className="text-sm text-stone-500 md:text-base"
+            className="text-sm text-muted md:text-base"
           >
-            未来を一緒につくる仲間を募集しています。
-            <span className="mt-1 block text-xs text-stone-400 md:text-sm">
-              カードを選んで、募集ポジションの詳細を確認できます。
+            {t.career.lead}
+            <span className="mt-1 block text-xs text-faint md:text-sm">
+              {t.career.hint}
             </span>
           </motion.p>
         </div>
 
         {/* Fan / hand of cards */}
         <div className="relative mx-auto mb-10 flex h-[360px] w-full max-w-4xl items-end justify-center sm:h-[400px] md:mb-14 md:h-[460px]">
-          {positions.map((pos, i) => {
+          {localized.map((pos, i) => {
             const slot = fan[i];
             const isSelected = selectedRole === pos.role;
             if (isSelected) return null;
@@ -385,7 +398,7 @@ export default function Career() {
                 onHoverStart={() => setHoveredIndex(i)}
                 onHoverEnd={() => setHoveredIndex(null)}
                 onClick={() => setSelectedRole(pos.role)}
-                aria-label={`${pos.role} の詳細を見る`}
+                aria-label={t.career.viewDetails(pos.role)}
                 className={`absolute bottom-8 origin-bottom overflow-hidden rounded-2xl border ${pos.border} bg-ai-950 text-left shadow-xl outline-none focus-visible:ring-2 focus-visible:ring-shu-400 ${
                   isMobile ? "h-[250px] w-[160px]" : "h-[300px] w-[220px] md:h-[320px] md:w-[240px]"
                 }`}
@@ -408,10 +421,10 @@ export default function Career() {
           className="text-center"
         >
           <Link
-            href="/contact"
+            href="/#contact"
             className="inline-flex items-center gap-2 rounded-xl bg-shu-700 px-8 py-4 text-sm font-semibold text-white shadow-md transition-colors hover:bg-shu-800"
           >
-            応募・お問い合わせ
+            {t.career.apply}
             <span aria-hidden>→</span>
           </Link>
         </motion.div>
@@ -430,7 +443,7 @@ export default function Career() {
           >
             <motion.button
               type="button"
-              aria-label="背景をクリックして閉じる"
+              aria-label={t.career.closeBackdrop}
               className="absolute inset-0 bg-ai-950/80 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

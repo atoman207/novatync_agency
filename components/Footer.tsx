@@ -2,52 +2,63 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useI18n } from "@/components/PreferencesProvider";
 
 const navLinks = [
-  { label: "HOME",       href: "/"           },
-  { label: "SERVICE",    href: "/service"    },
-  { label: "WORKS",      href: "/works"      },
-  { label: "TECHNOLOGY", href: "/technology" },
-  { label: "ABOUT",      href: "/about"      },
-  { label: "CAREER",     href: "/career"     },
-  { label: "CONTACT",    href: "/contact"    },
-];
-
-function simpleIcon(slug: string, hex: string) {
-  return `https://cdn.simpleicons.org/${slug}/${hex}`;
-}
+  { key: "home", label: "HOME", href: "/#home" },
+  { key: "works", label: "WORKS", href: "/#works" },
+  { key: "about", label: "ABOUT", href: "/#about" },
+  { key: "contact", label: "CONTACT", href: "/#contact" },
+] as const;
 
 const contactChannels = [
   {
-    name: "LINE",
-    href: "https://line.me/ti/p/XSUZTyrXGh",
-    icon: simpleIcon("line", "06C755"),
-    chip: "bg-white",
-    iconClass: "h-5 w-5 object-contain",
-    external: true,
-  },
-  {
     name: "Email",
-    href: "mailto:japan.dev07@gmail.com",
-    icon: simpleIcon("gmail", "EA4335"),
+    href: "mailto:contact@labnote.site",
+    icon: "/icons/mail.svg",
     chip: "bg-white",
     iconClass: "h-5 w-5 object-contain",
     external: false,
   },
   {
     name: "Chatwork",
-    href: "https://www.chatwork.com/kingtiger0207",
-    // Official Chatwork Focus Bubble mark (red + white on navy)
+    href: "https://www.chatwork.com/koholab",
     icon: "/icons/chatwork.svg",
     chip: "bg-transparent p-0",
     iconClass: "h-10 w-10 rounded-lg object-contain",
     external: true,
   },
+  {
+    name: "note",
+    href: "https://note.com/koholab",
+    icon: "/icons/note.svg",
+    chip: "bg-white",
+    iconClass: "h-5 w-5 object-contain",
+    external: true,
+  },
+  {
+    name: "LINE",
+    href: "https://line.me/ti/p/XSUZTyrXGh",
+    icon: "/icons/line.svg",
+    chip: "bg-white",
+    iconClass: "h-5 w-5 object-contain",
+    external: true,
+  },
+  {
+    name: "YOUTRUST",
+    href: "https://youtrust.jp/users/131019f770cc6e4a4f6b825939421b12",
+    icon: "/icons/youtrust.png",
+    chip: "bg-white",
+    iconClass: "h-6 w-6 object-contain",
+    external: true,
+  },
 ] as const;
 
 export default function Footer() {
+  const { lang, t } = useI18n();
+  const showJa = lang === "ja";
   return (
-    <footer className="relative bg-ai-950 overflow-hidden">
+    <footer className="relative bg-footer overflow-hidden space:backdrop-blur-sm">
       {/* Top border accent */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
 
@@ -76,7 +87,9 @@ export default function Footer() {
             <p className="text-xs tracking-widest text-white/50 mb-4 uppercase">Navigation</p>
             <div className="grid grid-cols-2 gap-2">
               {navLinks.map((link) => (
-                <Link key={link.label} href={link.href} className="text-sm text-white/70 hover:text-white transition-colors">{link.label}</Link>
+                <Link key={link.key} href={link.href} className="text-sm text-white/70 hover:text-white transition-colors">
+                  {showJa ? t.nav[link.key] : link.label}
+                </Link>
               ))}
             </div>
           </div>
@@ -84,7 +97,7 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <p className="text-xs tracking-widest text-white/50 mb-4 uppercase">Get in Touch</p>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               {contactChannels.map((channel) => (
                 <a
                   key={channel.name}

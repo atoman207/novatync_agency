@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { useI18n } from "@/components/PreferencesProvider";
 
 type Review = {
   id: string;
@@ -16,98 +17,19 @@ type Review = {
 
 /**
  * Japanese professional headshot avatars (local assets).
+ * Names and review text live in the dictionary, in the same order.
  */
-const reviews: Review[] = [
-  {
-    id: "1",
-    name: "佐藤 健太",
-    role: "CTO",
-    company: "テックフロンティア株式会社",
-    rating: 5,
-    body: "生成AIの導入で社内の問い合わせ対応を自動化できました。要件整理から本番運用まで、スピードと品質のバランスが非常に高いです。",
-    avatar: "/reviews/avatar-01.jpg",
-  },
-  {
-    id: "2",
-    name: "鈴木 美咲",
-    role: "プロダクトマネージャー",
-    company: "クラウドワークス合同会社",
-    rating: 5,
-    body: "フルスタックでの開発力とコミュニケーションの丁寧さが印象的でした。リリース後の改善提案まで伴走してもらえ、安心して任せられます。",
-    avatar: "/reviews/avatar-02.jpg",
-  },
-  {
-    id: "3",
-    name: "田中 翔",
-    role: "代表取締役",
-    company: "ノーザングリーン株式会社",
-    rating: 5,
-    body: "スタートアップ特有のスピード感に合わせてくれる開発体制が助かりました。UIも洗練されていて、顧客からの評価も上がっています。",
-    avatar: "/reviews/avatar-03.jpg",
-  },
-  {
-    id: "4",
-    name: "伊藤 あかり",
-    role: "マーケティング部長",
-    company: "ブランディングラボ",
-    rating: 5,
-    body: "デザインと実装が一体で進むので、手戻りがほとんどありませんでした。世界水準の体験設計を、現実的なスケジュールで届けてくれます。",
-    avatar: "/reviews/avatar-04.jpg",
-  },
-  {
-    id: "5",
-    name: "渡辺 直樹",
-    role: "情報システム部長",
-    company: "東日本ロジスティクス",
-    rating: 4,
-    body: "社内レガシーシステムのクラウド移行を依頼しました。セキュリティとコスト最適化まで含めた提案があり、経営層への説明もスムーズでした。",
-    avatar: "/reviews/avatar-05.jpg",
-  },
-  {
-    id: "6",
-    name: "山本 莉子",
-    role: "UXデザイナー",
-    company: "モビールスタジオ",
-    rating: 5,
-    body: "Figmaのデザインシステムをそのまま実装品質に落とし込んでくれます。細部へのこだわりが強く、プロダクトの完成度が一段上がりました。",
-    avatar: "/reviews/avatar-06.jpg",
-  },
-  {
-    id: "7",
-    name: "中村 悠人",
-    role: "エンジニアリングマネージャー",
-    company: "データブリッジ株式会社",
-    rating: 5,
-    body: "コード品質が高く、レビュー文化も丁寧です。LLMを使った社内ツール開発では、PoCから本番まで一貫した支援を受けられました。",
-    avatar: "/reviews/avatar-07.jpg",
-  },
-  {
-    id: "8",
-    name: "小林 恵",
-    role: "事業企画",
-    company: "リテールネクスト",
-    rating: 5,
-    body: "業務課題のヒアリングが深く、単なる受託ではなくパートナーとして一緒に考えてくれます。納品後の運用相談にも迅速に応えてくれました。",
-    avatar: "/reviews/avatar-08.jpg",
-  },
-  {
-    id: "9",
-    name: "加藤 大輝",
-    role: "CEO",
-    company: "スマートファクトリー合同会社",
-    rating: 4,
-    body: "IoTデータの可視化ダッシュボードを短期間で構築。現場の使いやすさを優先したUIが好評で、導入定着率が想定以上でした。",
-    avatar: "/reviews/avatar-09.jpg",
-  },
-  {
-    id: "10",
-    name: "吉田 真由",
-    role: "人事責任者",
-    company: "ピープルテック株式会社",
-    rating: 5,
-    body: "採用サイトと応募管理の仕組みを刷新してもらいました。応募完了率が改善し、採用チームの工数も大幅に削減できています。",
-    avatar: "/reviews/avatar-10.jpg",
-  },
+const reviewMeta = [
+  { id: "1",  rating: 5, avatar: "/reviews/avatar-01.jpg" },
+  { id: "2",  rating: 5, avatar: "/reviews/avatar-02.jpg" },
+  { id: "3",  rating: 5, avatar: "/reviews/avatar-03.jpg" },
+  { id: "4",  rating: 5, avatar: "/reviews/avatar-04.jpg" },
+  { id: "5",  rating: 4, avatar: "/reviews/avatar-05.jpg" },
+  { id: "6",  rating: 5, avatar: "/reviews/avatar-06.jpg" },
+  { id: "7",  rating: 5, avatar: "/reviews/avatar-07.jpg" },
+  { id: "8",  rating: 5, avatar: "/reviews/avatar-08.jpg" },
+  { id: "9",  rating: 4, avatar: "/reviews/avatar-09.jpg" },
+  { id: "10", rating: 5, avatar: "/reviews/avatar-10.jpg" },
 ];
 
 const PAGE_SIZE = 3;
@@ -119,7 +41,7 @@ function Stars({ rating }: { rating: number }) {
         <svg
           key={i}
           viewBox="0 0 20 20"
-          className={`h-3.5 w-3.5 ${i < rating ? "text-gold-500" : "text-stone-200"}`}
+          className={`h-3.5 w-3.5 ${i < rating ? "text-gold-500" : "text-ghost"}`}
           fill="currentColor"
           aria-hidden
         >
@@ -130,7 +52,7 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
-function ReviewCard({ review, index }: { review: Review; index: number }) {
+function ReviewCard({ review, index, avatarAlt }: { review: Review; index: number; avatarAlt: string }) {
   return (
     <motion.article
       layout
@@ -138,13 +60,13 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -12 }}
       transition={{ duration: 0.35, delay: (index % PAGE_SIZE) * 0.05 }}
-      className="rounded-2xl border border-stone-100 bg-white p-6 shadow-sm"
+      className="rounded-2xl border border-line-soft bg-surface p-6 shadow-sm"
     >
       <div className="mb-4 flex items-center gap-3">
-        <div className="relative h-12 w-12 overflow-hidden rounded-full border border-stone-200 bg-stone-100">
+        <div className="relative h-12 w-12 overflow-hidden rounded-full border border-line bg-sunken">
           <Image
             src={review.avatar}
-            alt={`${review.name}のアバター`}
+            alt={avatarAlt}
             fill
             className="object-cover"
             sizes="48px"
@@ -152,13 +74,13 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
         </div>
         <div className="min-w-0 flex-1">
           <p className="truncate font-semibold text-sumi">{review.name}</p>
-          <p className="truncate text-xs text-stone-400">
+          <p className="truncate text-xs text-faint">
             {review.role} / {review.company}
           </p>
         </div>
         <Stars rating={review.rating} />
       </div>
-      <p className="text-sm leading-relaxed text-stone-600">{review.body}</p>
+      <p className="text-sm leading-relaxed text-ink-soft">{review.body}</p>
     </motion.article>
   );
 }
@@ -167,13 +89,15 @@ export default function Reviews() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const { t } = useI18n();
 
+  const reviews: Review[] = reviewMeta.map((meta, i) => ({ ...meta, ...t.reviews.items[i] }));
   const visibleReviews = reviews.slice(0, visibleCount);
   const hasMore = visibleCount < reviews.length;
   const canCollapse = visibleCount > PAGE_SIZE;
 
   return (
-    <section id="reviews" className="section-padding relative overflow-hidden bg-washi-deep">
+    <section id="reviews" className="section-padding relative overflow-hidden bg-band">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute right-0 top-0 h-[420px] w-[420px] rounded-full bg-shu-100/40 blur-[110px]" />
       </div>
@@ -183,7 +107,7 @@ export default function Reviews() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
-            className="mb-4 text-xs uppercase tracking-[0.3em] text-shu-600"
+            className="mb-4 text-xs uppercase tracking-[0.3em] text-accent"
           >
             Reviews
           </motion.p>
@@ -193,22 +117,27 @@ export default function Reviews() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mb-3 text-2xl font-bold sm:text-3xl md:text-5xl"
           >
-            お客様の声
+            {t.reviews.title}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2 }}
-            className="text-sm text-stone-500 md:text-base"
+            className="text-sm text-muted md:text-base"
           >
-            実際にプロジェクトをご依頼いただいたお客様からの評価です。
+            {t.reviews.lead}
           </motion.p>
         </div>
 
         <div className="mx-auto grid max-w-4xl grid-cols-1 gap-4">
           <AnimatePresence initial={false} mode="popLayout">
             {visibleReviews.map((review, index) => (
-              <ReviewCard key={review.id} review={review} index={index} />
+              <ReviewCard
+                key={review.id}
+                review={review}
+                index={index}
+                avatarAlt={t.reviews.avatarAlt(review.name)}
+              />
             ))}
           </AnimatePresence>
         </div>
@@ -219,8 +148,8 @@ export default function Reviews() {
           transition={{ delay: 0.35 }}
           className="mt-8 flex flex-col items-center gap-3"
         >
-          <p className="text-xs text-stone-400">
-            {visibleCount} / {reviews.length} 件表示中
+          <p className="text-xs text-faint">
+            {t.reviews.showing(visibleCount, reviews.length)}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             {hasMore && (
@@ -236,7 +165,7 @@ export default function Reviews() {
               <button
                 type="button"
                 onClick={() => setVisibleCount(PAGE_SIZE)}
-                className="rounded-xl border border-stone-200 bg-white px-7 py-3 text-sm font-semibold text-stone-600 transition hover:border-shu-200 hover:text-shu-700"
+                className="rounded-xl border border-line bg-surface px-7 py-3 text-sm font-semibold text-ink-soft transition hover:border-shu-200 hover:text-accent-strong"
               >
                 See Less
               </button>
